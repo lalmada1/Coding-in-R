@@ -3,19 +3,19 @@ layout: index
 title: Syllabus
 
 index:
-    title: Introduction to Data Science for Economists
+    title: Coding in R for Policy Analytics
     image: r-logo.png
     subtitle: This course introduces students to the field of data science and its applications using the R data programming language, an open source platform that has become an industry standard because of its flexibility and power. Modern performance management and evaluation processes require strong data literacy and the ability to combine and analyze data from a variety of sources to inform managerial processes. This course offers a practical, tools-based approach that is designed to build strong foundations for people that want to work as analysts, data-driven managers, or data-driven journalists. The course will cover data programming fundamentals, visualization, text analysis, automated reporting, and dynamic reporting using dashboards. The course is analytically rigorous, but no prior programming experience is assumed.
 
 info:
- course_title: Intro to Data Science for Economists 
- course_number: Econ 4970
- course_level: Undergraduate
+ course_title: Coding in R for Policy Analytics 
+ course_number: Econ 8730 / PMAP 8541 / CRJU 8900
+ course_level: Graduate
  course_website: "https://gastate.view.usg.edu/d2l/home/2749801"
- course_start_end_dates: January 9 - April 24, 2023
+ course_start_end_dates: February 27 - April 21, 2023
  course_prerequisites:  
- class_meets_when:  Wednesdays 12:30pm - 3:00pm  
- class_meets_where: Classroom South CLSO Room 405
+ class_meets_when:  Online Asynchronously
+ class_meets_where: Online Asynchronously
 
 instructor:
 -  name: Lorenzo Almada
@@ -23,7 +23,7 @@ instructor:
    email: lalmada1@gsu.edu
    office_location: 55 Park Place Room 682
    website: "https://aysps.gsu.edu/profile/lorenzo-almada/"
-   office_hours_time: Thurs 10:00 - 11:00 am or by Appointment (email me!)  
+   office_hours_time: Thurs 11:00 - Noon or by Appointment (email me!)  
    office_hours_location:  
 
 
@@ -172,21 +172,7 @@ The assigned work for the term comes in the form of four elements, described bel
 
 Each week you will receive a short lab that will help you synthesize the lectures from the week though exercises that involve data, analysis, and important formulas from the lectures. **They are graded pass / fail** by the instructors based upon an assessment of whether you have sincerely attempted the lab and answered over half of the questions correctly. This is designed to hold you accountable for the material, but not create anxiety about perfection.
 
-### Code-Through Assignment (10%)
-
-You will pick one topic from the class that you want to learn more about, or that you think might provide value to your classmates. Create a short tutorial to make your topic accessible to your peers. It can be a blog post, a video, a GIF, or a tutorial that explains an important concept from data programming, presents a helpful framework, illustrates a useful R tool or approach to data programming, or introduces classmates to a new package or function.
-
-The following criteria, description, and corresponding points are used to evaluate the project (10 points total):
-
-  - **Novelty & Value:** Focuses on a new, valuable topic or expansion of existing course material (**2 pts**)
-  - **Exposition:** Topic is thoroughly explained, e.g. purpose, theory, framework, etc. (**2 pts**)
-  - **Appearance:** Consistent code conventions and style; proper spelling, formatting, etc. (**2 pts**)
-  - **Demonstration:** Includes examples of application and relevance; 75% or more is original (**2 pts**)
-  - **Resources:** Topic-related resources are provided, described, and organized (**2 pts**)
-
-**Note:** Proper in-line and closing attribution of works cited is mandatory. See III. A. for more information.
-
-### Final Dashboard Project (30%)  
+### Final Dashboard Project (40%)  
 
 This course will close with a final project that requires you to transform data and allow the exploration of new insights using interactive mechanisms in a pre-built data dashboard. It is designed to give you practice integrating material the we have covered throughout the course with latitude to implement creativity and your own data product style.
 
@@ -260,7 +246,7 @@ This course spans a fourteen week schedule. A schedule for each week of the term
 
 Please note: the course instructor may from time to time adjust assigned readings or adjust the due dates for assignment. The basic course content approach and learning objectives will not change, but slight modifications are possible if circumstances warrant an adjustment.
 
-Visit the [**Course Schedule**](https://lalmada1.github.io/Intro-to-Data-Science-Econ-4970/schedule).
+Visit the [**Course Schedule**](https://lalmada1.github.io/Coding-in-R-SPR-2023).
 
 <br>
 <br>
