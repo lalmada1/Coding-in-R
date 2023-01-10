@@ -1,0 +1,360 @@
+---
+title: "Package flexdashboard"
+output:
+  html_document:
+    theme: readable
+    highlight: tango
+    toc: true
+    toc_depth: 2
+    css: "../html/lecture-notes.css"
+---
+
+```{r include = FALSE}
+
+# setwd("~/DS4PS/New Textbook Sections")
+
+knitr::opts_chunk$set(echo = FALSE)
+
+library(scales)
+library(plotly)
+library(pander)
+library(tidyverse)
+
+```
+
+<br>
+
+# What Is flexdashboard?
+
+Package `flexdashboard` allows you to create Shiny applications using R 
+Markdown. 
+
+UI elements and user inputs, as well as all server processing tasks, occur in 
+regular R Markdown code chunks, and your script is saved as a `.RMD` file. 
+
+While `flexdashboard` builds have some limitations and significant structural 
+differences from Shiny builds, they are very accessible to R Markdown users and 
+Shiny learners in general.
+
+<br>
+<br>
+
+# The flexdashboard Template
+
+Open a premade `flexdashboard` template in RStudio by clicking on the following:
+
+1. File
+2. New File
+3. R Markdown...
+
+<br>
+
+In the "New R Markdown" window, use the left navigation menu to select:
+
+1. From Template
+2. Flex Dashboard
+
+<br>
+
+This will open a pre-built `.Rmd` `flexdashboard` template with several 
+**charts** and **columns** set up. We'll learn more about how important 
+**charts** are soon.
+
+<br>
+<br>
+
+# Dashboard Components
+
+<br>
+
+## YAML Header
+
+In order to make a `.Rmd` R Markdown script interpretable by `flexdashboard`, 
+use the following basic header:
+
+<br>
+
+```{r eval = FALSE, echo = TRUE}
+
+---
+title: "My Title"
+output:
+  flexdashboard::flex_dashboard
+---
+
+```
+
+<br>
+
+This is merely the foundation on which many options for customization may be 
+added and specified.
+
+<br>
+<br>
+
+## Charts
+
+In package `flexdashboard`, **charts** are the meat and potatoes of all
+applications. In fact, as soon as you peruse the `flexdashboard` 
+**[documentation](https://pkgs.rstudio.com/flexdashboard/articles/flexdashboard.html)**,
+you'll quickly see that charts comprise a significant proportion of its contents. 
+
+Charts are initialized and named in your `.Rmd` script with `###` and are 
+typically followed by text and an R Markdown code chunk containing your app's 
+inputs and outputs.
+
+<br>
+
+```{r eval = FALSE, echo = TRUE}
+
+### Chart A
+
+Some text...
+
+Some code chunk...
+
+### Chart B
+
+Some more text...
+
+Some other code chunk...
+
+### Chart C
+
+Even more text...
+
+Yet another code chunk...
+
+```
+
+<br>
+<br>
+
+## Column Orientation
+
+In package `flexdashboard`, dashboards are comprised of **columns**. Within
+each column, **charts** appear in the order in which they are coded. 
+
+<br>
+
+We can ensure that `flexdashboard` understands our column layout wishes by 
+specificying as much in the YAML header:
+
+<br>
+
+```{r eval = FALSE, echo = TRUE}
+
+---
+title: "My Title"
+output:
+  flexdashboard::flex_dashboard
+    orientation: columns
+---
+
+```
+
+<br>
+
+We can create a column using the word `Column` and 14 or more dashes (`-`).
+
+<br>
+
+```{r eval = FALSE, echo = TRUE}
+
+Column
+--------------
+  
+### Chart A
+  
+Code...
+  
+### Chart B
+
+Code...
+
+```
+
+<br>
+
+Column widths may be modified with `Column {data-width = <number>}` and the
+width of all columns must equal 1,000!
+
+<br>
+
+```{r eval = FALSE, echo = TRUE}
+
+Column {data-width = 250}
+--------------
+  
+### Chart A
+  
+Code...
+
+Column {data-width = 250}
+--------------
+  
+### Chart B
+  
+Code...
+
+Column {data-width = 500}
+--------------
+  
+### Chart C
+  
+Code...
+
+```
+
+<br>
+<br>
+
+## Row Orientation 
+
+Rather than **column** orientation, note that we can specify **row** orientation
+using the YAML header.
+
+<br>
+
+```{r eval = FALSE, echo = TRUE}
+
+---
+title: "My Title"
+output:
+  flexdashboard::flex_dashboard
+    orientation: rows
+---
+
+```
+
+<br>
+<br>
+
+# Dashboard Tabsets
+
+<br>
+
+## Chart Tabsets
+
+In `flexdashboard`, **tabsets** allow your **charts** to have multiple dropdown
+tabs which may contain additional charts or text. 
+
+Simply add `Column {.tabset}` to a column header and all ensuing charts will 
+become named dropdown menu items for the existing chart space.
+
+<br>
+
+```{r echo = TRUE, eval = FALSE}
+
+Column {.tabset}
+--------------
+  
+### Dropdown Chart 1
+  
+Some code...
+  
+### Dropdown Chart 2
+
+Some code...
+  
+### Dropdown Chart 3
+
+Some code...
+
+```
+
+<br>
+<br>
+
+## Page Tabsets 
+
+**Tabsets** also allow your **pages** to have multiple tabs which may contain 
+additional columns, charts, and tabsets. 
+
+In order to create a page: 
+
+1. On the first line, write the name of your page
+2. On the secodn line, place 16 or more equal signs (`=`)
+
+<br>
+
+Simply add `Page {data-navmenu = Details}` to a page header and all ensuing 
+charts will become named dropdown menu items for the existing dashboard page 
+space, accessible in the top navigation bar.
+
+<br>
+
+```{r echo = TRUE, eval = FALSE, lang = "HTML"}
+
+Page {data-navmenu = <"Sub-Page Name">}
+================
+  
+### Dropdown Chart 1
+  
+Some code...
+  
+### Dropdown Chart 2
+
+Some code...
+  
+### Dropdown Chart 3
+
+Some code...
+
+```
+
+<br>
+<br>
+
+# Shiny Implementation
+
+In order to add interactivity using Shiny, you'll need to modify the **YAML header**
+with `runtime: shiny`.
+
+<br>
+
+```{r eval = FALSE, echo = TRUE}
+
+---
+title: "My Title"
+output:
+  flexdashboard::flex_dashboard
+    orientation: columns
+runtime: shiny
+---
+
+```
+
+<br>
+
+Once this is done, we're able to add typical reactive elements one sees in Shiny. 
+
+<br>
+
+## Adding a Sidebar
+
+If you've made your `flexdashboard` report interactive, you'll likely want a
+sidebar where users can interact with filters and other options. 
+
+In this case, create a new column, albeit with `.sidebar` applied:
+
+<br>
+
+```{r echo = TRUE, eval = FALSE}
+
+Column {data-width = 250 .sidebar}
+--------------
+
+```
+
+<br>
+<br>
+
+## Go Forth with Shiny
+
+Using this novel approach to Shiny dashboard development, continue to learn
+about Shiny reactivity as, beyond these basic structural differences, 
+package `flexdashboard` operates in the same way under the hood. 
+
+<br>
+<br>

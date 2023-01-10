@@ -1,0 +1,190 @@
+---
+title: "Life Expectancy Data"
+output:
+  html_document:
+    theme: readable
+    highlight: tango
+    toc: true
+    self_contained: false
+    number_sections: false
+    css: textbook.css
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=F, warning=F, fig.align='center', fig.width=9 )
+```
+
+
+```{r}
+library( dplyr )
+library( pander )
+library( stargazer )
+```
+
+
+# About This Data:
+
+Dataset curated by Kumara Jarshi, acquired from [Kaggle](https://www.kaggle.com/kumarajarshi/life-expectancy-who/version/1#)
+
+*The Global Health Observatory (GHO) data repository under World Health Organization (WHO) keeps track of the health status as well as many other related factors for all countries The datasets are made available to public for the purpose of health data analysis.* 
+
+*The dataset related to life expectancy, health factors for 193 countries has been collected from the same WHO data repository website and its corresponding economic data was collected from United Nation website.* 
+
+*Among all categories of health-related factors only those critical factors were chosen which are more representative. It has been observed that in the past 15 years , there has been a huge development in health sector resulting in improvement of human mortality rates especially in the developing nations in comparison to the past 30 years. Therefore, in this project we have considered data from year 2000-2015 for 193 countries for further analysis.* 
+
+*The individual data files have been merged together into a single dataset. On initial visual inspection of the data showed some missing values. As the datasets were from WHO, we found no evident errors.* 
+
+*Missing data was handled in R software by using Missmap command. The result indicated that most of the missing data was for population, Hepatitis B and GDP. The missing data were from less known countries like Vanuatu, Tonga, Togo,Cabo Verde etc. Finding all data for these countries was difficult and hence, it was decided that we exclude these countries from the final model dataset. The final merged file(final dataset) consists of 22 Columns and 2938 rows which meant 20 predicting variables.* 
+
+
+### Data Dictionary
+
+All predicting variables are divided into several broad categories: Immunization related factors, Mortality factors, Economical factors and Social factors.
+
+
+Country stats: 
+
+* **Country** - Country   
+* **Year** - Year  
+* **Population** - Population of the country  
+* **Life expectancy** - Life Expectancy in age  
+* **GDP** - Gross Domestic Product per capita (in USD)  
+* **Status** - Developed or Developing status  
+* **Schooling** -  Number of years of Schooling(years)  
+* **ICR (Income composition of resources)** - Human Development Index in terms of income composition of resources (index ranging from 0 to 1)  
+
+Mortality factors:  
+ 
+* **Adult Mortality** - Adult Mortality Rates of both sexes (probability of dying between 15 and 60 years per 1000 population)  
+* **infant deaths** - Number of Infant Deaths per 1000 population  
+* **under-five deaths** -  Number of under-five deaths per 1000 population  
+* **Alcohol** - Alcohol, recorded per capita (15+) consumption (in litres of pure alcohol)   
+* **HIV/AIDS** - Deaths per 1 000 live births HIV/AIDS (0-4 years)  
+* **Measles** -  Measles - number of reported cases per 1000 population  
+
+Immunization factors:  
+
+* **Hepatitis B** - Hepatitis B (HepB) immunization coverage among 1-year-olds (%)  
+* **Polio** - Polio (Pol3) immunization coverage among 1-year-olds (%)  
+* **Diphtheria** -  Diphtheria tetanus toxoid and pertussis (DTP3) immunization coverage among 1-year-olds (%)  
+
+Social policy factors:   
+
+* **Total expenditure** - General government expenditure on health as a percentage of total government expenditure (%)  
+* **percentage expenditure** - Expenditure on health as a percentage of Gross Domestic Product per capita(%)  
+* **thinness 1-19 years** - Prevalence of thinness among children and adolescents for Age 10 to 19 (% )  
+* **thinness 5-9 years** - Prevalence of thinness among children for Age 5 to 9(%)  
+* **BMI** -  Average Body Mass Index of entire population  
+
+
+```{r}
+hist( dat$life.expectancy, breaks=35, col="darkgray", border="white", bty="n",
+      yaxt="n", ylab="", main="Life Expectancy", xlab="" )
+```
+
+
+# Data 
+
+```{r, eval=F, echo=F}
+# data prep steps
+# setwd("C:/Users/jdlecy/Dropbox/00 - PEDA/00 - GITHUB/INSTRUCTOR-FILES-DATA-SCIENCE/Data-Science-Class/DATA")
+dat <- read.csv( "life-expectancy-raw.csv", stringsAsFactors=F )
+names( dat ) <- tolower(names(dat) )
+dat <- rename( dat, thinness.1.19.years=thinness..1.19.years,
+               icr=income.composition.of.resources )
+write.csv( dat, "life-expectancy.csv", row.names=FALSE )
+```
+
+
+```{r}
+dat <- read.csv( "life-expectancy.csv", stringsAsFactors=F )
+head( dat ) %>% pander()
+```
+
+
+
+# Models 
+
+
+```{r, results="asis"}
+
+m.01 <- lm( life.expectancy ~ log(gdp), data=dat )
+m.02 <- lm( life.expectancy ~ schooling, data=dat )
+m.03 <- lm( life.expectancy ~ log(gdp) + schooling, data=dat )
+m.04 <- lm( life.expectancy ~ log(gdp) + schooling + hiv.aids, data=dat )
+m.05 <- lm( life.expectancy ~ log(gdp) + schooling + hiv.aids + bmi, data=dat )
+
+# m.05 <- lm( life.expectancy ~ bmi, data=dat )
+# m.06 <- lm( life.expectancy ~ hiv.aids, data=dat )
+# m.07 <- lm( life.expectancy ~ bmi + hiv.aids, data=dat )
+
+
+stargazer( m.01, m.02, m.03, m.04, m.05,
+           type = "html", digits=2,
+           dep.var.caption = "DV: Life Expectancy",
+           # dep.var.labels = "",
+           dep.var.labels.include = FALSE,
+           omit.stat = c("rsq","f","ser"),
+           notes.label = "Standard errors in parentheses")
+```
+
+
+```{r, fig.width=10, fig.height=10, echo=F}
+
+
+panel.cor <- function(x, y, digits=2, prefix="", cex.cor)
+{
+    usr <- par("usr"); on.exit(par(usr))
+    par(usr = c(0, 1, 0, 1))
+    r <- cor(x, y, use="pairwise.complete.obs")
+    txt <- format(c(r, 0.123456789), digits=digits)[1]
+    txt <- paste(prefix, txt, sep="")
+    if(missing(cex.cor)) cex <- 0.8/strwidth(txt)
+    
+    test <- cor.test(x,y)
+    # borrowed from printCoefmat
+    Signif <- symnum(test$p.value, corr = FALSE, na = FALSE,
+                  cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1),
+                  symbols = c("***", "**", "*", ".", " "))
+    
+    text(0.5, 0.5, txt, cex = 2 )
+    text(.7, .8, Signif, cex=3, col=2)
+}
+
+
+panel.smooth <- function (x, y, col = par("col"), bg = NA, pch = par("pch"), 
+  cex = 1, col.smooth = "red", span = 2/3, iter = 3, ...) 
+{
+  points(x, y, pch = 19, col = gray(0.5,0.5), 
+         bg = bg, cex = 1.7)
+  ok <- is.finite(x) & is.finite(y)
+  if (any(ok)) 
+    lines(stats::lowess(x[ok], y[ok], f = span, iter = iter), 
+      col = col.smooth, lwd=2, ...)
+}
+
+
+dat$log.gdp <- log( dat$gdp )
+
+d2 <- select( dat, life.expectancy, adult.mortality, under.five.deaths, 
+              log.gdp, bmi, schooling, hiv.aids )
+
+pairs( d2, lower.panel=panel.smooth, upper.panel=panel.cor)
+
+
+d3 <- select( dat, life.expectancy, alcohol, infant.deaths, hepatitis.b, 
+              measles, hiv.aids, polio, gdp, bmi )
+  
+pairs( d3, lower.panel=panel.smooth, upper.panel=panel.cor)
+
+
+
+```
+
+
+
+
+
+

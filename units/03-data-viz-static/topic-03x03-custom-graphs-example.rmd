@@ -1,0 +1,390 @@
+---
+title: "Custom Graph Example"
+output:
+  html_document:
+    theme: readable
+    highlight: tango
+    toc: true
+    css: '../html/lecture-notes.css'
+---
+
+
+
+## School Rank Data
+
+For this example we will use some hypothetical school rank data that covers five years for ten schools within a district. 
+
+```{r, echo=F, warning=F, message=F }
+
+library( pander )
+library( dplyr )
+
+# load fake data
+df <-
+structure(list(id = structure(1:10, .Label = c("A", "B", "C", 
+"D", "E", "F", "G", "H", "I", "J"), class = "factor"), r1 = c(10, 
+6, 9, 7, 4, 2, 8, 1, 5, 3), r2 = c(10, 6, 8, 4, 2, 1, 9, 3, 7, 
+5), r3 = c(10, 5, 7, 4, 2, 3, 9, 1, 8, 6), r4 = c(10, 4, 8, 3, 
+2, 5, 9, 1, 7, 6), r5 = c(9, 3, 10, 4, 2, 5, 8, 1, 7, 6)), .Names = c("id", 
+"r1", "r2", "r3", "r4", "r5"), row.names = c(NA, -10L), class = "data.frame")
+
+df2 <- df
+df2[,2:6] <- 11 - df2[,2:6]
+names( df2 ) <- c("SCHOOL","RANK.2011","RANK.2012","RANK.2013","RANK.2014","RANK.2015")
+
+df2 %>% pander
+```
+
+
+## Basic Rank Plot
+
+The original design for the graphic was very simple. It showed the starting rank and end rank of the school over the five-year period to give a sense of how much each school had changed. It is a little boring and also loses a lot of information regarding how consistent performance has been over time.
+
+
+```{r, echo=F}
+id <- df[,1]
+y11 <- df[,2]
+y15 <- df[,6]
+
+plot( 1, 1, xlim=c(1,4), ylim=c(1,10), bty="n",
+type="n", xaxt="n", yaxt="n", xlab="", ylab="" )
+
+segments( x0=1, x1=3, y0=y11, y1=y15 )
+
+text( 3.5, 1:10, id[order(df[,6])] )
+
+axis( side=1, at=c(1,3), labels=c("2011","2015"), tick=F )
+
+title( ylab="School Rank", line=0 )
+title( main="School Rank 2011-2015" )
+
+```
+
+
+
+## Subway Map Rank Plot
+
+Joshua Kunst at Stack Overflow [propsed a better plot](http://jkunst.com/r/what-do-we-ask-in-stackoverflow/) that looks like a NYC subway map.
+
+![Subway Plot](http://jkunst.com/images/what-do-we-ask-in-stackoverflow/unnamed-chunk-9-1.png)
+
+(see below)
+
+
+
+## Creating a Submay Map Rank Plot
+
+Let's see how we put together a similar graphic using our school ranking data. Let's start by looking at the variable names and the type of data we are working with:
+
+```{r}
+head( df, 3 ) %>% pander
+```
+
+Note that the first row of data belongs to School A, so we can reference it as `df[ 1 , ]`. The second row of data belongs to School B, which we can reference as `df[ 2 , ]`. Etc.
+
+We will open a blank plotting window, then we can add the path of each school's rankings from 2011 to 2015 using the `points()` function. We can play with the plot type to get the aesthetics correct.
+
+Values for `type=` argument.
+
+Argument | Result
+---------|-------
+"p" | points
+"l" | lines
+"b" | both
+"c" | only connecting lines
+"n" | nothing
+
+
+### Lines
+
+Let's try one with basic lines.
+
+```{r}
+
+
+id <- df$id          # save ID as separate variable
+df <- df[ , -1 ]     # drop ID from the dataset so it's all numeric
+
+# save some useful dimension information
+
+ymin <- min(df)      # what is the largest value in the data frame?
+ymax <- max(df)      # what is the smallest value in the data frame?
+num.x <- 5           # we have five years of data
+
+
+
+# create an empty plot with the correct dimensions for our plot
+plot.new()
+plot.window( xlim=c(0,6), ylim=c(ymin,ymax) )
+
+
+points( 1:5, df[1,], type="l" ) # school A
+points( 1:5, df[2,], type="l" ) # school B
+points( 1:5, df[3,], type="l" )
+points( 1:5, df[4,], type="l" )
+points( 1:5, df[5,], type="l" )
+points( 1:5, df[6,], type="l" )
+points( 1:5, df[7,], type="l" )
+points( 1:5, df[8,], type="l" )
+points( 1:5, df[9,], type="l" )
+points( 1:5, df[10,], type="l" )
+
+
+text( x=0.5, y=10, labels="A" ) # rank in 2011
+text( x=5.5, y=9, labels="A" )  # rank in 2015
+
+
+```
+
+
+### Connected Points
+
+Not bad but I think that we can improve upon the aestetics. Let's change the lines to points plus connecting lines.
+
+
+```{r}
+
+plot.new()
+plot.window( xlim=c(0,6), ylim=c(ymin,ymax) )
+
+points( 1:5, df[1,], type="b" ) # school A
+points( 1:5, df[2,], type="b" ) # school B
+points( 1:5, df[3,], type="b" ) # etc...
+points( 1:5, df[4,], type="b" )
+points( 1:5, df[5,], type="b" )
+points( 1:5, df[6,], type="b" )
+points( 1:5, df[7,], type="b" )
+points( 1:5, df[8,], type="b" )
+points( 1:5, df[9,], type="b" )
+points( 1:5, df[10,], type="b" )
+
+
+text( x=0.5, y=10, labels="A" ) # rank in 2011
+text( x=5.5, y=9, labels="A" )  # rank in 2015
+
+```
+
+
+That looks better, but if we want to match the subway map aestetic we need thicker lines. Let's try the line width parameter, lwd.
+
+
+```{r}
+
+plot.new()
+plot.window( xlim=c(0,6), ylim=c(ymin,ymax) )
+
+points( 1:5, df[1,], type="b", lwd=5, cex=2 )
+points( 1:5, df[2,], type="b", lwd=5, cex=2 )
+points( 1:5, df[3,], type="b", lwd=5, cex=2 )
+points( 1:5, df[4,], type="b", lwd=5, cex=2 )
+points( 1:5, df[5,], type="b", lwd=5, cex=2 )
+points( 1:5, df[6,], type="b", lwd=5, cex=2 )
+points( 1:5, df[7,], type="b", lwd=5, cex=2 )
+points( 1:5, df[8,], type="b", lwd=5, cex=2 )
+points( 1:5, df[9,], type="b", lwd=5, cex=2 )
+points( 1:5, df[10,], type="b", lwd=5, cex=2 )
+
+
+text( x=0.5, y=10, labels="A" ) # rank in 2011
+text( x=5.5, y=9, labels="A" )  # rank in 2015
+
+```
+
+
+## Separate Points and Connecting Lines
+
+It's not quite working because when we increase the line width, it makes our points that serve as the elbows thicker as well. Let's try to separate these components:
+
+
+```{r}
+
+plot.new()
+plot.window( xlim=c(0,6), ylim=c(ymin,ymax) )
+
+points( 1:5, df[1,], type="p", cex=2 )
+points( 1:5, df[2,], type="p", cex=2 )
+points( 1:5, df[3,], type="p", cex=2 )
+points( 1:5, df[4,], type="p", cex=2 )
+points( 1:5, df[5,], type="p", cex=2 )
+points( 1:5, df[6,], type="p", cex=2 )
+points( 1:5, df[7,], type="p", cex=2 )
+points( 1:5, df[8,], type="p", cex=2 )
+points( 1:5, df[9,], type="p", cex=2 )
+points( 1:5, df[10,], type="p", cex=2 )
+
+points( 1:5, df[1,], type="c", lwd=5 )
+points( 1:5, df[2,], type="c", lwd=5 )
+points( 1:5, df[3,], type="c", lwd=5 )
+points( 1:5, df[4,], type="c", lwd=5 )
+points( 1:5, df[5,], type="c", lwd=5 )
+points( 1:5, df[6,], type="c", lwd=5 )
+points( 1:5, df[7,], type="c", lwd=5 )
+points( 1:5, df[8,], type="c", lwd=5 )
+points( 1:5, df[9,], type="c", lwd=5 )
+points( 1:5, df[10,], type="c", lwd=5 )
+
+text( x=0.5, y=10, labels="A" ) # rank in 2011
+text( x=5.5, y=9, labels="A" )  # rank in 2015
+
+```
+
+
+
+
+That's starting to look like what we want!
+
+
+## Add Labels
+
+How about we add some more labels.
+
+
+```{r}
+
+plot.new()
+plot.window( xlim=c(0,6), ylim=c(ymin,ymax) )
+
+points( 1:5, df[1,], type="p", cex=2 )
+points( 1:5, df[2,], type="p", cex=2 )
+points( 1:5, df[3,], type="p", cex=2 )
+points( 1:5, df[4,], type="p", cex=2 )
+points( 1:5, df[5,], type="p", cex=2 )
+points( 1:5, df[6,], type="p", cex=2 )
+points( 1:5, df[7,], type="p", cex=2 )
+points( 1:5, df[8,], type="p", cex=2 )
+points( 1:5, df[9,], type="p", cex=2 )
+points( 1:5, df[10,], type="p", cex=2 )
+
+points( 1:5, df[1,], type="c", lwd=5 )
+points( 1:5, df[2,], type="c", lwd=5 )
+points( 1:5, df[3,], type="c", lwd=5 )
+points( 1:5, df[4,], type="c", lwd=5 )
+points( 1:5, df[5,], type="c", lwd=5 )
+points( 1:5, df[6,], type="c", lwd=5 )
+points( 1:5, df[7,], type="c", lwd=5 )
+points( 1:5, df[8,], type="c", lwd=5 )
+points( 1:5, df[9,], type="c", lwd=5 )
+points( 1:5, df[10,], type="c", lwd=5 )
+
+text( 0.7, 1:10, id[order(df[,1])] )
+text( 5.3, 1:10, id[order(df[,5])] )
+
+text( 0, 1:10, paste(10:1,"---") )
+text( 6, 1:10, paste("---",10:1) )
+
+
+```
+
+
+
+
+
+## Add Axes and Title
+
+
+```{r}
+
+plot.new()
+plot.window( xlim=c(0,6), ylim=c(ymin,ymax) )
+
+points( 1:5, df[1,], type="p", cex=2 )
+points( 1:5, df[2,], type="p", cex=2 )
+points( 1:5, df[3,], type="p", cex=2 )
+points( 1:5, df[4,], type="p", cex=2 )
+points( 1:5, df[5,], type="p", cex=2 )
+points( 1:5, df[6,], type="p", cex=2 )
+points( 1:5, df[7,], type="p", cex=2 )
+points( 1:5, df[8,], type="p", cex=2 )
+points( 1:5, df[9,], type="p", cex=2 )
+points( 1:5, df[10,], type="p", cex=2 )
+
+points( 1:5, df[1,], type="c", lwd=5 )
+points( 1:5, df[2,], type="c", lwd=5 )
+points( 1:5, df[3,], type="c", lwd=5 )
+points( 1:5, df[4,], type="c", lwd=5 )
+points( 1:5, df[5,], type="c", lwd=5 )
+points( 1:5, df[6,], type="c", lwd=5 )
+points( 1:5, df[7,], type="c", lwd=5 )
+points( 1:5, df[8,], type="c", lwd=5 )
+points( 1:5, df[9,], type="c", lwd=5 )
+points( 1:5, df[10,], type="c", lwd=5 )
+
+text( 0.7, 1:10, id[order(df[,1])] )
+text( 5.3, 1:10, id[order(df[,5])] )
+
+text( 0, 1:10, paste(10:1,"---") )
+text( 6, 1:10, paste("---",10:1) )
+
+
+
+title( ylab="Rank", line=1 )
+
+axis( side=1, tick=F, at=1:5, labels=2011:2015 )
+ 
+title( main="School Rank 2011-2015"  )
+       
+       
+```
+
+
+
+
+
+
+
+
+
+## Improve Aesthetics
+
+Finally, let's play with the colors and sizes of elements so that we can highlight specific schools for our report.
+
+
+```{r}
+
+plot.new()
+plot.window( xlim=c(0,6), ylim=c(ymin,ymax) )
+
+# add each row to a loop instead of repeating lines of code
+
+for( i in 1:nrow(df) )
+{
+   points( 1:num.x, df[i,], type="p", cex=1.5, col=gray(0.5,0.5), 
+           pch=21, bg="white" ) 
+   points( 1:num.x, df[i,], type="c", lwd=6, col=gray(0.5,0.5) )
+}
+
+
+
+
+text( 0.7, 1:10, id[order(df[,1])], col=gray(0.5,0.5) )
+text( 5.3, 1:10, id[order(df[,5])], col=gray(0.5,0.5) )
+
+text( 0, 1:10, paste(10:1,"---"), col="gray80", cex=0.7 )
+text( 6, 1:10, paste("---",10:1), col="gray80", cex=0.7 )
+
+title( ylab="Rank", col.lab="gray80", cex.lab=1.5, line=1 )
+
+axis( side=1, tick=F, at=1:5, labels=2011:2015, col.axis="gray", cex.axis=1 )
+ 
+title( main="School Rank 2011-2015", col.main="gray50" )
+
+
+# highlight a school
+
+points( 1:5, df[2,], type="c", lwd=6, col="firebrick4" )
+text( 0.7, df[2,1], "B", col="firebrick4" )
+text( 5.3, df[2,5], "B", col="firebrick4" )
+
+points( 1:5, df[6,], type="c", lwd=6, col="steelblue" )
+text( 0.7, df[6,1], "F", col="steelblue" )
+text( 5.3, df[6,5], "F", col="steelblue" )
+
+points( 1:5, df[3,], type="c", lwd=6, col="goldenrod" )
+text( 0.7, df[3,1], id[3], col="goldenrod" )
+text( 5.3, df[3,5], id[3], col="goldenrod" )
+```
+
+
+
+
+

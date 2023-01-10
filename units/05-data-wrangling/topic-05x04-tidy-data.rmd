@@ -1,0 +1,272 @@
+---
+title: "Data Tidying"
+author: "Data Science for Public Service"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    theme: flatly
+    highlight: haddock
+    toc: yes
+    toc_float: yes
+---
+  
+```{r include = FALSE}
+
+setwd("~/DS4PS/New Textbook Sections")
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(scales)
+library(plotly)
+library(pander)
+library(tidyverse)
+
+```
+
+<br>
+
+# Putting "Tidy" in Tidyverse
+
+The concept of **tidy data** is central to the popular ecosystem of packages
+known as the "Tidyverse", hence the name.  
+
+For example, data visualization package `ggplot2` is a key Tidyverse package 
+that generally functions correctly only when using tidy data.
+
+Another Tidyverse package, `tidyr`, is designed to turn messy, unruly, or 
+generally untidy data into tidy data (and vice versa if one wished!). We'll
+learn a bit more about it below.
+
+While familiarization with pivoting data is helpful, it is not the same.
+Tidying data involves dismantling to create new rows, columns, and tables. This 
+ensures that *all tidy data have a universal format*. 
+
+<br>
+
+#### Thinking Ahead
+
+Before continuing, think a bit on the following quotes in relation to tidy data.
+
+> Happy families are all alike; every unhappy family is unhappy in its own way. (Leo Tolstoy)
+
+> Tidy datasets are all alike but every messy dataset is messy in its own way. (Hadley Wickham)
+
+<br>
+<br>
+
+# Defining Tidy Data
+
+When you tidy a room in your home, that's very different from cleaning it. 
+When you clean, for example, you might sweep, dust, vacuum, or mop. 
+When you tidy, you simply put everything *where it's supposed to be*.
+
+Hence, **"tidy data"** are tabular data consisting of rows (**observations**), 
+columns (**variables**), and tables (**types**). More importantly, those 
+components must be structured in accordance with three simple tidying rules 
+which, sure enough, explain *where everything is supposed to be*: 
+
+1. Each variable forms a column
+2. Each observation forms a row
+3. Each type of observational unit forms a table
+
+<br>
+
+You can learn more in the original publication "Tidy Data" by Hadley Wickham in the 
+**[Journal of Statistical Software](https://www.jstatsoft.org/article/view/v059i10)**.
+
+But what do these rules mean, exactly? Let's find out below.
+
+<br>
+<br>
+
+## 1. Each Variable, a Column
+
+Every variable in a tidy dataset must have a corresponding column. For example, 
+values from different variables should not exist within the same column, nor
+exist as column headers.
+
+<br>
+
+These **untidy data** combine values from different variables in the same column:
+
+```{r echo = FALSE}
+
+data.frame(name_dob = c("Dimitri 1988-04-11", 
+                        "Kendra 1999-09-08", 
+                        "Monica 1981-10-11"))
+
+```
+
+<br>
+
+These **tidy data** have a column for each variable:
+
+```{r echo = FALSE}
+
+data.frame(name = c("Dimitri",
+                    "Kendra",
+                    "Monica"),
+           dob = c("1988-04-11",
+                   "1999-09-08",
+                   "1981-10-11"))
+
+```
+
+<br>
+<br>
+
+## 2. Each Observation, a Row
+
+Each observation in a tidy dataset must have a corresponding row. One most often
+encounters this when dates, which are themselves values, are instead used as 
+column headers.
+
+<br>
+
+These **untidy** use years, which are values of variable `Year`, as column headers: 
+
+```{r echo = FALSE}
+
+tibble(Color = c("Red", "Green", "Blue"),
+       "2000" = c(2, 4, 6),
+       "2001" = c(3, 5, 8),
+       "2002" = c(5, 6, 9))
+
+```
+
+<br>
+
+These **tidy data** use two new variables to ensure that all observations now
+have their own rows:
+
+```{r echo = FALSE}
+
+tibble(Color = c("Red", "Green", "Blue"),
+       "2000" = c(2, 4, 6),
+       "2001" = c(3, 5, 8),
+       "2002" = c(5, 6, 9)) %>% 
+  pivot_longer(cols = "2000":"2002") %>% 
+  rename(Year = name,
+         Value = value)
+
+```
+
+<br>
+<br>
+
+## 3. Each Type, a Table
+
+In a tidy dataset, each *kind* of data must have its own table (Wickham uses the
+term "type", though we choose to use "kind"). A table with client salary 
+information should not be combined with their treatment records, for instance. 
+
+In such cases, a unique ID is created to separate different *kinds* of data into
+distinct tables. Using this key, the tables can be merged as needed.
+
+<br>
+<br>
+
+# Tidying Data with 'tidyr'
+
+Package **tidyr** is a Tidyverse package used to help you quickly gather (tidy) 
+and spread (untidy) data using functions `pivot_longer()` and `pivot_wider()`, 
+respectively. Although, again, this is not pivoting, the naming convention 
+refers "long" (tidy) and "wide" (untidy) data. 
+
+Note how literature on tidying data may use many of these terms interchangeably. 
+
+<br>
+<br>
+
+## Tidying Demonstration
+
+Recall the basic example of untidy data we used above.
+
+```{r echo = TRUE}
+
+untidy_data <- dplyr::tibble(Color = c("Red", 
+                                       "Green", 
+                                       "Blue"),
+                             "2000" = c(2, 4, 6),
+                             "2001" = c(3, 5, 8),
+                             "2002" = c(5, 6, 9))
+
+untidy_data
+
+```
+
+<br>
+
+We can use a simple `tidyr` function to make our data "longer" (tidy). It is 
+"longer" because we are creating new rows, thus the table becomes taller. 
+
+Here, we use `pivot_long()` and pass the following arguments:
+
+* `data =` accepts our untidy data 
+* `cols =` accepts the names of the columns that belong in a new variable
+* `names_to =` accepts the name(s) of the new variable(s)
+* `values_to =` accepts the names of the value variable(s) created during tidying
+
+<br>
+
+```{r}
+
+tidyr::pivot_longer(data = untidy_data, 
+                    cols = "2000":"2002", 
+                    names_to = "Year", 
+                    values_to = "Value")
+
+```
+
+<br>
+<br>
+
+## Basic Untidying Example
+
+Here, we use a subset of the `gapminder` dataset from the **[package of the same name](https://cran.r-project.org/web/packages/gapminder/index.html)**.
+
+This subset includes only the `country`, `continent`, `year`, and `lifeExp` 
+(life expectancy). Here's a preview - note that the data are quite tidy!
+
+<br>
+
+```{r echo = FALSE}
+
+library(gapminder)
+
+my_minder <- gapminder %>% 
+  select(country, continent, year, lifeExp)
+
+head(my_minder)
+
+```
+
+<br>
+
+Now, we'll **untidy** them by spreading the data using `pivot_wider()`. In this case:
+
+* `names_from =` accepts the variable name containing values used to name new columns
+* `values_from =` accepts the variable name containing the values used to populate those columns
+
+<br>
+
+```{r}
+
+my_minder %>% 
+  pivot_wider(names_from = year, 
+              values_from = lifeExp) %>% 
+  head()
+
+```
+
+<br>
+<br>
+
+# Further Resources
+
+The world of data tidying is actually quite deep. We encourage you to learn more,
+especially about package `tidyr`.
+
+For more information about package `tidyr`, visit the **[official Tidyverse page](https://tidyr.tidyverse.org/)**.
+

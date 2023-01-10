@@ -1,0 +1,223 @@
+---
+title: "Matrices & Lists"
+author: "Data Science for Public Service"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    theme: flatly
+    highlight: haddock
+    toc: yes
+    toc_float: yes
+---
+  
+```{r include = FALSE}
+
+setwd("~/DS4PS/New Textbook Sections")
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(scales)
+library(plotly)
+library(tidyverse)
+
+```
+
+# Enter the Matrix
+
+In R, a **matrix** is a tabular data object that is similar to a **data frame**. 
+
+However, unlike the latter, a **matrix** cannot have more than one class of 
+data - it must be either entirely of class numeric, logical, character, etc. 
+
+We can create one using function `matrix()`.
+
+```{r}
+
+matrix(1:10, nrow = 5)
+
+```
+
+<br>
+<br>
+
+## Class 'matrix'
+
+We can recast **data frames** to objects of class `matrix` using `as.matrix()`.
+
+```{r}
+
+head(iris3)
+
+class(iris3)
+
+as.matrix(x = iris3) %>% 
+  class()
+
+```
+
+<br>
+<br>
+
+## Will This Be On the Test?
+
+What we won't do often with **matrices**, however, is *use them*. They are 
+valuable in certain use cases of which we will likely encounter few. 
+
+<br>
+<br>
+
+## Redeeming Qualities
+
+The `matrix` object is still pretty cool. Take a look at the 
+`volcano` object from package `plotly`. It's a matrix that creates a square 
+grid, with each containing an 
+**[elevation level of a New Zealand volcano](https://plotly.com/r/3d-surface-plots/)**. 
+
+<br>
+
+```{r fig.align = "center"}
+
+library(plotly)
+
+volcano[1:6, 1:10] %>% 
+  print()
+
+plot_ly(z = ~volcano) %>% 
+  add_surface()
+
+```
+
+<br>
+<br>
+
+# Lists
+
+Compared to the **matrix**, **lists** are far more common and generally 
+extremely useful, though we'll not explore **lists** too deeply in any 
+introductory modules.
+
+As such, we will lightly go over **lists** conceptually, as you will encounter 
+them, often unwittingly, throughout your journey in R.
+
+<br>
+<br>
+
+## What's a List?
+
+In R, a **list** is the next evolutionary phase of the **data frame**.
+
+A **list** is similar to a **data frame** in that they both may contain a 
+medley of different classes. In fact, you'll often hear that a **data frame** 
+is simply a primitive **list**, which is mostly true.
+
+Here, we can create a list of names vectors using function `list()`:
+
+<br>
+
+```{r}
+
+library(ggplot2)
+library(gapminder)
+
+my_list <- list(statement = c("You", "should", "meet", "my", "father."),
+                inquiry = c("Your", "father's", "still", "alive?"),
+                response = c("No,", "but", "you", "should", "meet", "him."))
+
+```
+
+<br>
+<br>
+
+## Accessing Lists, Briefly 
+
+Accessing the contents of **lists** is very challenging at first, but it is 
+extremely rewarding. We ecourage all R learners to explore them as early as 
+they are comfortable. 
+
+<br>
+
+```{r}
+
+my_list[1]
+
+my_list[[2]]
+
+my_list[[3]][3:6]
+
+```
+
+<br>
+<br>
+
+## Advantages of Lists 
+
+**Lists** can hold far more than **vectors** of unequal length. 
+**Lists** can hold entirely different **matrices**, multiple **data frames**, 
+and even other **lists**! Note that the following list, `my_list`, is created 
+with a combination of custom vectors, built-in R data frames, package-built 
+data frames, and a numeric matrix!
+
+<br>
+
+```{r}
+
+library(plotly)
+library(ggplot2)
+library(gapminder)
+
+my_list <- list(some_numbers = 1:10,
+                some_letters = letters[1:10],
+                economics = economics,
+                diamonds = diamonds,
+                faithful = faithful,
+                volcano = volcano,
+                mtcars = mtcars,
+                gapminder = gapminder)
+
+my_list$diamonds %>% 
+  head() %>% 
+  print()
+
+my_list$gapminder %>% 
+  head() %>% 
+  print()
+
+```
+
+<br>
+
+**Lists** are awesome.
+
+<br>
+<br>
+
+## Lists Are Everywhere
+
+One thing to note about **lists** is that, despite our relatively little use of 
+them in most modules, many objects you'll use in R will actually be **lists**,
+though they are usually called something more specific.
+
+Below, we make a "graphical object", or "grob", using package `ggplot2`. In
+functionality, these are and may be accessed as **lists**.
+
+<br>
+
+```{r}
+
+library(ggplot2)
+
+my_plot <- qplot(x = economics$date, 
+                 y = economics$pop) +
+  theme_minimal()
+
+my_plot
+
+my_plot$labels                    # Access the internals of 'my_plot' with '$'
+
+unlist(my_plot)[1:3]              # Alternatively, use 'unlist()' or like functions
+
+```
+
+<br>
+<br>

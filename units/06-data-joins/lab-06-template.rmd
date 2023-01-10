@@ -1,0 +1,453 @@
+---
+title: "Lab 06: Dataset Joins"
+author: "Your Name"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    theme: flatly
+    highlight: haddock
+    toc: yes
+    toc_float: yes
+---
+
+```{r include = FALSE, cache = TRUE}
+
+library(readr)
+library(dplyr)
+library(tidyr)
+library(tibble)
+library(pander)
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE, 
+                      fig.width = 10)     # Global knitr options
+
+options(scipen = 999)                     # Disable sci. notation
+
+`%!in%` <- Negate(`%in%`)                 # Custom filter function
+
+url <- "https://www.onetcenter.org/dl_files/database/db_26_3_text/"
+
+dbs <- c("Skills",
+         "Knowledge",
+         "Abilities",
+         "Interests",
+         "Job%20Zones",
+         "Work%20Values",
+         "Work%20Styles",
+         "Occupation%20Data",
+         "Alternate%20Titles",
+         "Technology%20Skills",
+         "Job%20Zone%20Reference",
+         "Education%2C%20Training%2C%20and%20Experience",
+         "Education%2C%20Training%2C%20and%20Experience%20Categories")
+
+txt <- paste0(url, dbs, ".txt")
+
+all <- lapply(txt, read_delim)
+
+names(all) <- gsub(pattern = "Education%2C%20Training%2C%20and|%20",
+                   replacement = "",
+                   x = dbs)
+
+for(i in 1:length(all)) assign(names(all)[i], all[[i]])   # Create objects
+
+rm(all)
+
+```
+
+<br>
+
+## Assignment Overview
+
+Follow the instructions below.
+
+<br>
+
+The following objects have been created for you from the [O*NET 26.3 Database](https://www.onetcenter.org/database.html). 
+
+1. `Abilities` measures innate or natural abilities of occupational incumbents
+2. `AlternateTitles` lists over 53,000 alternate names for O*NET occupations
+3. `Experience` measures various kinds of experience, albeit encoded
+4. `ExperienceCategories` decodes measured experience
+5. `Interests` measures occupations with the Holland Code (RIASEC) Test  
+6. `JobZoneReference` decodes classes of career development
+7. `JobZones` broad classes of career development for each occupation; encoded
+8. `Knowledge` defines areas of expertise and importance
+9. `OccupationData` lists the occupation SOC, title, and description
+10. `Skills` measures learned abilities of occupational incumbents
+11. `TechnologySkills` lists all relevant technology skills
+12. `WorkStyles` measures various performance indicators
+13. `WorkValues` measures important occupation qualities 
+
+<br>
+<br>
+<br>
+
+## Part 1: Basic Join Challenges
+
+The following challenges require no more then 2-3 tables and use the same column 
+names across all tables. Use basic `dplyr` verbs to answer specific questions.
+
+<br>
+
+**(1) Question:** Which 10 occupation titles (`OccupationData$Title`) have the 
+highest number of "hot technologies" (`TechnologySkills$HotTechnology`)?
+
+```{r}
+
+# Code
+
+```
+
+<br>
+
+**(2) Question:** Which 10 occupation titles (`OccupationData$Title`), with more 
+than 15 unique technologies, have the highest proportion (%) of "hot technologies" 
+(`TechnologySkills$HotTechnology`)?
+
+```{r cache = TRUE}
+
+# Code
+
+```
+
+<br>
+
+**(3) Question:** Which unique occupation titles (`OccupationData$Title`) have 
+"R" listed as a technology example (`TechnologySkills$Example`)? 
+
+```{r cache = TRUE}
+
+# Code
+
+```
+
+<br>
+
+**(4) Question:** Which alternate occupation titles (`AlternateTitles`) have "R" 
+listed as a technology example (`TechnologySkills$Example`)? 
+
+```{r cache = TRUE}
+
+# Code
+
+```
+
+<br>
+
+**(5) Question:** Which top 25 occupation titles (`OccupationData$Title`) have 
+the highest level of "Independence" (`Element Name`) according to `WorkValues`?
+
+```{r}
+
+# Code
+
+```
+
+<br>
+
+**(6) Question:** Which top 25 occupation titles (`OccupationData$Title`) have 
+the highest level of "Persistence" (`Element Name`) according to `WorkStyles`?
+
+```{r}
+
+# Code
+
+```
+
+<br>
+
+**(7) Question:** According to Holland Codes, "Realistic" describes people who 
+like to work with things, requiring "motor coordination, skill, and strength".
+Which top 20 occupation titles (`OccupationData$Title`) have the highest rating 
+in "Realistic" scores (`Element Name`) according to `Interests`?
+
+```{r cache = T}
+
+# Code
+
+```
+
+<br>
+
+**(8) Question:** Again, per Holland Codes, "Investigative" describes people who 
+like to work with ideas, preferring observation over action and facts over 
+feelings. Which top 20 occupation titles (`OccupationData$Title`) have the 
+highest rating in "Investigative" scores (`Element Name`) according to `Interests`?
+
+```{r cache = T}
+
+# Code
+
+```
+
+<br>
+
+**(9) Question:** Job Zones loosely classify how advanced one typically must be 
+as an occupational incumbent. How many unique occupation titles 
+(`OccupationData$Title`) are classified in each `Job Zone` (`JobZones`)? 
+
+```{r}
+
+# Code
+
+```
+
+<br>
+
+**(10) Question:** Of occupation titles (`OccupationData$Title`) that list "R" 
+as the `Example` in `TechnologySkills`, what proportion is in each Job Zone 
+(`JobZones`)?
+
+```{r}
+
+# Code
+
+```
+
+<br>
+<br>
+<br>
+
+## Part 2: Joins & Salary Predictions
+
+The following challenges require 3-4 merged tables and incorporate data from the 
+U.S. Bureau of Labor Statistics' 2021
+[Occupational Employment and Wage Statistics](https://www.bls.gov/oes/current/oes_nat.htm)
+which, like other federal agencies, uses unique SOC codes for each occupation.
+
+<br>
+
+The following commands will read in BLS data and rename and reformat the columns 
+to match O*NET.
+
+```{r cache = TRUE, message = FALSE, warning = FALSE}
+
+url <- paste0("https://raw.githubusercontent.com/DS4PS/ays-r-cod",
+              "ing-sum-2022/main/labs/bls_occupation_salaries.csv")
+
+Salaries <- read_csv(url, 
+                     col_select = c("O*NET-SOC Code" = "OCC_CODE", 
+                                    "Title" = "OCC_TITLE", 
+                                    "Median" = "A_MEDIAN")) %>% 
+  mutate(`O*NET-SOC Code` = gsub(x = `O*NET-SOC Code`, 
+                                 pattern = "$", 
+                                 replacement = "\\.00"),
+         Median = gsub(x = Median, 
+                       pattern = ",", 
+                       replacement = ""),
+         Median = as.numeric(Median))
+
+```
+
+<br>
+
+**Note:** There is one key distinction between O*NET and BLS SOC codes. The 
+[2019 O*NET Taxonomy](https://www.onetcenter.org/taxonomy.html) features even 
+more detailed profiles than typical federal agencies. Some more detailed O*NET 
+occupation profiles will not successfully merge with BLS occupations.
+
+<br>
+
+**(1) Question:** Join the O*NET `OccupationData` and BLS `Salaries` tables. 
+Then, filter out any occupations with an `NA` value in variable `Median`.
+Store this new table as object `Common`. How many occupations have
+salary data available from BLS?
+
+
+```{r cache = TRUE}
+
+# Code
+  
+```
+
+Use basic `dplyr` verbs to answer each question.
+
+<br>
+
+**(2) Question:** Join new object `Common` with object `Interests`. Note that 
+each interest is in `Element Name` and each interest rating (on a 7-point scale) 
+is listed in `Data Value`. In effect, we can now associate each "interest" (e.g. 
+artistic, social, enterprising) with median annual salaries.
+
+Use the `lm()` function with formula `Median ~ Element Name` to print the 
+coefficients of a simple linear model. Which two element names (not "High 
+Points") are most associated with higher salaries?
+
+```{r cache = TRUE}
+
+# Code
+
+```
+
+<br>
+
+**(3) Question:** Now join `Common` with `TechnologySkills`. Filter occupations 
+to only include the following technologies in `Example`, which have been 
+provided for you in object `tech`: 
+
+* R
+* C
+* Python
+* JavaScript
+* Microsoft Excel
+* Spreadsheet software
+* SAS statistical software
+* Hypertext markup language HTML
+
+Group by technologies (`Example`) and determine the following summaries:
+
+* Average value for `Median` (annual salary)
+* Count for total occupations with said `tech` 
+
+```{r cache = TRUE}
+
+tech <- c("R",
+          "C++",
+          "Python",
+          "JavaScript",
+          "Microsoft Excel",
+          "Spreadsheet software",
+          "SAS statistical software",
+          "Hypertext markup language HTML")
+
+# Code
+
+```
+
+<br>
+
+**(4) Question:** Please rate your own work values by providing a score from 
+`1` to `7` for the following value categories.
+
+* Achievement
+* Working Conditions
+* Recognition
+* Relationships
+* Support
+* Independence 
+
+A "7" indicates highest importance. A "1" indicates lowest importance. 
+A default of `3.5` has been provided as an example.
+
+```{r echo = TRUE}
+
+my_values <- tibble::tibble("Achievement"        = 3.5, 
+                            "Working Conditions" = 3.5,
+                            "Recognition"        = 3.5,
+                            "Relationships"      = 3.5,
+                            "Support"            = 3.5,
+                            "Independence"       = 3.5)
+
+```
+
+<br>
+
+**(5) Question:** Join objects `Common` and `WorkValues` and filter the 
+following values from variable `Element Name`:
+
+* "First Work Value High-Point"
+* "Second Work Value High-Point"
+* "Third Work Value High-Point"
+
+Then, use `select()` on the following variables:
+
+* "O*NET-SOC Code"
+* "Element Name" 
+* "Data Value" 
+* "Median"
+
+Pipe (`%>%`) your output into the following `tidyr` function:
+
+```{r eval = FALSE, include = TRUE}
+
+# Code
+
+tidyr::pivot_wider(names_from = "Element Name", 
+                   values_from = "Data Value")
+
+```
+
+<br>
+
+Lastly, use function `lm()` and `predict()` to estimate your salary based on 
+your work values! 
+
+Make sure to set `eval = TRUE` for the following to run:
+
+```{r eval = FALSE, include = TRUE}
+
+my_model <- lm(formula = Median ~ 
+                 Achievement + 
+                 `Working Conditions` + 
+                 Recognition + 
+                 Relationships + 
+                 Support + 
+                 Independence, 
+               data = you_data)
+
+predict(object = my_model, newdata = my_values)
+
+```
+
+<br>
+
+<center>------------<h4> **DELETE THIS LINE & ALL LINES BELOW BEFORE SUBMITTING** </h4>------------</center>
+
+<br>
+
+## How to Submit
+
+Use the following instructions to submit your assignment, which may vary depending on your course's platform.
+
+<br>
+
+### Knitting to HTML
+
+When you have completed your assignment, click the "Knit" button to render your `.RMD` file into a `.HTML` report.
+
+<br>
+
+### Special Instructions
+
+Perform the following depending on your course's platform:
+
+* **Blackboard or iCollege:** Compress your `.RMD` and `.HTML` files in a `.ZIP` file and upload to the appropriate link
+
+<br>
+
+### Before You Submit
+
+Remember to ensure the following before submitting your assignment.
+
+1. Name your files using this format: **Lab-##-LastName.rmd** and **Lab-##-LastName.html**
+2. Show both the solution for your code and write out your answers in the body text 
+3. Do not show excessive output; truncate your output, e.g. with function `head()`
+4. Follow appropriate styling conventions, e.g. spaces after commas, etc.
+5. Above all, ensure that your conventions are consistent
+
+See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for examples of common conventions.
+
+<br>
+<br>
+
+### Common Knitting Issues
+
+`.RMD` files are knit into `.HTML` and other formats procedural, or line-by-line.
+
+* An error in code when knitting will halt the process; error messages will tell you the specific line with the error
+* Certain functions like `install.packages()` or `setwd()` are bound to cause errors in knitting 
+* Altering a dataset or variable in one chunk will affect their use in all later chunks
+* If an object is "not found", make sure it was created or loaded with `library()` in a previous chunk
+
+**If All Else Fails:** If you cannot determine and fix the errors in a code chunk that's preventing you from knitting your document, add `eval = FALSE` inside the brackets of `{r}` at the beginning of a chunk to ensure that R does not attempt to evaluate it, that is: `{r eval = FALSE}`. This will prevent an erroneous chunk of code from halting the knitting process.  
+
+<br>
+<br>
+<br>
+
+
+

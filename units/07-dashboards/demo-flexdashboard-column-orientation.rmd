@@ -1,0 +1,114 @@
+---
+title: "Column Orientation (default)"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: spacelab
+    source: embed
+    smart: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE )
+library( dplyr )
+library( Lahman )
+library( DT )
+data( Teams )
+```
+
+
+
+Column {.tabset .tabset-fade data-width=500}
+-------------------------------------
+    
+### Chart 1
+    
+```{r, echo=F, fig.width=12, eval=F}
+plot( Teams$yearID, Teams$H/Teams$G, pch=19, col=gray(0.5,0.2), bty="n",
+      ylab="Ave. Hits Per Game (H/G)", xlab="Year (yearID)", main="AVE HITS PER GAME" )
+
+league <- 
+  Teams %>%
+  group_by( yearID ) %>%
+  summarize( ave.hits =mean( H / G , na.rm=T ) )
+
+points( league$yearID, league$ave.hits, type="o", col="darkblue", pch=19 )
+```
+
+
+
+```{r, echo=F, eval=T}
+library(ggplot2)
+library(plotly)
+
+Teams <- mutate( Teams, HG=H/G )
+
+league <- 
+  Teams %>%
+  group_by( yearID ) %>%
+  summarize( ave.hits =mean( H / G , na.rm=T ) )
+
+p <- ggplot( data=Teams, aes( x=yearID, y=HG  ) ) + 
+  geom_point( col="gray", alpha=0.3, size=2, aes( text=name ) ) +
+  geom_line( data=league, aes(x=yearID,y=ave.hits), col="blue" ) +
+  ggtitle( "Ave Hits Per Game" ) +
+  theme_bw()
+
+ggplotly(p)
+```
+
+
+
+### Chart 3
+
+```{r, echo=F}
+plot( Teams$yearID, Teams$HR/Teams$G, pch=19, col=gray(0.5,0.2), bty="n",
+      ylab="Ave. Home Runs Per Game (HR/G)", 
+      xlab="Year (yearID)", main="AVE HOME RUNS PER GAME" )
+
+league <- 
+  Teams %>%
+  group_by( yearID ) %>%
+  summarize( ave.hr =mean( HR / G , na.rm=T ) )
+
+points( league$yearID, league$ave.hr, type="o", col="darkred", pch=19 )
+```
+
+
+
+
+Column {data-width=500}
+-------------------------------------
+
+
+### Chart 2
+    
+```{r, echo=F}
+
+# library( DT )
+
+sub.t <- Teams[ c("name","yearID","SO","H","HR","G") ]
+
+these.buttons <- c( 'copy', 'csv', 'excel', 'pdf', 'print' )
+
+datatable(  sub.t,
+           filter='bottom', rownames=FALSE, 
+           #options=list( pageLength=5, autoWidth=TRUE ),
+           fillContainer=TRUE, 
+           style="bootstrap",
+           class='table-condensed table-striped',
+           extensions = 'Buttons', 
+           options=list( dom='Bfrtip', 
+                         buttons=these.buttons  )) %>%
+  
+  formatStyle( "name", "white-space"="nowrap" )
+
+```
+
+  
+
+
+
+
+
+   
+

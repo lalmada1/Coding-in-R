@@ -1,0 +1,94 @@
+---
+title: "Row Orientation"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE )
+library( dplyr )
+library( Lahman )
+library( DT )
+data( Teams )
+```
+
+
+
+Row
+-------------------------------------
+    
+### Chart 1
+    
+```{r, echo=F, fig.width=12, eval=F}
+plot( Teams$yearID, Teams$H/Teams$G, pch=19, col=gray(0.5,0.2), bty="n",
+      ylab="Ave. Hits Per Game (H/G)", xlab="Year (yearID)", main="AVE HITS PER GAME" )
+
+league <- 
+  Teams %>%
+  group_by( yearID ) %>%
+  summarize( ave.hits =mean( H / G , na.rm=T ) )
+
+points( league$yearID, league$ave.hits, type="o", col="darkblue", pch=19 )
+```
+
+
+
+```{r, echo=F, eval=T}
+library(ggplot2)
+library(plotly)
+
+Teams <- mutate( Teams, HG=H/G )
+
+league <- 
+  Teams %>%
+  group_by( yearID ) %>%
+  summarize( ave.hits =mean( H / G , na.rm=T ) )
+
+p <- ggplot( data=Teams, aes( x=yearID, y=HG) ) + 
+  geom_point( col="gray", alpha=0.3 ) +
+  # geom_smooth( ) +
+  geom_line( data=league, aes(x=yearID,y=ave.hits), col="blue" ) +
+  ggtitle( "Ave Hits Per Game" ) +
+  theme_bw()
+
+ggplotly(p)
+```
+
+
+Row
+-------------------------------------
+    
+### Chart 2
+    
+```{r, echo=F}
+# library( DT )
+datatable( Teams[c("name","yearID","SO","H","HR","G") ],
+           filter='top', rownames = FALSE,
+           options=list( pageLength=6, autoWidth=F) )
+```
+
+  
+### Chart 3
+
+```{r, echo=F}
+plot( Teams$yearID, Teams$HR/Teams$G, pch=19, col=gray(0.5,0.2), bty="n",
+      ylab="Ave. Home Runs Per Game (HR/G)", 
+      xlab="Year (yearID)", main="AVE HOME RUNS PER GAME" )
+
+league <- 
+  Teams %>%
+  group_by( yearID ) %>%
+  summarize( ave.hr =mean( HR / G , na.rm=T ) )
+
+points( league$yearID, league$ave.hr, type="o", col="darkred", pch=19 )
+```
+
+
+
+
+
+
+
+   
+

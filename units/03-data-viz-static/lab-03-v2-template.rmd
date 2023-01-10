@@ -1,0 +1,251 @@
+---
+title: "Lab 03 - Graphics"
+author: "Your Name"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    theme: readable
+    df_print: paged
+    highlight: tango
+---
+
+```{r include = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE, 
+                      fig.width = 7, 
+                      fig.height = 5)     # Setup for knitting options
+
+library(tidyverse)                        # Loading required packages
+
+```
+
+<br>
+<br>
+
+# Introduction
+
+This lab provides the code to replicate the following graphic using 
+**[Gapminder](www.gapminder.org)** life expectancy data.
+
+<br>
+
+<center>
+
+![](figures/gapminder_graphic.jpg)
+
+</center>
+
+<br>
+<br>
+
+# Importing & Preprocessing
+
+The following imports and merges life expectancy data and region classification 
+for grouped means.
+
+<br>
+
+```{r message = FALSE, warning = FALSE}
+
+library(tidyverse)
+
+url <- paste0("https://raw.githubusercontent.com/cssearcy/AYS-R-Co",
+              "ding-SPR-2020/master/LABS/gapminder_group_data.csv")
+
+regions <- read_csv(file = url) %>%         # Import country region data
+  select(Country = name,
+         Region = eight_regions) %>% 
+  mutate(Region = str_replace_all(string = Region, 
+                                  pattern = "_", 
+                                  replacement = " "),
+         Region = str_to_title(Region))
+
+url <- paste0("https://raw.githubusercontent.com/cssearcy/AYS-R-Co",
+              "ding-SPR-2020/master/LABS/gapminder_life_exp.csv")
+
+life_exp <- read_csv(file = url) %>%        # Import, merge life expectancy data
+  pivot_longer(cols = -country) %>% 
+  rename("Country" = country, 
+         "Year" = name, 
+         "Lifespan" = value) %>% 
+  left_join(regions) %>% 
+  mutate(Year = as.numeric(Year)) %>% 
+  select(Region, Country, Year, Lifespan) %>% 
+  arrange(Region, Country, Year, Lifespan)
+
+```
+
+<br>
+<br>
+
+## Group Preprocessing
+
+Using package `dplyr`, we can quickly create two additional tables needed to 
+recreate the various series over time, one for overall life expectancy and 
+eight according to *Gapminder's* eightfold regional classifications.
+
+<br>
+
+```{r}
+
+region_avgs <- life_exp %>% 
+  group_by(Year, Region) %>% 
+  summarize(Average = mean(Lifespan, 
+                           na.rm = TRUE))          # Expectancy by year, region
+
+year_avg <- life_exp %>% 
+  group_by(Year) %>% 
+  summarize(Average = mean(Lifespan, 
+                           na.rm = TRUE))          # Expectancy by year only
+  
+```
+
+<br>
+<br>
+
+# Replication
+
+The following recreates the *Gapminder* graphic as closely as possible. The 
+foundation code for either package `graphics` or `ggplot2` are provided below.
+
+**Note:** *You may replicate the graphic step-by-step or in a single code chunk.*
+
+<br>
+
+### Package "ggplot2"
+
+```{r fig.align = "center"}
+
+ggplot(life_exp, aes(x = Year, 
+                     y = Lifespan)) +
+  geom_point(alpha = 0.025,
+             color = "grey50") +
+  theme_minimal()
+
+```
+
+<br>
+<br>
+
+### Package "graphics"
+
+```{r fig.align = "center"}
+
+plot.new()
+
+plot.window(xlim = c(min(life_exp$Year, na.rm = TRUE), 
+                     max(life_exp$Year, na.rm = TRUE)),
+            ylim = c(min(life_exp$Lifespan, na.rm = TRUE),
+                     max(life_exp$Lifespan, na.rm = TRUE))) # Specify dimensions
+
+points(life_exp$Year, 
+       life_exp$Lifespan,
+       col = alpha(colour = "grey80", 
+                   alpha = 0.15))
+
+```
+
+<br>
+<br>
+
+<center>------------<h4> **DELETE THIS LINE & ALL LINES BELOW BEFORE SUBMITTING** </h4>------------</center>
+
+<br>
+<br>
+
+# Tips & Tricks
+
+Consider the following tips for completing this assignment.
+
+<br>
+
+### Replication Checklist
+
+Ensure you've performed the following to replicate the NYT graphic as closely as possible.
+
+1. Contextually plot all average life expectancy for each country and year
+2. Name the x-axis "Year" and y-axis "Life Expectancy (Years)"
+3. Ensure that the y-axis is between 0 and 100 years
+    - Label should include 0, 25, 50, and 75
+4. Ensure that the y-axis is between 1800 and 2100
+    - Label should include 1800, 1900, 2000, 2100
+5. Ensue the following labels are used:
+    - Title: "Average Life Expectancy Over Time"
+    - Subtitle: Overall & 8 Region Averages"
+    - Caption: "Source: www.gapminder.org"
+6. Plot group average lines for each of the 8 *Gapminder* regions
+7. Plot an overall average with `'col = dodgerblue'` and a white outline
+8. Draw lines and annotate the ends of World Wars I & II
+
+<br>
+
+### Arguments, Arguments, Arguments!
+
+Each function requires several arguments (modifications inside the `()`) to 
+replicate the graphic. Remember to use `help()`.
+
+<br>
+
+```{r eval = FALSE}
+
+help(mtext)
+
+```
+
+<br>
+<br>
+
+# How to Submit
+
+Use the following instructions to submit your assignment, which may vary depending on your course's platform.
+
+<br>
+
+### Knitting to HTML
+
+When you have completed your assignment, click the "Knit" button to render your `.RMD` file into a `.HTML` report.
+
+<br>
+
+### Special Instructions
+
+Perform the following depending on your course's platform:
+
+* **Canvas:** Upload both your `.RMD` and `.HTML` files to the appropriate link
+* **Blackboard or iCollege:** Compress your `.RMD` and `.HTML` files in a `.ZIP` file and upload to the appropriate link
+
+`.HTML` files are preferred but not allowed by all platforms.
+
+<br>
+
+### Before You Submit
+
+Remember to ensure the following before submitting your assignment.
+
+1. Name your files using this format: **Lab-##-LastName.rmd** and **Lab-##-LastName.html**
+2. Show both the solution for your code and write out your answers in the body text 
+3. Do not show excessive output; truncate your output, e.g. with function `head()`
+4. Follow appropriate styling conventions, e.g. spaces after commas, etc.
+5. Above all, ensure that your conventions are consistent
+
+See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for examples of common conventions.
+
+<br>
+<br>
+
+### Common Knitting Issues
+
+`.RMD` files are knit into `.HTML` and other formats procedural, or line-by-line.
+
+* An error in code when knitting will halt the process; error messages will tell you the specific line with the error
+* Certain functions like `install.packages()` or `setwd()` are bound to cause errors in knitting 
+* Altering a dataset or variable in one chunk will affect their use in all later chunks
+* If an object is "not found", make sure it was created or loaded with `library()` in a previous chunk
+
+**If All Else Fails:** If you cannot determine and fix the errors in a code chunk that's preventing you from knitting your document, add `eval = FALSE` inside the brackets of `{r}` at the beginning of a chunk to ensure that R does not attempt to evaluate it, that is: `{r eval = FALSE}`. This will prevent an erroneous chunk of code from halting the knitting process.  
+
+<br>
+<br>
+<br>

@@ -1,0 +1,393 @@
+---
+title: 'Lab 03 - Graphics'
+output:
+  html_document:
+    theme: readable
+    df_print: paged
+    highlight: tango
+    inclucde: footer.html   
+---
+
+```{r include = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE)
+
+library(tidyverse)
+
+```
+
+
+#### [Coding in R for Policy Analytics](https://ds4ps.org/cpp-526-spr-2020/)
+
+<br>
+
+*This lab introduces core plotting functions in order to create customized graphics in R.*
+
+You can create a new R Markdown file, or download the **LAB-03 RMD template**: 
+
+<center>
+
+[![](https://github.com/cssearcy/AYS-R-Coding-SPR-2020/blob/master/LABS/images/download.png?raw=true)](https://github.com/cssearcy/AYS-R-Coding-SPR-2020/blob/master/LABS/Lab-03-v3-LastName.zip?raw=true)
+
+</center>
+
+--- 
+
+<br>
+<br>
+
+# Visualizing Gapminder Data
+
+**[Gapminder](https://www.gapminder.org/)** is a self-described "independent 
+educational non-profit fighting global misconceptions" about anything from 
+plastic in the ocean to farmers income and a host of other compelling and 
+robust global data sources. 
+
+*Gapminder's* life expectancy data rose to prominence following particularly 
+legendary examples of data storytelling by Swedish physician, academic, and 
+*Gapminder* Co-Founder and Chairman 
+**[Hans Rosling](https://en.wikipedia.org/wiki/Hans_Rosling)**. Watch one of his
+famous TED Talks by clicking on the image below to familiarize yourself with 
+*Gapminder.* 
+
+<br>
+
+<center>
+
+[![](https://github.com/cssearcy/AYS-R-Coding-SPR-2020/blob/master/LABS/best_hans_talks_1200x627.jpg?raw=true)](https://www.ted.com/talks/hans_rosling_the_best_stats_you_ve_ever_seen)
+
+</center>
+
+<br>
+
+For this lab, you will replicate novel visualizations using *Gapminder* data on
+average life expectancy by country over time.
+
+<br>
+<br>
+
+# Visuals to Replicate
+
+You must replicate the following visual *as closely as possible*. Reproduced 
+and submitted data visualizations which fail to replicate less than 80% of the
+visual elements in these images is unacceptable.
+
+<br>
+
+![](https://github.com/cssearcy/AYS-R-Coding-SPR-2020/blob/master/LABS/gapminder_graphic2.jpg?raw=true)
+
+<br>
+<br>
+
+# Graphics Packages
+
+In order to replicate the provided graphics, you may use either the base R 
+`graphics` package or package `ggplot2`. Learners who use `ggplot2` may convert 
+their graphic into an interactive visualization using package `plotly` function
+`ggplotly()`. 
+
+<br>
+<br>
+
+# Functions 
+
+### Package "graphics"
+
+If using package `graphics`, you must likely use the following functions: 
+
+<br>
+
+```{r eval = FALSE}
+
+plot()
+plot.new()
+plot.window()
+points()
+gray()
+axis()
+title()
+text()
+mtext()
+segments()
+abline()
+
+```
+
+<br>
+<br>
+
+### Package "ggplot2"
+
+If using package `ggplot2`, you will likely use the following functions:
+
+<br>
+
+```{r eval = FALSE}
+
+ggplot()
+aes()
+geom_point()
+geom_jitter()
+geom_segment()
+geom_line()
+labs()
+scale_x_continuous()
+scale_y_continuous()
+theme_minimal()
+annotate()
+
+```
+
+<br>
+
+Consider passing your `ggplot2` graphic to package `plotly` function `ggplotly()` 
+to quickly convert it to an interactive graphic!
+
+<br>
+<br>
+
+# Data
+
+Your data are sourced directly from **[Gapminder](https://www.gapminder.org/)**. 
+While R does have a regularly updated `gapminder` 
+**[package](https://cran.r-project.org/web/packages/gapminder/index.html)**, it 
+is significantly less rich in only providing data every five years. 
+
+*Gapminder* countries are categorized into four, six, and eight global regions. 
+In this example, you will use the eight-region classification for optimal 
+granularity.
+
+<br>
+<br>
+
+### Import
+
+Run the following commands to import region group and life expectancy data. The
+data required for the visualization is largely preprocessed for your
+convenience below.
+
+<br>
+
+```{r message = FALSE, warning = FALSE}
+
+library(tidyverse)
+
+url <- paste0("https://raw.githubusercontent.com/cssearcy/AYS-R-Co",
+              "ding-SPR-2020/master/LABS/gapminder_group_data.csv")
+
+regions <- read_csv(file = url) %>%         # Import country region data
+  select(Country = name,
+         Region = eight_regions) %>% 
+  mutate(Region = str_replace_all(string = Region, 
+                                  pattern = "_", 
+                                  replacement = " "),
+         Region = str_to_title(Region))
+
+url <- paste0("https://raw.githubusercontent.com/cssearcy/AYS-R-Co",
+              "ding-SPR-2020/master/LABS/gapminder_life_exp.csv")
+
+life_exp <- read_csv(file = url) %>%        # Import, merge life expectancy data
+  pivot_longer(cols = -country) %>% 
+  rename("Country" = country, 
+         "Year" = name, 
+         "Lifespan" = value) %>% 
+  left_join(regions) %>% 
+  mutate(Year = as.numeric(Year)) %>% 
+  select(Region, Country, Year, Lifespan) %>% 
+  arrange(Region, Country, Year, Lifespan)
+
+region_avgs <- life_exp %>% 
+  group_by(Year, Region) %>% 
+  summarize(Average = mean(Lifespan, 
+                           na.rm = TRUE))
+
+year_avg <- life_exp %>% 
+  group_by(Year) %>% 
+  summarize(Average = mean(Lifespan, 
+                           na.rm = TRUE))
+
+```
+
+<br>
+<br>
+
+### Preview
+
+The following shows the first 10 observations in the life expectancy data: `life_exp`. 
+
+```{r}
+
+head(life_exp, 10)
+
+```
+
+<br>
+
+The following shows the first 10 observations in the regional average data: `region_avgs`. 
+
+```{r}
+
+head(region_avgs, 10)
+
+```
+
+<br>
+
+The following shows the first 10 observations in the regional average data: `region_avgs`. 
+
+```{r}
+
+head(year_avg, 10)
+
+```
+
+<br>
+<br>
+
+# Getting Started
+
+The following code will help you get started in either `graphics` or `ggplot2`.
+
+<br>
+<br>
+
+### Package "ggplot2"
+
+```{r fig.align = "center"}
+
+ggplot(life_exp, aes(x = Year, 
+                     y = Lifespan)) +
+  geom_point(alpha = 0.025,
+             color = "grey50") +
+  theme_minimal()
+
+```
+
+<br>
+<br>
+
+### Package "graphics"
+
+```{r fig.align = "center"}
+
+plot.new()
+
+plot.window(xlim = c(min(life_exp$Year, na.rm = TRUE), 
+                     max(life_exp$Year, na.rm = TRUE)),
+            ylim = c(min(life_exp$Lifespan, na.rm = TRUE),
+                     max(life_exp$Lifespan, na.rm = TRUE))) # Specify dimensions
+
+points(life_exp$Year, 
+       life_exp$Lifespan,
+       col = alpha(colour = "grey80", 
+                   alpha = 0.15))
+
+```
+
+<br>
+<br>
+
+# Hints
+
+You can often rely on internal documentation as well as the web.
+
+<br>
+<br>
+
+### Internal Documentation
+
+If you need help looking up arguments remember these two helpful functions:
+
+* `help()`
+* `args()`
+
+<br>
+
+For example:
+
+```{r eval = FALSE}
+
+args(abline)
+help(mtext)
+
+```
+
+<br>
+
+### External Message Boards
+
+This lab assignment will push you to explore the nuances of these 
+functions and their arguments.  Don't hesitate to use the web to overcome 
+challenging function modifications.
+
+1. Include the language, i.e. "r"
+2. Include the function name, e.g. `text()`
+3. Concisely describe your intent, e.g. "allow text overflow" 
+
+<br>
+<br>
+
+# How to Submit
+
+Use the following instructions to submit your assignment, which may vary depending on your course's platform.
+
+<br>
+
+### Knitting to HTML
+
+When you have completed your assignment, click the "Knit" button to render your `.RMD` file into a `.HTML` report.
+
+<br>
+
+### Special Instructions
+
+Perform the following depending on your course's platform:
+
+* **Canvas:** Upload both your `.RMD` and `.HTML` files to the appropriate link
+* **Blackboard or iCollege:** Compress your `.RMD` and `.HTML` files in a `.ZIP` file and upload to the appropriate link
+
+`.HTML` files are preferred but not allowed by all platforms.
+
+<br>
+
+### Before You Submit
+
+Remember to ensure the following before submitting your assignment.
+
+1. Name your files using this format: **Lab-##-LastName.rmd** and **Lab-##-LastName.html**
+2. Show both the solution for your code and write out your answers in the body text 
+3. Do not show excessive output; truncate your output, e.g. with function `head()`
+4. Follow appropriate styling conventions, e.g. spaces after commas, etc.
+5. Above all, ensure that your conventions are consistent
+
+See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for examples of common conventions.
+
+<br>
+<br>
+
+### Common Knitting Issues
+
+`.RMD` files are knit into `.HTML` and other formats procedural, or line-by-line.
+
+* An error in code when knitting will halt the process; error messages will tell you the specific line with the error
+* Certain functions like `install.packages()` or `setwd()` are bound to cause errors in knitting 
+* Altering a dataset or variable in one chunk will affect their use in all later chunks
+* If an object is "not found", make sure it was created or loaded with `library()` in a previous chunk
+
+**If All Else Fails:** If you cannot determine and fix the errors in a code chunk that's preventing you from knitting your document, add `eval = FALSE` inside the brackets of `{r}` at the beginning of a chunk to ensure that R does not attempt to evaluate it, that is: `{r eval = FALSE}`. This will prevent an erroneous chunk of code from halting the knitting process.  
+
+<br>
+<br>
+
+<style>
+
+blockquote {
+    padding: 11px 22px;
+    margin: 0 0 22px;
+    font-size: 18px;
+    border-left: 5px solid lightgray;
+}
+</style>
+

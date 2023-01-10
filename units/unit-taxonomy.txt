@@ -1,0 +1,21 @@
+unit
+|- name
+|- description
+|- tips
+|- learning objectives
+
+topic
+|- name
+|- description 
+|- require
+|- include 
+
+asset / resource 
+|- topic (id)
+|- name
+|- type
+|- icon
+|- location
+|- require
+|- include
+

@@ -1,0 +1,468 @@
+---
+title: "Introductory Programming"
+output:
+  html_document:
+    theme: readable
+    highlight: tango
+    toc: true
+    toc_depth: 2
+    css: "../html/lecture-notes.css"
+---
+
+```{r include = FALSE}
+
+# setwd("~/DS4PS/New Textbook Sections")
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(scales)
+library(tidyverse)
+
+```
+
+# On Conditional Programming
+
+We've already seen how to use conditional statements with comparators like
+`==`, `>`, and `<` in order to create subsets with our data. 
+
+In the same way,
+**[conditional programming](https://en.wikipedia.org/wiki/Conditional_(computer_programming))**
+uses conditional statements to control how certain scripted instructions are
+handled, like whether:
+
+* A specific approach should be used to analyze data
+* Some plot should be rendered using a particular function
+* Date should be grouped by certain variables
+
+<br>
+<br>
+
+## If-Then Statements
+
+In R and many other languages, an 
+**[If-Then Statement](https://en.wikipedia.org/wiki/Conditional_(computer_programming)#If-then(-else))**
+uses a conditional statement to determine how to proceed with additional 
+instructions. Its basic format is as follows:
+
+<br>
+
+```{r eval = FALSE, echo = TRUE}
+
+if (<conditional>){
+  
+  <instructions>
+  
+}
+
+```
+
+<br>
+
+For example, suppose we want to use dataset `ggplot2::economics` to determine 
+average U.S. unemployment across all dates. Moreover, we would like to classify 
+each date as either "Above" or "Below" average.
+
+The following creates our average unemployment value: `avg_unemp`.
+
+<br>
+
+```{r}
+
+library(ggplot2)
+
+avg_unemp <- mean(economics$unemploy, 
+                  na.rm = TRUE)
+
+print(avg_unemp)
+  
+```
+
+<br>
+
+Next, we can create a simple script with our **If-Then Statement**, where `x` 
+can represent any date's unemployment value. 
+
+If the date represented by `x` has unemployment (`unemploy`) less than the 
+average (`avg_unemp`), our script will return "Below Average". 
+
+<br>
+
+```{r}
+
+x <- economics$unemploy[economics$date == "1989-08-01"]
+
+if (x < avg_unemp){
+  
+  print ("Below Average")
+  
+}
+
+```
+
+<br>
+
+Note that we can create an additional **If-Then Statement** to identify whether
+`unemploy` is also "Below Average".
+
+<br>
+
+```{r}
+
+x <- economics$unemploy[economics$date == "2012-01-01"]
+
+if (x < avg_unemp){
+  
+  print ("Below Average")
+  
+}
+
+if (x > avg_unemp){
+  
+  print ("Above Average")
+  
+}
+
+```
+
+<br>
+<br>
+
+## Using "Else"
+
+What happens when none of our conditions are met but we still wish to provide 
+instructions for a "catch all" category? In this case, we use **Else**, a simple
+modification used to create **If-Then-Else Statements**.
+
+The format is straightforward:
+
+<br>
+
+```{r echo = TRUE, eval = FALSE}
+
+if (<condition>){
+  
+  <instructions if TRUE>
+  
+} else {
+  
+  <instructions if FALSE>
+  
+}
+
+```
+
+<br>
+
+Here, we'll combine our two **If-Then Statements** above that classify 
+unemployment values:
+
+<br>
+
+```{r}
+
+x <- economics$unemploy[economics$date == "2015-04-01"]
+
+if (x < avg_unemp){
+  
+  print ("Below Average")
+  
+} else {
+  
+  print ("Above Average")
+  
+}
+
+```
+
+<br>
+<br>
+
+# Iterating with Conditionals
+
+Note that we've only applied our **If-Else Statements** to individual values. 
+What if we want to iterate over multiple values, or even an entire variable, to 
+evaluate whether each of them pass our conditions?
+
+When we describe **iterating** in this context, we mean *literally processing* 
+*some code from one value to the next*. We explore **iteration** in this sense
+when discussing **For Loops** below.
+
+<br>
+<br>
+
+## Function 'ifelse()'
+
+Using function `ifelse()` is perhaps the easiest way to iterate over any number 
+of values and evaluate whether those values pass one or more conditions.
+
+The format is straightforward:
+
+<br>
+
+```{r eval = FALSE, echo = TRUE}
+
+ifelse(test = <conditional>, 
+       yes = <value if TRUE>, 
+       no = <value if FALSE>)
+
+```
+
+<br>
+
+Do check out the documentation with `?ifelse` or `help(ifelse)`.
+
+Suppose we would like to recreate our average employment classification with 
+our above examples:
+
+<br>
+
+```{r}
+
+print(c(x, avg_unemp))
+
+ifelse(test = x < avg_unemp, 
+       yes = "Below Average", 
+       no = "Above Average")
+
+```
+
+<br>
+
+Importantly, function `ifelse()` not only evaluates conditional statements for a 
+single value, it can evaluate all values in an entire variable!
+
+<br>
+
+```{r}
+
+ifelse(test = economics$unemploy < avg_unemp, 
+       yes = "Below Average", 
+       no = "Above Average") %>% 
+  head()
+
+```
+
+<br>
+
+In effect, this allows us to create new variables entirely:
+
+<br>
+
+```{r}
+
+economics$category <- ifelse(test = economics$unemploy < avg_unemp, 
+                             yes = "Below Average", 
+                             no = "Above Average")
+
+head(economics)
+
+```
+
+<br>
+
+We can achieve similar ends the Tidyverse way using `mutate()` and `ifelse()`:
+
+<br>
+
+```{r}
+
+library(dplyr)
+
+economics <- economics %>% 
+  mutate(category = ifelse(test = economics$unemploy < avg_unemp, 
+                             yes = "Below Average", 
+                             no = "Above Average"))
+
+head(economics)
+
+```
+
+<br>
+
+Do check out function `case_when()` from package `dplyr` for more advanced
+classification examples.
+
+<br>
+<br>
+
+## For Loops
+
+**[For Loops](https://en.wikipedia.org/wiki/For_loop)** are 
+**[Control Flow Statements](https://en.wikipedia.org/wiki/Control_flow)** that 
+allow you to iterate, that is, *step from one value to the next in a series*. 
+
+<br>
+<br>
+
+### Anatomy of a For Loop
+
+Let's continue with the example of `economics$unemploy`. 
+
+<br>
+
+#### Iterators
+
+Firstly, you need an **iterator**. Luckily, it only requires 
+making a name. You may need to name more than one. Usually, you'll see: 
+
+* `i`, `j`, `k` ... 
+* `i`, `ii`, `iii` ...
+* `a`, `b`, `c` ...
+
+You may even see something more specific like `students`.
+
+**In our case,** we'll name it `iter`.
+
+<br>
+
+#### Sequence
+
+Secondly, you need a **sequence**, which is a series of identifiers used as 
+stepping stones for each iteration. The length of the sequence should match 
+the length of the number of values over which you wish to iterate.
+
+Let's check out the number of dates in `economics`:
+
+<br>
+
+```{r}
+
+length(economics$unemploy)
+
+```
+
+<br>
+
+**In our case,** our sequence will need to have 
+`r comma(length(economics$unemploy))` values, one for each value in variable
+`unemploy`.
+
+<br>
+
+```{r}
+
+unemp_seq <- 1:length(economics$unemploy)
+
+head(unemp_seq)
+
+```
+
+<br>
+<br>
+
+### For Loop Structure
+
+The default format for a **For Loop** is as follows:
+
+<br>
+
+```{r eval = FALSE}
+
+for (<iterator> in <sequence>){
+  
+  <intructions>[<iterator>]
+  
+}
+
+```
+
+<br>
+
+**In our case,** recall that `unemp_seq` is the sequence 
+`1:length(economics$unemploy)`. We'll use iterator `iter`.
+
+<br>
+
+```{r eval = FALSE}
+
+for (iter in unemp_seq){
+  
+  ...
+  
+}
+
+```
+
+<br>
+<br>
+
+### For Loop Logic
+
+This part is a bit tricky, only in that it takes a moment to click. 
+
+Your **iterator**, `iter`, will take on or represent *each number* in your 
+sequence for *each iteration*.
+
+If the first number in your sequence is "1", your iterator, `iter`, then 
+represents 1. The second number is "2" and `iter` represents 2. The third 
+number is "3" and `iter` represents 3. What's that look like, you ask?
+
+<br>
+
+```{r eval = FALSE}
+
+iter <- 1
+my_data[iter, ]
+
+iter <- 2
+my_data[iter, ]
+
+iter <- 3
+my_data[iter, ]
+
+```
+
+<br>
+
+This in effect allows iterating over each row in a data frame or each value 
+in a vector. 
+
+<br>
+
+```{r eval = FALSE}
+
+my_date[1, ]
+my_date[2, ]
+my_date[3, ]
+
+```
+
+<br>
+<br>
+
+#### Demonstration
+
+Using out unemployment data, `ggplot2::economics$unemploy`, let's create a 
+simple **For Loop** that will iterate over total unemployment for each date and 
+categorize whether it will be above or below average, similar to our above 
+example.
+
+<br>
+
+```{r}
+
+library(ggplot2)
+
+avg_unemp <- mean(economics$unemploy, 
+                  na.rm = TRUE)                 # Calculate average
+
+unemp_seq <- 1:length(economics$unemploy)       # Create sequence
+
+economics$iteration <- NA                       # Initialize new variable
+
+for (iter in unemp_seq){                        # Name iterator and sequence
+  
+                                                # Instructions for iteration
+  
+  economics$iteration[iter] <- ifelse(test = economics$unemploy[iter] > avg_unemp, 
+                                      yes = "Above", 
+                                      no = "Below")
+  
+}
+
+head(economics)
+
+```
+
+<br>
+<br>

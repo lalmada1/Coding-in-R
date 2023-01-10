@@ -1,0 +1,435 @@
+---
+title: "Lab 01 - Functions and Vectors"
+author: "Your Name"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    theme: cerulean
+    highlight: haddock
+---
+
+```{r include = FALSE}
+
+    # CODE CHUNKS
+
+        # This is a "code chunk" - R evaluates the code inside and prints results
+        # These "chunks" begin with "```{r}" and end with "```"
+
+        # Inside {r}, we can modify the chunk behavior
+        # Above, we tell R not to "include" this chunk
+
+    # GLOBAL OPTIONS
+
+        # Typically, the first "chunk" tells R how to create your report
+        # Below, we tell R to repeat code and disable messages/warnings
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE)
+
+    # KNITTING
+
+        # "Knitting" a .RMD file is essentially turning it into a data product
+        # Even without your answers, this is ready to knit!
+
+        # Click on "Knit" in the upper-left corner to turn this into a report
+        # Notice that this "chunk" will not appear in your knitted report!
+
+```
+
+<br>
+
+# Source Data
+
+The following report analyzes tax parcel data from Syracuse, New York (USA).
+
+View the "Data Dictionary" here: 
+[**Syracuse City Tax Parcel Data**](http://data.syrgov.net/datasets/1b346804e1364a5eb85ccb53302e3c91_0)
+
+<br>
+<br>
+
+# Importing the Data
+
+The following code imports the Syracuse, NY tax parcel data using a URL.
+
+```{r cache = TRUE}
+
+url <- paste0("https://raw.githubusercontent.com/DS4PS/Data",
+              "-Science-Class/master/DATA/syr_parcels.csv")
+
+dat <- read.csv(url, 
+                strings = FALSE)
+
+```
+
+<br>
+<br>
+
+# Previewing the Data
+
+There are several exploratory functions to better understand our new dataset.
+
+We can inspect the first 5 rows of these data using function `head()`.
+
+<br>
+
+```{r}
+
+head(dat, 5)              # Preview a dataset with 'head()'
+
+```
+
+<br>
+
+### Listing All Variables
+
+Functions `names()` or `colnames()` will print all variable names in a dataset.
+
+<br>
+
+```{r}
+
+names(dat)                # List all variables with 'names()'
+
+```
+
+<br>
+
+### Previewing Specific Variables
+
+We can also inspect the values of a variable by extracting it with `$`.
+
+The extracted variable is called a "vector".
+
+<br>
+
+```{r}
+
+head(dat$owner, 10)       # Preview a variable, or "vector"
+
+```
+
+<br>
+
+### Listing Unique Values
+
+Function `unique()` helps us determine what values exist in a variable.
+
+<br>
+
+```{r}
+
+unique(dat$land_use)      # Print all possible values with 'unique()'
+
+```
+
+<br>
+
+### Examining Data Structure
+
+Function `str()` provides an overview of total rows and columns (dimensions), 
+variable classes, and a preview of values.
+
+<br>
+
+```{r}
+
+str(object = dat,
+    vec.len = 2)          # Examine data structure with 'str()'
+
+```
+
+<br>
+<br>
+
+# Questions & Solutions
+
+**Instructions:** Provide the code for each solution in the following "chunks".
+
+*Remember to modify the text to show your answer in human-readable terms.*
+
+<br>
+
+## Question 1: Total Parcels
+
+**Question:** *How many tax parcels are in Syracuse, NY?* 
+
+**Answer:** There are **[X]** tax parcels in Syracuse, NY. 
+
+<br>
+
+```{r}
+
+# Use an exploratory function like 'dim()', 'nrow()', or 'str()'
+
+```
+
+<br>
+
+## Question 2: Total Acres
+
+**Question:** *How many acres of land are in Syracuse, NY?*
+
+**Answer:** There are **[X]** acres of land in Syracuse, NY.
+
+<br>
+
+```{r}
+
+# Pass a numeric variable to function 'sum()', with argument 'na.rm = TRUE'
+
+```
+
+<br>
+
+## Question 3: Vacant Buildings
+
+**Question:** *How many vacant buildings are there in Syracuse, NY?*
+
+**Answer:** There are **[X]** vacant buildings in Syracuse, NY.
+
+<br>
+
+```{r}
+
+# Pass a numeric variable to function 'sum()', with argument 'na.rm = TRUE'
+
+```
+
+
+## Question 4: Tax-Exempt Parcels
+
+**Question:** *What proportion of parcels are tax-exempt?*
+
+**Answer:** **[X]%** of parcels are tax-exempt.
+
+<br>
+
+```{r}
+
+# Pass a logical ('TRUE' or 'FALSE') variable to function 'mean()', with argument 'na.rm = TRUE'
+
+```
+
+<br>
+
+## Question 5: Neighborhoods & Parcels
+
+**Question:** *Which neighborhood contains the most tax parcels?*
+
+**Answer:** **[X]** contains the most tax parcels.
+
+<br>
+
+```{r}
+
+# Pass the appropriate variable to function 'table()'
+
+# Optional: Use additional functions to narrow your results
+
+```
+
+<br>
+
+## Question 6: Neighborhoods & Vacant Lots
+
+**Question:** *Which neighborhood contains the most vacant lots?*
+
+**Answer:** **[X]** contains the most vacant lots.
+
+<br>
+
+```{r}
+
+# Pass two variables to function 'table()', separated by a comma
+
+# (Optional) use additional functions to narrow your results
+
+```
+
+<br>
+<br>
+
+<center>------------<h4> **DELETE THIS LINE & ALL LINES BELOW BEFORE SUBMITTING** </h4>------------</center>
+
+<br>
+<br>
+
+## Recommended Functions
+
+You may use any of the following functions for this assignment.
+
+<br>
+
+```{r eval = FALSE}
+
+names(), colnames()     # Variable names
+
+head()                  # Preview data; defaults to 6 rows
+
+length()                # Count of total elements in vector
+
+dim(), nrow(), ncol()   # Dataset dimensions
+
+sum()                   # Sum numeric values or total 'TRUE' values
+
+mean()                  # Average numeric values or find proportions of 'TRUE' values
+
+summary()               # Summarize variables, whether numeric, logical, or character
+
+table()                 # Tally total occurrences of each unique value in a vector or variable
+
+```
+
+<br>
+<br>
+
+## Tips & Tricks
+
+The following tips and tricks are essential to understand in order to complete this assignment.
+
+<br>
+
+#### Extracting Variables
+
+Reference variables in R by using the **dataset name** and **variable name**, separated by the `$` operator.
+
+```{r eval = FALSE}
+
+summary(dat$acres)      # Extract variable 'acres' from dataset 'dat'
+
+```
+
+<br>
+
+#### Adding Up Values
+
+Use function `sum()` with a numeric vector to return the sum of all of its values. 
+
+```{r eval = TRUE}
+
+sum(c(10, 20, 5))       # Add up values 10, 20, and 5
+
+sum(dat$sqft)           # Add up variable 'sqft' from dataset 'dat'
+
+```
+
+<br>
+
+#### Adding Up True Values
+
+Function `sum()` with logical values, i.e. `TRUE` and `FALSE` values, will add up all instances of `TRUE`.
+
+```{r eval = TRUE}
+
+x <- c(TRUE, TRUE, 
+       FALSE, FALSE, 
+       FALSE, FALSE)    # Creating a vector of logical values: 'x'
+
+sum(x)                  # Determining the total 'TRUE' values
+
+```
+
+<br>
+
+#### Proportions of True Values
+
+Function `mean()` with logical values will provide the total proportion of `TRUE` values.
+
+```{r eval = TRUE}
+
+x <- c(TRUE, TRUE, 
+       FALSE, FALSE, 
+       FALSE, FALSE)    # Creating a vector of logical values: 'x'
+
+mean(x)                 # Determining the proportion of 'TRUE' values
+
+```
+
+<br>
+
+#### Sums & Proportions with Missing Values
+
+R wants you to know if `sum()`, `mean()` etc. include missing or `NA` values.  
+
+If a value is missing (`NA`), these functions will return `NA`.
+
+```{r eval = TRUE}
+
+y <- c(2, 3, NA, 5)     # Creating a vector with a missing ('NA') value: 'y'
+
+sum(y)                  # Attempting to add up the values in 'y'
+
+```
+
+<br>
+
+#### Allowing Calculations with Missing Values
+
+Use argument `na.rm = TRUE` to allow functions to ignore missing (`NA`) values.
+
+```{r eval = TRUE}
+
+y <- c(2, 3, NA, 5)     # Creating a vector with a missing ('NA') value: 'y'
+
+sum(y, na.rm = TRUE)    # Add up the values in 'y' while ignoring missing values
+
+```
+
+<br>
+<br>
+
+# How to Submit
+
+Use the following instructions to submit your assignment, which may vary depending on your course's platform.
+
+<br>
+
+### Knitting to HTML
+
+When you have completed your assignment, click the "Knit" button to render your `.RMD` file into a `.HTML` report.
+
+<br>
+
+### Special Instructions
+
+Perform the following depending on your course's platform:
+
+* **Canvas:** Upload both your `.RMD` and `.HTML` files to the appropriate link
+* **Blackboard or iCollege:** Compress your `.RMD` and `.HTML` files in a `.ZIP` file and upload to the appropriate link
+
+`.HTML` files are preferred but not allowed by all platforms.
+
+<br>
+
+### Before You Submit
+
+Remember to ensure the following before submitting your assignment.
+
+1. Name your files using this format: **Lab-##-LastName.rmd** and **Lab-##-LastName.html**
+2. Show both the solution for your code and write out your answers in the body text 
+3. Do not show excessive output; truncate your output, e.g. with function `head()`
+4. Follow appropriate styling conventions, e.g. spaces after commas, etc.
+5. Above all, ensure that your conventions are consistent
+
+See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for examples of common conventions.
+
+<br>
+<br>
+
+### Common Knitting Issues
+
+`.RMD` files are knit into `.HTML` and other formats procedural, or line-by-line.
+
+* An error in code when knitting will halt the process; error messages will tell you the specific line with the error
+* Certain functions like `install.packages()` or `setwd()` are bound to cause errors in knitting 
+* Altering a dataset or variable in one chunk will affect their use in all later chunks
+* If an object is "not found", make sure it was created or loaded with `library()` in a previous chunk
+
+**If All Else Fails:** If you cannot determine and fix the errors in a code chunk that's preventing you from knitting your document, add `eval = FALSE` inside the brackets of `{r}` at the beginning of a chunk to ensure that R does not attempt to evaluate it, that is: `{r eval = FALSE}`. This will prevent an erroneous chunk of code from halting the knitting process.  
+
+<br>
+<br>
+<br>

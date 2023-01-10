@@ -1,0 +1,625 @@
+---
+title: "Lab 02 - Identifying Groups"
+author: "Your Name"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    theme: cerulean
+    highlight: haddock
+---
+
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE, 
+                      fig.width = 10, 
+                      fig.height = 6)
+
+```
+
+<br>
+
+# Data
+
+The following report identifies specific tax parcels in Downtown Syracuse, New York (USA).
+
+View the dataset documentation here: [Syracuse, NY Tax Parcel Data](https://ds4ps.github.io/Data-Science-Class/DATA/syr_parcels.html).
+
+<br>
+
+## Required Packages
+
+The following packages are required for this report and loaded with `library()`.
+
+<br>
+
+```{r}
+
+library(sp)
+library(rgdal)
+library(geojsonio)                            # Load required libraries
+
+```
+
+<br>
+
+## Import Spatial Polygons
+
+We read in spatial polygons (`"sp"`) with function `geojson_read()` to map 
+tax parcel shapes in Syracuse's Downtown area.
+
+<br>
+
+```{r cache = TRUE}
+
+url <- paste0("https://raw.githubusercontent.com/DS4PS/Data",
+              "-Science-Class/master/DATA/downtown-syr.geojson")
+
+downtown <- geojson_read(url, what = "sp")    # Load parcel data
+
+plot(downtown,  
+     border = "gray60",
+     col = "gray80")                          # Visualize parcels
+
+```
+
+<br>
+<br>
+
+# Example Solutions
+
+The following examples demonstrate how to use conditions to identify specific parcels.
+
+<br>
+
+### Example: Tax Parcel Acres
+
+Parcels with more than one acre are determined with variable `acres` and condition `> 1`.
+
+* Each value in variable `acres` is tested as greater than one, or `> 1`
+* Values in `acres` greater than one become `TRUE`, otherwise `FALSE`
+* All `TRUE` and `FALSE` values are stored in object `these`
+
+<br>
+
+```{r}
+
+result <- downtown$acres > 1                  # Each value in 'acres' is tested
+
+```
+
+<br>
+
+All `TRUE` and `FALSE` values, for each parcel, are converted into colors. 
+
+<br>
+
+```{r}
+
+group.colors <- ifelse(test = result,         # 'test =' accepts TRUE or FALSE values
+                       yes = "firebrick",     # 'yes =' converts values that are TRUE
+                       no = "gray80")         # 'no =' converts values that are FALSE
+
+```
+
+<br>
+
+All tax parcels in `downtown` are mapped with `plot()`.  Each parcel has one of 
+two colors per the above code.
+
+<br>
+
+```{r}
+
+plot(downtown,                                # Plots object 'downtown'
+     border = NA,
+     col = group.colors)                      # Red when TRUE; gray when FALSE
+
+```
+
+<br>
+<br>
+
+### Example: Parcels with Single Families
+
+Use variable `landuse` to determine how a tax parcel is used.  Determine all 
+possible values with `unique()`. 
+
+<br>
+
+```{r}
+
+unique(downtown$landuse)                      # All unique values in 'landuse'
+
+```
+
+<br>
+
+One of the values in `landuse` is "Single Family".  Therefore, the test is 
+whether or not `landuse` is exactly equal to "Single Family".
+
+<br>
+
+```{r}
+
+result <- downtown$landuse == "Single Family" # Test if 'landuse' is "Single Family"
+
+group.colors <- ifelse(test = result,         # Provide TRUE or FALSE test results
+                       yes = "firebrick",     # If TRUE, make "firebrick"
+                       no = "gray80")         # If FALSE, make "gray80"
+
+plot(downtown,
+     border = NA, 
+     col = group.colors)                      # Plot with respective colors
+
+```
+
+<br>
+
+# Questions & Solutions
+
+The following questions ask you to map your results, write your answer, or both.
+The first question has been completed for you.
+
+<br>
+<br>
+
+## Question 1: Vacant Lots
+
+**Question:** *Where are the majority of vacant lots located in the* 
+*downtown? Map your results.*
+
+**Note:** *This solution has been provided for you.*
+
+<br>
+
+```{r}
+
+unique(downtown$landuse)                      # Print unique values in 'landuse'
+
+```
+
+<br>
+
+Now, we create our test statement, `== "Vacant Land"`, and store the results in `result`.
+
+<br>
+
+```{r}
+
+result <- downtown$landuse == "Vacant Land"
+
+group.colors <- ifelse(test = result, 
+                       yes = "firebrick", 
+                       no = "gray80")
+
+plot(downtown,
+     border = NA, 
+     col = group.colors)
+
+```
+
+<br>
+<br>
+
+## Question 2: Parking Lots
+
+**Question:** *How many parking lots are in downtown Syracuse? Map your results.*
+
+**Answer:** There are **[x]** parking lots in downtown Syracuse.
+
+<br>
+
+```{r}
+
+# Use function: 'sum()'
+# Use variable: 'landuse'
+
+# Assign test (logical) output to object 'result' by replacing 'FALSE'
+
+result <- FALSE
+
+group.colors <- ifelse(test = result, 
+                       yes = "firebrick", 
+                       no = "gray80")
+
+plot(downtown,
+     border = NA, 
+     col = group.colors)
+
+```
+
+<br>
+<br>
+
+## Question 3: New Construction
+
+**Question:** *Where is new construction located in the city?. Map your results.*
+
+**Note:** You may use `>=` (greater than or equal) or `>` (greater than) 1980.
+
+<br>
+
+```{r}
+
+# Use variable: 'yearbuilt'
+# Find the number of buildings constructed either after or during and after than 1980
+
+# Assign test (logical) output to object 'result' by replacing 'FALSE'
+
+result <- FALSE
+
+group.colors <- ifelse(test = result, 
+                       yes = "firebrick", 
+                       no = "gray80")
+
+plot(downtown,
+     border = NA, 
+     col = group.colors)
+
+```
+
+<br>
+<br>
+
+**Question:** *What proportion of commercial properties are built since 1980?*
+
+**Answer:** **[X]%** of commercial properties were built since 1980.
+
+<br>
+
+```{r}
+
+# Use variable: 'landuse'
+# Use variable: 'yearbuilt'
+# Count only commercial properties with buildings constructed during or later than 1980
+
+```
+
+<br>
+<br>
+
+## Question 4: Parcels Valued Over $10M
+
+**Question:** *How many parcels have assessed values over $10 million? Map your results.*
+
+**Answer:** **[X]** parcels have assessed values over $10 M.
+
+<br>
+
+```{r}
+
+# Use function: 'sum()'
+# Use variable: 'assessedval'
+
+# Assign test (logical) output to object 'result' by replacing 'FALSE'
+
+result <- FALSE
+
+group.colors <- ifelse(test = result, 
+                       yes = "firebrick", 
+                       no = "gray80")
+
+plot(downtown,
+     border = NA, 
+     col = group.colors)
+
+```
+
+<br>
+<br>
+
+## Question 5: Total Tax Delinquent Parcels
+
+**Question:** *How many properties are delinquent on taxes? Map your results.*
+
+**Answer:** **[X]** properties are delinquent on taxes.
+
+<br>
+
+```{r}
+
+# Use function: 'sum()'
+# Use variable: 'amtdelinqt'
+
+# Assign test (logical) output to object 'result' by replacing 'FALSE'
+
+result <- FALSE
+
+group.colors <- ifelse(test = result, 
+                       yes = "firebrick", 
+                       no = "gray80")
+
+plot(downtown,
+     border = NA, 
+     col = group.colors)
+
+```
+
+<br>
+<br>
+
+## Question 6: Tax Delinquent Parcels
+
+**Question:** *What proportion of parcels have delinquent tax payments owed?*
+
+**Answer:** **[X%]** of parcels have delinquent tax payments owed.
+
+<br>
+
+```{r}
+
+# Use function: 'mean()'
+# Use variable: 'amtdelinqt'
+
+```
+
+<br>
+<br>
+
+## Question 7: Tax Delinquent Commercial Properties
+
+**Question I:** *What proportion of commercial properties are delinquent on taxes?*
+
+**Question II:** *What proportion of delinquent tax bills are owed by commercial parcels?*
+
+<br>
+
+**Answer I:** **[X]%** of commercial properties are delinquent on taxes. 
+
+**Answer II:** **[X]%** of delinquent tax dollars are owed by commercial parcels.
+
+<br>
+
+```{r}
+
+# Use function: 'mean()'
+# Use variable: 'amtdelinqt'
+# Use variable: 'landuse'
+
+# The first answer is tax-delinquent commercial properties over all commercial properties
+# The second answer is the tax dollars owed by commercial properties (a subset) over all tax dollars owed
+
+```
+
+<br>
+<br>
+
+## Question 8: Tax Delinquent Parcels by Land Use
+
+**Question:** *How many of each land use type are delinquent on taxes? Print a table of your results.*
+
+<br>
+
+```{r}
+
+# Use function: 'table()'
+# Use variable: 'amtdelinqt'
+# Use variable: 'landuse'
+
+```
+
+<br>
+<br>
+
+<center>------------<h4> **DELETE THIS LINE & ALL LINES BELOW IF NOT ATTEPTING CHALLENGES** </h4>------------</center>
+
+<br>
+<br>
+
+## Challenge I: Parcels Values Over $1M
+
+**Instructions:** *Map all of the land valued at over $1 million per acre.*
+
+<br>
+
+```{r}
+
+# Replace 'FALSE' with your conditional statement
+
+result <- FALSE
+
+group.colors <- ifelse(test = result, 
+                       yes = "firebrick", 
+                       no = "gray80")
+
+plot(downtown,
+     border = NA, 
+     col = group.colors)
+
+```
+
+<br>
+<br>
+
+## Challenge II: Parcels Valued Less Than $500K
+
+**Instructions:** *Map all of the land valued at less than $500,000 per acre.*
+
+<br>
+
+```{r}
+
+# Replace 'FALSE' with your conditional statement
+
+result <- FALSE
+
+group.colors <- ifelse(test = result, 
+                       yes = "firebrick", 
+                       no = "gray80")
+
+plot(downtown,
+     border = NA, 
+     col = group.colors)
+
+```
+
+<br>
+<br>
+
+## Challenge III: Total Commercial Value
+
+**Instructions:** *What is the total value of all of the commercial parcels in Downtown?*
+
+**Answer:** The total value of all commercial parcels is **[$X]**.
+
+<br>
+
+```{r}
+
+# Your code here
+
+```
+
+<br>
+<br>
+
+## Challenge IV: Total Non-Commercial Value
+
+**Question:** *What is the total value of all of the non-commercial parcels in Downtown?*
+
+**Answer:** The total value of all non-commercial parcels is **[$X]**.
+
+<br>
+
+```{r}
+
+# Your code here
+
+```
+
+<br>
+<br>
+
+<center>------------<h4> **DELETE THIS LINE & ALL LINES BELOW BEFORE SUBMITTING** </h4>------------</center>
+
+<br>
+<br>
+
+# Tips & Tricks
+
+Consider the following tips for completing this assignment.
+
+<br>
+
+### Creating Logical Values
+
+Recall that logical values are `TRUE` and `FALSE`. To produce logical values, we test vaues against a condition, e.g. "greater than".
+
+<br>
+
+```{r}
+
+x <- c(10, 20, 30, 40, 50)    # Creating a vector of values
+
+x > 25                        # Testing each value as greater than 25
+
+```
+
+<br>
+
+### Logical Values as Numeric Values
+
+Recall that logical values are `TRUE` and `FALSE`, representing `1` and `0`, respectively.
+
+<br>
+
+```{r}
+
+as.numeric(TRUE)              # Changing class to "numeric"
+as.numeric(FALSE)             # Changing class to "numeric"
+
+```
+
+<br>
+
+### Logical Values & Arithmetic
+
+Because `TRUE` and `FALSE` are actually numeric, we can use `sum()` for total `TRUE` values, e.g.
+
+<br>
+
+```{r}
+
+y <- c(TRUE, TRUE, 
+       FALSE, TRUE, 
+       FALSE, TRUE)           # Creating a vector of TRUE and FALSE
+
+sum(y)                        # Finding total TRUE values
+
+mean(y)                       # Finding proportion of TRUE values
+
+```
+
+<br>
+
+### Logicals for Subsetting
+
+A subset is a smaller collection of observations (rows) from a larger dataset. 
+Create a subset by placing a logical vector in lieu of row positions.
+
+```{r}
+
+index <- downtown$landuse == "Industrial"   # Test if 'landuse' equals "Industrial"
+
+z <- downtown[index, ]                      # Extract only "Industrial" parcels
+
+```
+
+<br>
+<br>
+
+# How to Submit
+
+Use the following instructions to submit your assignment, which may vary depending on your course's platform.
+
+<br>
+
+### Knitting to HTML
+
+When you have completed your assignment, click the "Knit" button to render your `.RMD` file into a `.HTML` report.
+
+<br>
+
+### Special Instructions
+
+Perform the following depending on your course's platform:
+
+* **Canvas:** Upload both your `.RMD` and `.HTML` files to the appropriate link
+* **Blackboard or iCollege:** Compress your `.RMD` and `.HTML` files in a `.ZIP` file and upload to the appropriate link
+
+`.HTML` files are preferred but not allowed by all platforms.
+
+<br>
+
+### Before You Submit
+
+Remember to ensure the following before submitting your assignment.
+
+1. Name your files using this format: **Lab-##-LastName.rmd** and **Lab-##-LastName.html**
+2. Show both the solution for your code and write out your answers in the body text 
+3. Do not show excessive output; truncate your output, e.g. with function `head()`
+4. Follow appropriate styling conventions, e.g. spaces after commas, etc.
+5. Above all, ensure that your conventions are consistent
+
+See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for examples of common conventions.
+
+<br>
+<br>
+
+### Common Knitting Issues
+
+`.RMD` files are knit into `.HTML` and other formats procedural, or line-by-line.
+
+* An error in code when knitting will halt the process; error messages will tell you the specific line with the error
+* Certain functions like `install.packages()` or `setwd()` are bound to cause errors in knitting 
+* Altering a dataset or variable in one chunk will affect their use in all later chunks
+* If an object is "not found", make sure it was created or loaded with `library()` in a previous chunk
+
+**If All Else Fails:** If you cannot determine and fix the errors in a code chunk that's preventing you from knitting your document, add `eval = FALSE` inside the brackets of `{r}` at the beginning of a chunk to ensure that R does not attempt to evaluate it, that is: `{r eval = FALSE}`. This will prevent an erroneous chunk of code from halting the knitting process.  
+
+<br>
+<br>
+<br>

@@ -1,0 +1,357 @@
+---
+title: "Widget Demo"
+author: "Jesse Lecy"
+runtime: shiny
+output: html_document
+---
+
+
+
+## Setup
+
+Note that to use Shiny widgets as part of your document, you need to create a new R Markdown document, then select Shiny as the template.
+
+
+# My Investment Portfolio
+
+Track the financial performance of five stocks over 1,000 weeks:
+
+```{r}
+
+# data setup
+
+org1 <- cumsum( rnorm(1000) )
+org2 <- cumsum( rnorm(1000) )
+org3 <- cumsum( rnorm(1000) )
+org4 <- cumsum( rnorm(1000) )
+org5 <- cumsum( rnorm(1000) )
+
+dat <- data.frame( A=org1, B=org2, C=org3, D=org4, E=org5 )
+
+ymax <- max( dat )
+ymin <- min( dat )
+
+
+# create an empty plot with the correct dimensions
+plot.new()
+plot.window( xlim=c(0,1050), ylim=c(ymin,ymax) )
+
+points( dat$A, type="l", col="gray70" )
+points( dat$B, type="l", col="gray70" )
+points( dat$C, type="l", col="gray70" )
+points( dat$D, type="l", col="gray70" )
+points( dat$E, type="l", col="gray70" )
+
+axis( side=1, cex.axis=0.7, col="gray", col.axis="gray70" )
+
+title( main="Return on Investment", col.main="gray", cex=1.5 )
+
+text( 1000, dat$A[1000], "A", pos=4, col="gray" )
+text( 1000, dat$B[1000], "B", pos=4, col="gray" )
+text( 1000, dat$C[1000], "C", pos=4, col="gray" )
+text( 1000, dat$D[1000], "D", pos=4, col="gray" )
+text( 1000, dat$E[1000], "E", pos=4, col="gray" )
+
+
+```
+
+
+# Highlight One Stock
+
+```{r}
+
+plot.new()
+plot.window( xlim=c(0,1050), ylim=c(ymin,ymax) )
+
+points( dat$A, type="l", col="gray70" )
+points( dat$B, type="l", col="gray70" )
+points( dat$C, type="l", col="gray70" )
+points( dat$D, type="l", col="gray70" )
+points( dat$E, type="l", col="gray70" )
+
+axis( side=1, cex.axis=0.7, col="gray", col.axis="gray70" )
+
+title( main="Return on Investment", col.main="gray", cex=1.5 )
+
+text( 1000, dat$A[1000], "A", pos=4, col="gray" )
+text( 1000, dat$B[1000], "B", pos=4, col="gray" )
+text( 1000, dat$C[1000], "C", pos=4, col="gray" )
+text( 1000, dat$D[1000], "D", pos=4, col="gray" )
+text( 1000, dat$E[1000], "E", pos=4, col="gray" )
+
+
+# highlight one organization
+
+this.one <- "E"
+
+points( dat[,this.one], type="l", col="darkred" )
+text( 1000, dat[1000,this.one], label=this.one, pos=4, col="darkred" )
+
+```
+
+
+
+# Intro to Shiny Widgets
+
+Shiny apps have two parts: a user interface (page layouts and input functions), and a set of rendering functions that translate R graphics into HTML and javascript elements to create interactive web pages.
+
+* `inputPanel` or `sidebarPanel` creates a panel for the widgets
+* `input` functions allow users to specify inputs
+* `renderPlot` converts to HTML / javascript
+
+When using Shiny, a global object called "input" will be created, and it stores the input values the user defines in slots created through the `inputId` arguments. For example, below we use "animal" for the `inputID`, so the input values are referenced at `input$animal`.
+
+
+```{r}
+
+selectInput( 
+             inputId='animal', 
+             label='Select Animal', 
+             choices=c("cat","dog","rat"),
+             selected="dog"
+           )
+    
+
+
+renderPlot({
+
+    plot.new()
+    plot.window( xlim=c(0,10), ylim=c(0,10) )
+    box()
+    
+    text( 5, 5, label=input$animal, cex=4 )  # global object "input"
+    
+    title( main="My Favorite Animal Is A:", line=-2 )
+
+})
+
+```
+
+ 
+Add a panel for the widget.
+
+```{r}
+
+inputPanel(
+ 
+     selectInput( inputId='animal.02', 
+                  label='Select Animal', 
+                  choices=c("cat","dog","rat"),
+                  selected="dog"
+                ),
+     
+     selectInput( inputId='color', 
+                  label='Select Color', 
+                  choices=c("steelblue","darkred","orange"),
+                  selected="orange"
+                ),
+
+     selectInput( inputId='size', 
+                  label='Select Size', 
+                  choices=c(1,2,3,4,5,6,7,8,9),
+                  selected=4
+                )  
+     
+) # end inputPanel
+
+
+
+renderPlot({
+
+    plot.new()
+    plot.window( xlim=c(0,10), ylim=c(0,10) )
+    box()
+    
+    # global object "input" stores all values in slots using their inputId's above
+    # inputId='animal.02'
+    # inputId='color'
+    # inputId='size'
+    text( 5, 5, label=input$animal.02, cex=as.numeric(input$size), col=input$color )  
+    
+    title( main="My Favorite Animal Is A:", line=-2 )
+
+})
+
+```
+  
+
+# Hide the Code
+
+Use the argument `echo=F` in your chunk header to hide the code when you render the widget in a markdown document.  
+
+```{r, echo=F}
+
+
+ 
+selectInput( 
+             inputId='animal2', 
+             label='Select Animal', 
+             choices=c("cat","dog","rat"),
+             selected="dog"
+           )
+    
+
+
+
+
+renderPlot({
+
+    plot.new()
+    plot.window( xlim=c(0,10), ylim=c(0,10) )
+    box()
+    
+    text( 5, 5, label=input$animal2, cex=4 )
+    
+    title( main="My Favorite Animal Is A:", line=-2 )
+
+})
+
+```
+     
+
+ 
+ 
+
+ 
+   
+# Generalize the Input 
+ 
+Instead of writing a list of options manually, we can use R functions to generate an input list for us:
+
+* For character vectors:  `unique( var )`
+* For factors: `levels( fac )`
+* For column of a data frame: `names( dat )`
+
+```{r}
+
+
+sidebarPanel(
+ 
+     selectInput( inputId='org', 
+                  label='Select Organization', 
+                  choices=names(dat),
+                  selected="A"
+                )
+    
+) # end sidebarPanel
+
+
+
+renderPlot({
+
+    plot.new()
+    plot.window( xlim=c(0,10), ylim=c(0,10) )
+    box()
+    
+    text( 5, 5, label=input$org, cex=4 )  # global object "input"
+    
+    title( main="My Selected Org Is:", line=-2 )
+
+})
+
+```
+
+ 
+ 
+ 
+
+# Investment Tracker
+
+Now put it all together.
+
+```{r, eval=F}
+
+selectInput( inputId='org2', 
+            label='Select Organization', 
+            choices=names(dat),
+            selected="A"
+          )
+    
+
+renderPlot({
+  
+  
+    plot.new()
+    plot.window( xlim=c(0,1050), ylim=c(ymin,ymax) )
+    
+    points( dat$A, type="l", col="gray70" )
+    points( dat$B, type="l", col="gray70" )
+    points( dat$C, type="l", col="gray70" )
+    points( dat$D, type="l", col="gray70" )
+    points( dat$E, type="l", col="gray70" )
+    
+    axis( side=1, cex.axis=0.7, col="gray", col.axis="gray70" )
+    
+    title( main="Return on Investment", col.main="gray", cex=1.5 )
+    
+    text( 1000, dat$A[1000], "A", pos=4, col="gray" )
+    text( 1000, dat$B[1000], "B", pos=4, col="gray" )
+    text( 1000, dat$C[1000], "C", pos=4, col="gray" )
+    text( 1000, dat$D[1000], "D", pos=4, col="gray" )
+    text( 1000, dat$E[1000], "E", pos=4, col="gray" )
+
+
+    # highlight one organization
+    
+    points( dat[,input$org2], type="l", col="darkred" )
+    text( 1000, dat[1000,input$org2], label=input$org2, 
+          pos=4, col="darkred" )
+    text( 50, ymax-5, 
+          paste("Return on Investment for Stock",input$org2), 
+          col="darkred", pos=4 )
+
+
+})
+
+
+```
+
+
+
+```{r, echo=F}
+
+ 
+selectInput( inputId='org2', 
+            label='Select Stock', 
+            choices=names(dat),
+            selected="A"
+          )
+
+
+
+
+
+renderPlot({
+  
+  
+    plot.new()
+    plot.window( xlim=c(0,1050), ylim=c(ymin,ymax) )
+    
+    points( dat$A, type="l", col="gray70" )
+    points( dat$B, type="l", col="gray70" )
+    points( dat$C, type="l", col="gray70" )
+    points( dat$D, type="l", col="gray70" )
+    points( dat$E, type="l", col="gray70" )
+    
+    axis( side=1, cex.axis=0.7, col="gray", col.axis="gray70" )
+    
+    title( main="Historical Financial Performance", col.main="gray", cex=2 )
+    
+    text( 1000, dat$A[1000], "A", pos=4, col="gray" )
+    text( 1000, dat$B[1000], "B", pos=4, col="gray" )
+    text( 1000, dat$C[1000], "C", pos=4, col="gray" )
+    text( 1000, dat$D[1000], "D", pos=4, col="gray" )
+    text( 1000, dat$E[1000], "E", pos=4, col="gray" )
+
+
+    # highlight one organization
+    
+    points( dat[,input$org2], type="l", col="darkred" )
+    text( 1000, dat[1000,input$org2], label=input$org2, pos=4, col="darkred" )
+    text( 50, ymax-5, paste("Return on Investment for Stock",input$org2), col="darkred", pos=4 )
+
+
+})
+
+
+```

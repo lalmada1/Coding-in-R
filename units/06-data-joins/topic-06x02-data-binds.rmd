@@ -1,0 +1,217 @@
+---
+title: "Binding"
+author: "Data Science for Public Service"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    theme: flatly
+    highlight: haddock
+    toc: yes
+    toc_float: yes
+---
+
+```{r include = FALSE}
+
+setwd("~/DS4PS/New Textbook Sections")
+
+knitr::opts_chunk$set(echo = FALSE)
+
+library(scales)
+library(plotly)
+library(pander)
+library(tidyverse)
+
+```
+
+<br>
+
+# Defining Binds
+
+Binding is a manner of combining two `data.frame` objects by simply pushing them 
+together. 
+
+Suppose we have the following two data frames:
+
+```{r}
+
+abc <- data.frame(Letters = c("A", "B", "C"),
+                  Numbers = c(1, 2, 3))
+
+def <- data.frame(Letters = c("D", "E", "F"),
+                  Numbers = c(4, 5, 6))
+```
+
+<br>
+
+```{r}
+
+abc %>% pander()
+
+```
+
+<br>
+
+```{r}
+
+def %>% pander()
+
+```
+
+<br>
+<br>
+
+## Row Binds
+
+If we were to **bind** these data frames by their **rows**, we would stack the 
+three rows on top of the other three rows like bricks!
+
+<br>
+
+```{r}
+
+bind_rows(abc, def) %>% 
+  pander()
+
+```
+
+<br>
+<br>
+
+## Column Binds
+
+Alternatively, we may **bind** a  variable by the **columns** of a data frame,
+placing them side-by-side with existing columns. 
+
+<br>
+
+```{r}
+
+nato <- tibble(NATO = c("Alpha", 
+                        "Bravo", 
+                        "Charlie", 
+                        "Delta", 
+                        "Echo", 
+                        "Foxtrot"))
+
+bind_rows(abc, def) %>% 
+  bind_cols(nato) %>% 
+  pander()
+
+```
+
+<br>
+<br>
+
+# Binding Functions
+
+Binding functions are few and far between. 
+
+Base R functions `rbind()` and `cbind()` are for row binds and column binds, 
+respectively.  
+
+Package `dplyr` functions `bind_rows()` and `bind_cols()` are their Tidyverse 
+counterparts. 
+
+<br>
+<br>
+
+## Use Requirements
+
+You need only pass two or more `data.frame` objects as arguments to any of the 
+above functions, with `function(data_frame_1, data_frame_2)` syntax. 
+
+Remember to choose the right function by looking at your data and whether you 
+are binding by rows or columns. 
+
+Most importantly, the two `data.frame` objects you are binding must have:
+
+1. Matching or coercible variable classes when joining by rows
+2. Matching number of rows if binding by row, and columns if by column
+
+<br>
+<br>
+
+## Examples
+
+Recall the above `data.frame` objects represented, respectively, by objects 
+`abc` and `def`:
+
+<br>
+
+```{r}
+
+abc %>% pander()
+
+```
+
+<br>
+
+```{r}
+
+def %>% pander()
+
+```
+
+<br>
+
+We can **bind** these data frames by **row** using `rbind()`.
+
+<br>
+
+```{r echo = TRUE, eval = FALSE}
+
+rbind(abc, 
+      def)
+
+```
+
+```{r echo = FALSE}
+
+rbind(abc, 
+      def) %>% 
+  pander()
+
+```
+
+<br>
+
+Similarly, we can use `dplyr` function `bind_rows()`.
+
+<br>
+
+```{r echo = TRUE, eval = FALSE}
+
+library(dplyr)
+
+bind_rows(abc, 
+          def)
+
+```
+
+```{r echo = FALSE}
+
+bind_rows(abc, 
+          def) %>% 
+  pander()
+
+```
+
+<br>
+<br>
+
+# Further Resources
+
+Visit documentation for Base R binding functions here:
+
+* Function `r`bind()` Documentation (**[RDocumentation](https://www.rdocumentation.org/packages/R6Frame/versions/0.1.0/topics/rbind)**)
+* Function `cbind()` Documentation (**[RDocumentation](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/cbind)**)
+
+<br>
+
+Visit documentation for package `dplyr` binding functions here:
+
+* Function `bind_rows()` & `bind_cols()` Documentation (**[Tidyverse.org](https://dplyr.tidyverse.org/reference/bind.html)**)
+
+<br>
+<br>

@@ -1,0 +1,176 @@
+---
+title: "Final Project: Practice Tab"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: spacelab
+    source: embed
+    smart: false
+runtime: shiny
+---
+
+```{r include = FALSE}
+
+# LOAD PACKAGES
+
+library(DT)
+library(ggmap)
+library(shiny)
+library(knitr)
+library(pander)
+library(leaflet)
+library(viridis)
+library(rsconnect)
+library(tidyverse)
+library(flexdashboard)
+
+
+
+# READ IN DATA
+
+url <- paste0("https://github.com/DS4PS/Data-",
+              "Science-Class/blob/master/DATA",
+              "/TempeTrafficAccidents.rds?raw=true")
+
+dat <- readRDS(gzcon(url(url)))
+
+
+
+# DATA PREPROCESSING I: INJURIES & FATALITIES
+
+dat        <- na.omit(dat)                                       # Remove NAs
+dat$fatal  <- dat$Totalfatalities > 0                            # 1+ fatalities
+dat$inj    <- dat$Totalinjuries > 0 & dat$Totalfatalities == 0   # 1+ injury, 0 fatal
+dat$nohurt <- dat$Totalfatalities + dat$Totalinjuries == 0       # Harmless
+
+date.vec   <- strptime(dat$DateTime, format = "%m/%d/%y %H:%M")  # Datetime variables
+dat$hour   <- format(date.vec, format = "%H") %>% as.numeric()
+dat$month  <- format(date.vec, format = "%b")
+dat$day    <- format(date.vec, format = "%a")
+dat$day365 <- format(date.vec, format = "%j")
+dat$week   <- format(date.vec, format = "%V")
+
+
+
+# DATA PREPROCESSING II: NAMED INTERVALS OF TIME
+
+dat <- dat %>% 
+  mutate(time.of.day = case_when(hour >= 6 & hour <= 9 ~ "Morning Commute", 
+                                 hour >= 16 & hour <= 19 ~ "Evening Commute", 
+                                 hour >= 14 & hour <= 15 ~ "School Pickup", 
+                                 hour >= 9 & hour <= 13 ~ "Work", 
+                                 hour >= 20 & hour <= 23 ~ "Night", 
+                                 hour <= 5 & hour >= 0 ~ "Midnight to Dawn"))
+
+dat$harm <- ifelse( dat$Totalinjuries > 0 | dat$Totalfatalities > 0, "Harm", "No Harm" )
+
+
+
+# DATA PREPROCESSING III: PERMUTATIONS OF INEBRIATION
+
+dat <- dat %>% 
+  mutate(d1.substance = case_when(AlcoholUse_Drv1 == "Alcohol" & 
+                                  DrugUse_Drv1 == "No Apparent Influence" ~ "Alcohol", 
+                                  AlcoholUse_Drv1 == "No Apparent Influence" & 
+                                  DrugUse_Drv1 == "Drugs" ~ "Drugs", 
+                                  AlcoholUse_Drv1 == "Alcohol" & 
+                                  DrugUse_Drv1 == "Drugs" ~ "Alcohol and Drugs", 
+                                  AlcoholUse_Drv1 == "No Apparent Influence" & 
+                                  DrugUse_Drv1 == "No Apparent Influence" ~ "No Apparent
+                                  Influence"))
+
+dat <- dat %>% 
+  mutate( d2.substance = case_when(AlcoholUse_Drv2 == "Alcohol" & 
+                                   DrugUse_Drv2 == "No Apparent Influence" ~ "Alcohol", 
+                                   AlcoholUse_Drv2 == "No Apparent Influence" & 
+                                   DrugUse_Drv2 == "Drugs" ~ "Drugs", 
+                                   AlcoholUse_Drv2 == "Alcohol" & 
+                                   DrugUse_Drv2 == "Drugs" ~ "Alcohol and Drugs", 
+                                   AlcoholUse_Drv2 == "No Apparent Influence" & 
+                                   DrugUse_Drv2 == "No Apparent Influence" ~ "No Apparent
+                                   Influence"))
+
+
+
+# DATA PREPROCESSING IV: AGE CATEGORIES
+
+dat$age.cat <- case_when(dat$Age_Drv1 >= 0 & 
+                         dat$Age_Drv1 <= 18 ~ "Youth", 
+                         dat$Age_Drv1 >= 19 & 
+                         dat$Age_Drv1 <= 25 ~ "Young Adult", 
+                         dat$Age_Drv1 >= 26 & 
+                         dat$Age_Drv1 <= 64 ~ "Adult", 
+                         dat$Age_Drv1 >= 65 ~ "Senior")
+```
+
+Traffic Accidents By Day and Time
+=====================================  
+
+Inputs {.sidebar}
+-------------------------------------
+
+```{r}
+
+# dat$Traveldirection_One
+
+shiny::selectInput(inputId = "direction", 
+                   label = h3("Driver 1 Direction:"), 
+                   choices = c("North", "South", "East", "West"),
+                   selected = "North")
+
+sliderInput(inputId = "hour", 
+            label = h3("Time of Day"), 
+            min = 0, 
+            max = 23, 
+            value = c(6, 12))
+
+```
+
+Outputs
+-------------------------------------
+
+### Traffic Accidents By Day and Time
+
+```{r}
+
+# LEAFLET MAPPING
+
+renderLeaflet({
+  
+  driver.dir <- input$direction  # Vector of checked days
+  start.time <- input$hour[1]    # Slider input of lower time range
+  end.time  <-  input$hour[2]    # Slider input of upper time range
+  
+  d2 <- dat %>%
+    filter(Traveldirection_One == driver.dir, 
+           hour >= start.time & hour <= end.time)
+  
+  d2$col.vec <- ifelse( d2$nohurt, "gray20", 
+                        ifelse(d2$inj, "steelblue", "darkorange") ) 
+  
+  point.size <- d2$Totalinjuries + d2$Totalfatalities
+
+  crash.details <- paste0("Time: ", d2$DateTime, "<br>",
+                          "Total Fatalities: ", d2$Totalfatalities, "<br>",
+                          "Total Injuries: ", d2$Totalinjuries, "<br>",
+                          "Collision type: ", d2$Collisionmanner)
+  
+  tempe <- leaflet( ) %>% 
+    addProviderTiles("CartoDB.Positron") %>%
+    setView(lng = -111.9278, 
+            lat = 33.39951, 
+            zoom = 13)
+  
+  
+  addCircles(tempe, 
+             lng = d2$Longitude, 
+             lat = d2$Latitude,
+             fillColor = d2$col.vec, 
+             fillOpacity = 0.5, 
+             stroke = FALSE, 
+             radius = 50*(1+0.33*point.size),
+             popup = crash.details)
+
+
+})
+
+```   

@@ -1,0 +1,175 @@
+---
+output:
+  html_document:
+    theme: readable
+    highlight: tango
+    css: '../html/lecture-notes.css'
+---
+  
+```{r include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(scales)
+library(plotly)
+library(tidyverse)
+```
+
+# Data Frames
+
+**Data frames** are tabular data objects in R, meaning that they are comprised 
+of rows and columns. Unlike **matrices**, **data frames** can have variables of 
+different classes, such as numeric, character, logical, and datetime. 
+
+Odds are, you've already seen and worked with several in R. Classic practice
+data frames include `mtcars` and `iris`. Let's print one the old-fashioned way.
+
+<br>
+
+```{r}
+
+mtcars %>% 
+  head() %>% 
+  print()
+
+```
+
+<br>
+<br>
+
+## Class 'data.frame'
+
+Using function `class()` on a **data frame** object reveals class `data.frame`.
+
+<br>
+
+```{r}
+
+class(mtcars)
+
+```
+
+<br>
+
+You can recast other tabular objects, like **matrices**, into class `data.frame`
+using `as.data.frame()` or `dplyr::as_tibble()`.
+
+<br>
+
+```{r}
+
+class(volcano)
+
+volcano_df <- as.data.frame(volcano)
+
+class(volcano_df)
+
+```
+
+<br>
+
+Note that some objects may be of multiple classes, one of which may often be of
+class `data.frame`:
+
+<br>
+
+```{r}
+
+mtcars_df <- dplyr::as_tibble(mtcars)
+
+class(mtcars_df)
+
+```
+
+<br>
+<br>
+
+## Anatomy
+
+Each **data frame** is composed of one or more **vectors** of equal length. 
+Recall that the following is a vector of length 5 (it has 5 elements):
+
+<br>
+
+```{r}
+
+lyrics <- c("Linden", "Arden", "stole", "the", "highlights.")
+
+```
+
+<br>
+
+We can create another vector of numbers for the order of `lyrics`:
+
+<br>
+
+```{r}
+
+order <- 1:5
+
+```
+
+<br>
+
+With function `data.frame()`, we can combine the above vectors to create a
+tabular data object of class `data.frame`. 
+
+<br>
+
+```{r}
+
+created_df <- data.frame(order, 
+                         lyrics)
+
+class(created_df) 
+
+print(created_df)
+
+```
+
+<br>
+
+You can even create a custom **data frame** entirely from scratch, like 
+these top five artists using **[data from The Pudding on lyrical diversity](https://pudding.cool/projects/vocabulary/index.html)**:
+
+<br>
+
+```{r}
+
+most_diverse_lyrics <- data.frame(artists = c("Aesop Rock", 
+                                              "Busdriver", 
+                                              "Jedi Mind Tricks",
+                                              "GZA",
+                                              "Wu-Tang Clan"),
+                                  words = c(7879,
+                                            7324,
+                                            6424,
+                                            6390,
+                                            6196))
+
+print(most_diverse_lyrics)
+
+```
+
+<br>
+<br>
+
+## Extraction & Reassembly
+
+We may dismantle a **data frame** by its constituent vectors using the 
+**extraction operator** or `$`. This is the most straightforward and common 
+approach to extracting a variable from a **data frame**.
+
+```{r}
+
+artists_extr <- most_diverse_lyrics$artists     # Extract 'artists'
+
+words_extr <- most_diverse_lyrics$words         # Extract 'words'
+
+df_extr <- data.frame(artists = artists_extr,
+                      words = words_extr)       # Recreate data frame, rename
+
+most_diverse_lyrics == df_extr                  # Are the data frames equal?
+
+```
+
+<br>
+<br>

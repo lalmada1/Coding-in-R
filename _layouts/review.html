@@ -1,0 +1,72 @@
+---
+layout: default
+---
+
+
+<div class = "uk-container uk-container-small">
+
+{{content}}
+
+
+
+
+{% for item in page.session %}
+
+<h2> Session {% increment sessioncount | plus:1 %} - {{ item.date }} </h2>
+  
+<p align="center">
+
+  {% if item.video %}
+  <a href="{{ item.video }}" target="_blank">
+  <img width="300" src="https://raw.githubusercontent.com/DS4PS/cpp-527-spr-2021/master/assets/img/play-video-icon2.png">
+  </a>
+  <br> Passcode: <b> {{item.password}} </b>
+  {% endif %}
+  
+  <br>
+  <br>
+  
+  {% if item.sample-code %}
+  <a class="uk-button uk-button-default" href="{{ page.root-url }}{{ item.sample-code }}" target="_blank">SAMPLE CODE</a>
+  {% endif %}
+  
+  <br>
+
+  {% if item.session-code %}
+  <a class="uk-button uk-button-default" href="{{ page.root-url }}{{ item.session-code }}" target="_blank">SESSION CODE</a>
+  {% endif %}
+  
+</p>
+
+
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+{% endfor %}
+
+
+<br>
+<br>
+<br>
+<br>
+    
+    
+</div>
+
+
+<style>
+.zoom {
+  background-color: #008CBA; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+}
+</style>

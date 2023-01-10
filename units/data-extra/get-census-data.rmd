@@ -1,0 +1,190 @@
+---
+title: "Prepare Population Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+censuskey <- "b431c35dad89e2863681311677d12581e8f24c24"
+# devtools::install_github("hrecht/censusapi")
+library( censusapi )
+library( dplyr )
+```
+
+
+
+
+
+# ACS PROFILE
+
+```{r, eval=F}
+### CREATE ACS DATA PROFILES DATASET (1000 common vars)
+
+vars2015 <- listCensusMetadata( name="acs5/profile", vintage=2015, "v" )
+
+these <- c("SELECTED SOCIAL CHARACTERISTICS IN THE UNITED STATES",
+           "SELECTED ECONOMIC CHARACTERISTICS",
+           "SELECTED HOUSING CHARACTERISTICS",
+           "ACS DEMOGRAPHIC AND HOUSING ESTIMATES")
+
+dp.vars <- vars2015[ vars2015$concept %in% these , ]
+
+dp.vars <- dp.vars[ grep("E$", dp.vars$name, value=FALSE ) , c("name","label") ]
+
+# View( dp.vars )
+
+# Data Dictionary File:
+# write.csv( dp.vars, "DataProfileDataDictionary.csv", row.names=F 
+```
+
+
+```{r, eval=F}
+
+library( dplyr )
+
+# 5 year ACS, 2014 - all counties within the US
+
+dat.2010 <- getCensus( name="acs5/profile", 
+                        vintage=2014, 
+                        key=censuskey, 
+                        vars=c("DP05_0001E"), 
+                        region="county:*")
+
+dat.2010$FIPS <- paste0( dat.2010$state, dat.2010$county )
+
+head( dat.2010 )
+
+dat.2010 <- rename( dat.2010, poverty = DP05_0001E )
+
+```
+
+
+# Data 2000
+
+```{r, eval=F}
+vars <- listCensusMetadata( name="sf1", vintage=2000, "v" )
+```
+
+
+```{r}
+dat.2000 <- getCensus( name="sf1", 
+                        vintage=2000, 
+                        key=censuskey, 
+                        vars=c("P001001"), 
+                        region="county:*")
+
+dat.2000$fips <- paste0( dat.2000$state, dat.2000$county )
+
+dat.2000 <- rename( dat.2000, population = P001001 )
+
+dat.2000$year <- 2000
+
+head( dat.2000 )
+
+d1 <- select( dat.2000, fips, population, year )
+```
+
+
+# Data 2010
+
+```{r, eval=F}
+vars2 <- listCensusMetadata( name="sf1", vintage=2010, "v" )
+```
+
+```{r}
+dat.2010 <- getCensus( name="sf1", 
+                        vintage=2010, 
+                        key=censuskey, 
+                        vars=c("P0080001"), 
+                        region="county:*")
+
+head( dat.2010 )
+
+dat.2010$fips <- paste0( dat.2010$state, dat.2010$county )
+
+dat.2010 <- rename( dat.2010, population = P0080001 )
+
+dat.2010$year <- 2010
+
+head( dat.2010 )
+
+d2 <- select( dat.2010, fips, population, year )
+
+```
+
+
+# Add MSA
+
+```{r}
+
+d12 <- select( d4, MSA, FIPS )
+d12 <- unique( d12 )
+these <- ! ( d12$FIPS == "" | d12$FIPS %in% d12$FIPS[duplicated( d12$FIPS )] & d12$MSA == "RURAL" )
+
+d14 <- d12[ these , ]
+
+d14$MSA[ d14$FIPS == "09001" ] <- "NEW YORK, NY"
+d14$MSA[ d14$FIPS == "09009" ] <- "NEW YORK, NY"
+d14$MSA[ d14$FIPS == "20177" ] <- "TOPEKA, KS"
+d14$MSA[ d14$FIPS == "37127" ] <- "RALEIGH, NC"
+
+d14 <- unique( d14 )
+
+write.csv( d14, "msa_fips_crosswalk.csv", row.names=F )
+```
+
+
+# Write to CSV
+
+```{r}
+d3 <- rbind( d1, d2 )
+d3 <- merge( d3, d14, by.x="fips", by.y="FIPS", all.x=TRUE )
+d3 <- select( d3, fips, MSA, year, population )
+d3$fips <- paste0( "F-", d3$fips )
+head( d3 )
+write.csv( d3, "census_population_2000_and_2010.csv", row.names=F )
+```
+
+
+
+# test lab
+
+```{r, eval=F}
+d4 <- read.csv( "nonprofits_2000_2010.csv", stringsAsFactors=F )
+
+d5 <- 
+  d4 %>%
+  group_by( FIPS, YEAR ) %>%
+  count( ) %>%
+  arrange( FIPS )
+
+d6 <- merge( d5, d3, by.x=c("FIPS","YEAR"), by.y=c("fips","year"), all.x=TRUE )
+
+d7 <- mutate( d6, np.density = n / (population/10000) )
+
+plot( log(d7$population), log(d7$n) )
+plot( log(d7$population), d7$np.density )
+
+
+d5 <- 
+  d4 %>%
+  group_by( MSA, YEAR ) %>%
+  count( ) %>%
+  arrange( MSA )
+
+d8 <- 
+  d3 %>%
+  group_by( MSA, year ) %>%
+  summarize( POP=sum(population, na.rm=T) )
+
+
+d6 <- merge( d5, d8, by.x=c("MSA","YEAR"), by.y=c("MSA","year"), all.x=TRUE )
+
+d7 <- mutate( d6, np.density = n / (POP/10000) )
+
+summary( d7$np.density )
+
+plot( log(d7$POP), log(d7$n) )
+plot( log(d7$POP), d7$np.density )
+```
+

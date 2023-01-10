@@ -1,0 +1,350 @@
+---
+title: "Lab 05: - Tempe Accident Analysis"
+author: "Your Name"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    theme: flatly
+    highlight: haddock
+    toc: yes
+    toc_float: yes
+---
+
+<br>
+
+# Setup
+
+The following analysis uses data comprised of traffic accidents in the city of 
+Tempe, Arizona. They constitute 28,470 observations and 32 variables. You can 
+find more details in the dataset documentation at the 
+[**Tempe Open Data Portal**](https://data.tempe.gov/dataset/high-severity-traffic-crashes-1-08). 
+
+```{r setup, include = FALSE}
+
+# SET UP GLOBAL OPTIONS
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE, 
+                      fig.width = 10)
+
+```
+
+```{r include = FALSE}
+
+# LOAD REQUIRED PACKAGES
+
+library(ggmap)        # Packages per instructions
+library(dplyr)
+library(pander)
+library(viridis)
+library(ggplot2)
+library(ggthemes)
+
+library(scales)       # Recommended package
+
+                      # Function 'percent()' from "scales" allows
+                      # easy formatting of proportions to percentages
+
+                      # Funtion 'number()' from "scales" allows 
+                      # easy formatting of numbers with argument 
+                      # 'big.mark = TRUE'. 
+
+                      # Note that 'percent()' and 'number()' format 
+                      # values as character strings! So they won't 
+                      # work like numbers any more (e.g. in 'sum()')!
+
+```
+
+```{r include = FALSE}
+
+# READ IN DATA
+
+url <- paste0("https://github.com/DS4PS/Data-Science-Class/blob",
+              "/master/DATA/TempeTrafficAccidents.rds?raw=true")
+
+dat <- readRDS(gzcon(url(url)))     # Method per instructions
+
+```
+
+<br>
+
+Explore the first six observations in the following interactive table:
+
+```{r echo = TRUE}
+
+head(dat)
+
+```
+
+<br>
+
+# Preprocessing
+
+All data preprocessing are available in **Appendix Code A: Data Preprocessing**.
+
+```{r include = FALSE}
+
+date.vec <- strptime(dat$DateTime, 
+                     format = "%m/%d/%y %H:%M")   # Create date fields
+
+dat$hour   <- format(date.vec, format = "%H")
+dat$month  <- format(date.vec, format = "%b")
+dat$day    <- format(date.vec, format = "%a")
+dat$day365 <- format(date.vec, format = "%j")
+dat$week   <- format(date.vec, format = "%V")
+
+dat$day <- factor(dat$day, 
+                  levels = c("Mon",
+                             "Tue",
+                             "Wed",
+                             "Thu",
+                             "Fri",
+                             "Sat",
+                             "Sun"))              # Order weekdays
+
+dat$hour12 <- format(date.vec, 
+                     format="%l %p")              # Create 12-hour format
+
+time.levels <- c("12 AM", " 1 AM", " 2 AM", " 3 AM", " 4 AM", " 5 AM", 
+                 " 6 AM", " 7 AM", " 8 AM", " 9 AM", "10 AM", "11 AM", 
+                 "12 PM", " 1 PM", " 2 PM", " 3 PM", " 4 PM", " 5 PM", 
+                 " 6 PM", " 7 PM", " 8 PM", " 9 PM", "10 PM", "11 PM" )
+
+dat$hour12 <- factor(dat$hour12, 
+                     levels = time.levels)        # Order time intervals
+
+age.labels <- paste0("Age ", 
+                     c(16,18,25,35,45,55,65,75), "-", 
+                     c(18,25,35,45,55,65,75,100) )
+
+dat$age <- cut(dat$Age_Drv1, 
+               breaks = c(16,18,25,
+                          35,45,55,
+                          65,75,100), 
+               labels = age.labels)               # Discretize age ranges
+
+```
+
+<br>
+
+# Part I: Data Summaries
+
+The following provides brief exploratory summaries on key data points.
+
+<br>
+
+## 1. Accidents on Mondays
+
+```{r}
+
+x <- sum(dat$day == "Mon", 
+         na.rm = TRUE)
+
+comma(x)                    # Example solution
+
+```
+
+**`r comma(x)`** accidents occured on Mondays.
+
+<br>
+
+## 2. Monday Accidents (%)
+
+```{r}
+
+# Code
+
+```
+
+**[X]%** of all accidents occur on Mondays.
+
+<br>
+
+## 3. Harmful Monday Accidents (%) 
+
+**Note:** *"Harm" is defiend as any accident that causes at least one injury or* 
+*fatality, i.e. a casualty.*
+
+```{r}
+
+# Code
+
+```
+
+**[X]%** of all Monday accidents have at least one casualty.
+
+<br>
+
+## 4. Top Monday Accident Type
+
+```{r}
+
+dat %>%
+  filter(day == "Mon") %>%
+  count(Collisionmanner) %>%
+  arrange(desc(n))
+
+```
+
+**[X]** collisions are the most common accident types.
+
+<br>
+
+## 5. Week vs. Weekend Accidents
+
+```{r}
+
+# Code
+
+```
+
+Significantly more accidents occur **[on weekdays or weekends?]**.
+
+<br>
+
+## 6. Harm by Weekday
+
+```{r}
+
+dat %>%
+  group_by(day) %>%
+  mutate(harm_acc = Totalinjuries > 0 | Totalfatalities > 0) %>%
+  summarize(n = n(),
+            injuries = sum(Totalinjuries),
+            fatalities = sum(Totalfatalities),
+            harm.rate = mean(harm_acc))
+
+```
+
+<br>
+
+# Part II: Age Groups
+
+The following provides summaries of accidents by age groups.
+
+<br>
+
+## 1. Accidents by Hour & Age
+
+```{r}
+
+# Code
+
+```
+
+Drivers of **[X]** have the greatest number of accidents from 7:00 to 7:59 AM.
+
+<br>
+
+# Part III: Rates of Harm
+
+The following reports the accidents, casualties, proportion, and average 
+casualties per harmful accident.
+
+<br>
+
+## 1. Accidents by Hour
+
+```{r}
+
+dat %>%
+  group_by(hour) %>%
+  summarize(accidents = number(n(), 
+                               big.mark = ","))     # Example solution
+
+dat %>%
+  group_by(hour) %>%
+  summarize(n = n()) %>%
+  plot(type = "b",
+       bty = "n",
+       pch = 19,
+       cex = 2,
+       xlab = "Hour",
+       ylab = "Total Accidents",
+       main = "Total Accidents by Time of Day")
+
+```
+
+<br>
+
+## 2. Total Casualties by Hour
+
+```{r}
+
+# Code
+
+```
+
+<br>
+
+## 3. Accidents with Casualties (%)
+
+```{r}
+
+# Code
+
+```
+
+<br>
+
+## 4. Mean Casualties/Harmful Accident
+
+```{r}
+
+# Code
+
+```
+
+<br>
+
+# Appendix
+
+<br>
+
+## Code A: Data Preprocessing
+
+```{r eval = FALSE, echo = TRUE, include = TRUE}
+
+date.vec <- strptime(dat$DateTime, 
+                     format = "%m/%d/%y %H:%M")   # Create date fields
+
+dat$hour   <- format(date.vec, format = "%H")
+dat$month  <- format(date.vec, format = "%b")
+dat$day    <- format(date.vec, format = "%a")
+dat$day365 <- format(date.vec, format = "%j")
+dat$week   <- format(date.vec, format = "%V")
+
+dat$day <- factor(dat$day, 
+                  levels = c("Mon",
+                             "Tue",
+                             "Wed",
+                             "Thu",
+                             "Fri",
+                             "Sat",
+                             "Sun"))              # Order weekdays
+
+dat$hour12 <- format(date.vec, 
+                     format="%l %p")              # Create 12-hour format
+
+time.levels <- c("12 AM", " 1 AM", " 2 AM", " 3 AM", " 4 AM", " 5 AM", 
+                 " 6 AM", " 7 AM", " 8 AM", " 9 AM", "10 AM", "11 AM", 
+                 "12 PM", " 1 PM", " 2 PM", " 3 PM", " 4 PM", " 5 PM", 
+                 " 6 PM", " 7 PM", " 8 PM", " 9 PM", "10 PM", "11 PM" )
+
+dat$hour12 <- factor(dat$hour12, 
+                     levels = time.levels)        # Order time intervals
+
+age.labels <- paste0("Age ", 
+                     c(16,18,25,35,45,55,65,75), "-", 
+                     c(18,25,35,45,55,65,75,100) )
+
+dat$age <- cut(dat$Age_Drv1, 
+               breaks = c(16,18,25,
+                          35,45,55,
+                          65,75,100), 
+               labels = age.labels)               # Discretize age ranges
+
+```
+

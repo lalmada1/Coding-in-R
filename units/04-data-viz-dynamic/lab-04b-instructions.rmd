@@ -1,0 +1,206 @@
+---
+title: 'Lab 04 - Dynamic Graphics with Shiny'
+output:
+  html_document:
+    theme: readable
+    df_print: paged
+    highlight: tango
+    toc: yes
+    toc_float: no
+    self-contained: true
+    css: '../html/lab-instructions.css'
+    include:
+      after_body: '../html/footer.html'
+---
+
+```{r include = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE)
+
+```
+
+
+```{r include = FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE)
+
+library(tidyverse)
+
+```
+
+
+
+<br>
+<hr>
+
+*This lab gently introduces interactive dashboards in R.*
+
+You can create a new R Markdown file, or download the **templates**: 
+
+<a href='../../templates/' target="_blank">
+<button type="button" class="button"> TEMPLATES </button>
+</a>
+
+You may have to right-click on the file and “save as” depending upon your browser.
+
+Remember to name your file: **lab-##-lastname.rmd**
+
+<hr>
+
+
+
+# Overview
+
+Lab 04 builds on the static graphic created in Lab 03 by rendering key 
+graphical elements, such as the trendline and legend, as interactive and 
+responsive to user inputs, just like any other app. Visit the final app 
+**[by clicking here](https://uruguayguy.shinyapps.io/Lab-04-v3/)**.
+
+<br>
+
+<center>
+
+![](https://github.com/cssearcy/AYS-R-Coding-SPR-2020/blob/master/LABS/gapminder_app.png?raw=true)
+
+*The Lab 03 Gapminder visualization as an interactive app.*
+
+</center>
+
+<br>
+<br>
+
+# Dynamic Graphics
+
+Recall that Shiny allows you to build interactive data products. An app's 
+interactivity occurs between user input and machine output.
+
+* User Interface (`ui.r`): Where end users exercise control and view server outputs
+* Server (`server.r`): Where function operations occur based on user inputs
+
+Note that in the server code, any dynamic code must be within a 
+"reactive context", which typically lies within curly brackets, or `{ ... }`.
+
+<br>
+<br>
+
+# Assignment Requirements
+
+In addition to modifying your dashboard with your name, Lab 04 requires the 
+following: 
+
+1. Add the Lab 03 visualization code in the server/chunk
+2. Add an additional trendline to your graphic representing a user-selected region
+3. Add a `selectInput()` control function to the app UI and connect it to the server
+
+<br>
+
+In addition, you must install and load the following packages in your script. 
+
+```{r eval = FALSE}
+
+library(shiny)
+library(tidyverse)
+library(flexdashboard)
+library(shinydashboard)
+
+```
+
+<br>
+
+### Adding the Lab 03 Code
+
+Regardless of what visualization or Shiny packages you use, you must place your 
+Lab 03 visualization code within a `renderPlot()` function.
+
+<br>
+
+### Adding a Trend Line
+
+Depending on which visualization package you choose, you will need to append a 
+new trend line differently.
+
+* For `ggplot2`, consider using `geom_line()` or `geom_path()`
+* For `graphics`, consider using `points()` or `lines()`
+
+Note that the trend line will contain the "reactive" shiny input. You only need 
+to experiment with this part of the visualization code to be successful.
+
+<br>
+
+### Adding & Connecting Input Controls
+
+Regardless of your visualization or dashboard packages used, you must use 
+base Shiny function `selectInput()` and list all possible regions as well as 
+a default selection.
+
+Recall that the `inputId =` argument accepts a character string that becomes 
+a unique identifier. When this ID is used in conjunction with `input$`, i.e. 
+`input$id`, it acts as an object *representing* whatever value is chosen in
+`selectInput()`. 
+
+For example, if you choose "Europe East" in the UI with 
+`selectInput(inputId = "my_example")`, then the server's `input$my_example` now
+represents and acts as the value "Europe East".
+
+<br>
+<br>
+
+# Shiny Package Differences
+
+Templates are provided to complete your dashboard using any of the following 
+packages:
+
+* `shiny` in "Lab-04-LastName-shiny-v3.R"
+* `flexdashboard` in "Lab-04-LastName-flex-v3.R"
+* `shinydashboard` in "Lab-04-LastName-sdbp-v3.R"
+
+Note that you need only use one, though all options will require `shiny`. 
+
+<br>
+
+### Package 'shiny'
+
+Function `selectInput()` should be placed within `sidebarPanel()`. 
+
+<br>
+
+### Package 'flexdashboard'
+
+The location of `selectInput()` is provided. 
+
+<br>
+
+### Package 'shinydashboardplus'
+
+Function `selectInput()` should be placed within `sidebarMenu()`.
+
+<br>
+<br>
+
+---
+
+<br>
+
+# How to Submit
+
+You need only submit your `.Rmd` file for this week.
+
+<br>
+
+### Before You Submit
+
+Remember to ensure the following before submitting your assignment.
+
+1. Name your files using this format: **Lab-##-LastName.rmd**
+2. Follow appropriate styling conventions, e.g. spaces after commas, etc.
+3. Above all, ensure that your conventions are consistent
+
+See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for 
+examples of common conventions.
+
+<br>
+<br>
