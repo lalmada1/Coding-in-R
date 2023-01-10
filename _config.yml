@@ -12,17 +12,17 @@
 
 github_info:
     username:       lalmada1   # GitHub account name
-    website-repo:   Intro-to-Data-Science-Econ-4970
-    course-repo:    Intro-to-Data-Science-Econ-4970
+    website-repo:   Coding-in-R-SPR-2023
+    course-repo:    Coding-in-R-SPR-2023
  
-description:        Intro. course in data science for economists using R 
+description:        Coding in R for Policy Analytics 
 
 course_url:         "https://lalmada1.github.io/Intro-to-Data-Science-Econ-4970"
 title:              lalmada1   # GitHub account name
 
 brand:
     image:          # e.g. logo.png, upload logo image file to /assets/img/ folder
-    text:           "Econ 4970 - Intro to Data Science"    # if the above "logo:" image variable  is not set, this text logo is displayed instead
+    text:           "Coding in R"    # if the above "logo:" image variable  is not set, this text logo is displayed instead
 
 ###
 ###  YOUR PROGRAM INFO
@@ -52,13 +52,13 @@ header:
 - title: Syllabus
   url:
 - title: Schedule
-  url: schedule/
+  #url: schedule/
 # - title: Textbook
 #   url: https://ds4ps.org/dp4ss/#dp4ss-data-programming-for-the-social-sciences
 - title: Resources
-  url: resources/
+  #url: resources/
 - title: Get Help
-  url: help/
+  #url: help/
 
 
 # set navbar color at assets/css/custom.css under default_nav and footer background-color
