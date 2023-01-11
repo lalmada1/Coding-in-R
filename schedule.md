@@ -19,12 +19,12 @@ lab-due-dates:
 
 discussion-dates:
   topic-00: 'WED March 1'
-  topic-01: 'WED March 8'
-  topic-02: 'WED March 22'
-  topic-03: 'WED March 29'
-  topic-04: 'WED April 5'
-  topic-05: 'WED April 12'
-  topic-06: 'WED April 19'
+  topic-01: 'WED March 1'
+  topic-02: 'WED March 8'
+  topic-03: 'WED March 22'
+  topic-04: 'WED March 29'
+  topic-05: 'WED April 5'
+  topic-06: 'WED April 12'
 
 final-project:
   due-date: 'THUR April 20'
@@ -1733,7 +1733,7 @@ The following checklist will help you stay organized for your final week.
 
 <br>
 
-*** { @unit = "{{page.code-through.due-date}}", @title = "Code-Through Project", @assignment, @foldout  }
+*** { @unit = "{{page.final-project.due-date}}", @title = "Final Dashboard Project", @assignment, @foldout  }
 
 <br>
 
