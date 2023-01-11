@@ -10,27 +10,24 @@ canvas:
   templates_url: 'https://gastate.view.usg.edu/d2l/home/2749801'
 
 lab-due-dates:
-  lab-01: 'WED January 25'
-  lab-02: 'WED February 8'
-  lab-03: 'WED February 22'
-  lab-04: 'WED March 8'
-  lab-05: 'WED March 29'
-  lab-06: 'WED April 12'
+  lab-01: 'MON March 6'
+  lab-02: 'MON March 13'
+  lab-03: 'MON March 27'
+  lab-04: 'MON April 3'
+  lab-05: 'MON April 10'
+  lab-06: 'MON April 17'
 
 discussion-dates:
-  topic-00: 'WED January 11'
-  topic-01: 'WED January 18'
-  topic-02: 'WED February 1'
-  topic-03: 'WED February 15'
-  topic-04: 'WED March 1'
-  topic-05: 'WED March 22'
-  topic-06: 'WED April 5'
+  topic-00: 'WED March 1'
+  topic-01: 'WED March 8'
+  topic-02: 'WED March 22'
+  topic-03: 'WED March 29'
+  topic-04: 'WED April 5'
+  topic-05: 'WED April 12'
+  topic-06: 'WED April 19'
 
-code-through:
-  due-date: 'WED April 19'
-  
 final-project:
-  due-date: 'WED April 26'
+  due-date: 'THUR April 20'
 
 ---
 
@@ -1731,42 +1728,12 @@ Click to download the lab template. Modify and submit using the instructions.
 
 The following checklist will help you stay organized for your final week.
 
-- [ ] Finalize & Submit Your [Final Code-Through Project](../labs/code-through-assignment.html)
 - [ ] Finalize & Submit Your [Final Dashboard Project](../units/07-dashboards/lab-07-instructions.html)
 - [ ] (Recommended) Submit a Course Evaluation
 
 <br>
 
 *** { @unit = "{{page.code-through.due-date}}", @title = "Code-Through Project", @assignment, @foldout  }
-
-<br>
-
-## Code-Through
-
-Since you are sharing your code-through with your classmates on Yellowdig, it will serve as your discussion topic this week.
-
-If you send me your RMD and HTML files via email, I will post them to GitHub and create a link for you if you would like to share a URL instead of a file.
-
-<a class="uk-button uk-button-default" onclick="window.open('../labs/code-through-assignment.html')">Code-Through Instructions</a>
-
-Download the recommended template for your code-through with the below link.
-
-**Note:** *This is one of many possible layouts; modify appropriately.*
-
-<a class="uk-button uk-button-default" onclick="window.open('../labs/cpp-526_reformatted-projects/cpp-526-CodeThrough-LastName.zip?raw=true')">Base Code-Through Template</a>
-
-## Submit to Canvas
-
-<a class="uk-button uk-button-primary" href="{{page.canvas.assignment_url}}">SUBMIT CODE-THROUGH</a>
-
-## Post on Yellowdig
-
-<a class="uk-button uk-button-primary" href="{{page.canvas.yellowdig_url}}">iCollege</a>
-
-<br>
-<br>
-
-*** { @unit = "{{page.final-project.due-date}}", @title = "Final Dashboard Project", @assignment, @foldout  }
 
 <br>
 
