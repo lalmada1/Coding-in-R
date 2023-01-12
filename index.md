@@ -11,7 +11,7 @@ info:
  course_title: Coding in R for Policy Analytics 
  course_number: Econ 8730 / PMAP 8541 / CRJU 8900
  course_level: Graduate
- course_website: "https://gastate.view.usg.edu/d2l/home/2749801"
+ course_website: "https://gastate.view.usg.edu/d2l/home/2747023"
  course_start_end_dates: February 27 - April 21, 2023
  course_prerequisites:  
  class_meets_when:  Online Asynchronously
@@ -216,9 +216,9 @@ Grades for the course are largely based on weekly labs. Assigned work is accompa
 
 ## F. Course Communications and Instructor Feedback:
 
-**Course content** is hosted on this website. Lecture files, assignments and other course communications will be transmitted via this site and/or through the class email list. **All assignment submissions** will be made through [**iCollege**](https://gastate.view.usg.edu/d2l/home/2749801).
+**Course content** is hosted on this website. Lecture files, assignments and other course communications will be transmitted via this site and/or through the class email list. **All assignment submissions** will be made through [**iCollege**](https://gastate.view.usg.edu/d2l/home/2747023).
 
-Please post lab questions on the [**Get Help**](https://lalmada1.github.io/Intro-to-Data-Science-Econ-4970/help/) page on this site, schedule individual office hours, or email the instructor directly.
+Please post lab questions on the [**Get Help**](https://lalmada1.github.io/Coding-in-R-SPR-2023/help/) page on this site, schedule individual office hours, or email the instructor directly.
 
 Students should be aware that the course instructor will attempt to respond to any course-related email as quickly as possible. Students are asked to allow between 24 and 48 hours for replies to direct instructor emails, generally, as a reasonable time to reply to questions or other issues posed in an email. Additionally, the general timeline for instructor grading or other feedback on assignments, either writer work or online discussion work, is between 5 and 10 work days.
 
@@ -246,7 +246,7 @@ This course spans a fourteen week schedule. A schedule for each week of the term
 
 Please note: the course instructor may from time to time adjust assigned readings or adjust the due dates for assignment. The basic course content approach and learning objectives will not change, but slight modifications are possible if circumstances warrant an adjustment.
 
-Visit the [**Course Schedule**](https://lalmada1.github.io/Coding-in-R-SPR-2023).
+Visit the [**Course Schedule**](https://lalmada1.github.io/Coding-in-R-SPR-2023/schedule).
 
 <br>
 <br>
