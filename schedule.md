@@ -897,7 +897,6 @@ The following checklist will help you stay organized in your second week.
 - [ ] Complete Assigned Readings: [Group Construction with Logical Statements](http://ds4ps.org/dp4ss-textbook/p-050-business-logic.html)
 - [ ] Post & Exchange on Discussion Topic, 20 Points Max (See Below)
 - [ ] Complete & Submit [Lab 02](../units/02-operators-and-descriptives/lab-02-instructions.html) (See Below)
-- [ ] (Recommended) Explore Packages for [Code Through Project](../labs/code-through-assignment.html)
 - [ ] (Recommended) Videos
 
 <br>
@@ -1470,7 +1469,6 @@ The following checklist will help you stay organized in your fifth week.
 - [ ] Post & Exchange on Discussion Topic, 20 Points Max (See Below)
 - [ ] Complete & Submit [Lab 05](../units/05-data-wrangling/lab-05-instructions.rmd) (See Below)
 - [ ] (Recommended) Videos
-- [ ] (Recommended) Begin Planning [Final Code-Through Project](../labs/code-through-assignment.html)
 
 <br>
 
@@ -1612,7 +1610,6 @@ The following checklist will help you stay organized in your sixth week.
 - [ ] Complete Assigned Readings: [Merging Data](http://ds4ps.org/dp4ss-textbook/p-076-merging-data.html)
 - [ ] Post & Exchange on Discussion Topic, 20 Points Max (See Below)
 - [ ] Complete & Submit [Lab 06](../units/06-data-joins/lab-06-instructions.rmd) (See Below)
-- [ ] (Recommended) Begin [Final Code-Through Project](../labs/code-through-assignment.html)
 - [ ] (Recommended) Begin [Final Dashboard Project](../units/07-dashboards/lab-07-instructions.html)
 
 <br>
