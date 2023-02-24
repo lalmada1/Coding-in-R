@@ -747,7 +747,7 @@ This lab is designed to introduce you to basic functions that explore datasets a
 Click to download the lab template. Modify and submit using the instructions.
 
 <a class="uk-button uk-button-default" 
-   onclick="window.open('https://lalmada1.github.io/Intro-to-Data-Science-Econ-4970/templates/')">
+   onclick="window.open('https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/01-building-blocks-of-r/lab-01-template.rmd')">
    LAB-01 Template
 </a>
 
@@ -1139,11 +1139,17 @@ We recommend you **skim** the chapters on graphing functions and custom graphics
 
 Code is provided to get you started, but you will have to use documentation and the web to push the boundaries of your new knowledge of these functions.
 
-<a class="uk-button uk-button-default" onclick="window.open('../units/03-data-viz-static/lab-03-v2-instructions.RMD')">LAB-03 Instructions</a>
+<a class="uk-button uk-button-default" onclick="window.open('../units/03-data-viz-static/lab-03-v1-instructions.html')">LAB-03 v1 Instructions</a>
+<!--
+<a class="uk-button uk-button-default" onclick="window.open('../units/03-data-viz-static/lab-03-v2-instructions.html')">LAB-03 v2 Instructions</a>
+-->
 
 Click to download the lab template. Modify and submit using the instructions.
 
-<a class="uk-button uk-button-default" onclick="window.open('../units/03-data-viz-static/lab-03-v2-template.Rmd')">LAB-03 Template</a>
+<a class="uk-button uk-button-default" onclick="window.open('../units/03-data-viz-static/lab-03-v1-template.rmd')">LAB-03 v1 Template</a>
+<!--
+<a class="uk-button uk-button-default" onclick="window.open('../units/03-data-viz-static/lab-03-v2-template.rmd')">LAB-03 v2 Template</a>
+-->
 
 ## Submit Solutions to iCollege
 
@@ -1681,11 +1687,11 @@ Do you think open source frameworks would help open the black box and make gover
 
 This lab is designed to introduce you to primary data join functions in R.
 
-<a class="uk-button uk-button-default" onclick="window.open('../units/06-data-joins/lab-06-instructions.rmd')">LAB-06 Instructions</a>
+<a class="uk-button uk-button-default" onclick="window.open('../units/06-data-joins/lab-06-instructions.html')">LAB-06 Instructions</a>
 
 Click to download the lab template. Modify and submit using the instructions.
 
-<a class="uk-button uk-button-default" onclick="window.open('../units/06-data-joins/lab-06-template.Rmd')">LAB-06 Template</a>
+<a class="uk-button uk-button-default" onclick="window.open('../units/06-data-joins/lab-06-template.rmd')">LAB-06 Template</a>
 
 ## Submit Solutions to iCollege
 
