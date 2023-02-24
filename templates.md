@@ -70,6 +70,7 @@ layout: default
 <button type="button" class="button"> LAB 04a FlexDash </button>
 </a>
 
+<!--
 <a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/04-data-viz-dynamic/lab-04b-flexdashboard-template.rmd' target="_blank">
 <button type="button" class="button"> LAB 04b FlexDash </button>
 </a> 
@@ -81,7 +82,7 @@ layout: default
 <a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/04-data-viz-dynamic/lab-04b-shiny-dashboard-plus-template.R' target="_blank">
 <button type="button" class="button"> LAB 04b Shiny Plus </button>
 </a> 
-
+-->
 <br>
 <hr>
 <br>  
