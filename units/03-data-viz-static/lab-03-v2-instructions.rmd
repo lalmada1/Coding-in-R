@@ -1,11 +1,16 @@
 ---
-title: 'Lab 03 - Graphics'
+title: 'Lab 03 - Graphics V2'
 output:
   html_document:
     theme: readable
     df_print: paged
     highlight: tango
-    inclucde: footer.html   
+    toc: yes
+    toc_float: no
+    self-contained: true
+    css: '../html/lab-instructions.css'
+    include:
+      after_body: '../html/footer.html'   
 ---
 
 ```{r include = FALSE}
@@ -19,7 +24,7 @@ library(tidyverse)
 ```
 
 
-#### [Coding in R for Policy Analytics](https://ds4ps.org/cpp-526-spr-2020/)
+# Background 
 
 <br>
 
@@ -27,18 +32,23 @@ library(tidyverse)
 
 You can create a new R Markdown file, or download the **LAB-03 RMD template**: 
 
-<center>
+You can create a new R Markdown file, or download the **LAB-03 RMD template**: 
 
-[![](https://github.com/cssearcy/AYS-R-Coding-SPR-2020/blob/master/LABS/images/download.png?raw=true)](https://github.com/cssearcy/AYS-R-Coding-SPR-2020/blob/master/LABS/Lab-03-v3-LastName.zip?raw=true)
+<a href='../../templates/' target="_blank">
+<button type="button" class="button"> TEMPLATES </button>
+</a>
 
-</center>
+*You may have to right-click on the file and “save as” depending upon your browser.*
+
+Remember to name your file: **lab-##-lastname.rmd**
+
 
 --- 
 
 <br>
 <br>
 
-# Visualizing Gapminder Data
+## Visualizing Gapminder Data
 
 **[Gapminder](https://www.gapminder.org/)** is a self-described "independent 
 educational non-profit fighting global misconceptions" about anything from 
@@ -68,7 +78,7 @@ average life expectancy by country over time.
 <br>
 <br>
 
-# Visuals to Replicate
+## Visuals to Replicate
 
 You must replicate the following visual *as closely as possible*. Reproduced 
 and submitted data visualizations which fail to replicate less than 80% of the
@@ -81,7 +91,7 @@ visual elements in these images is unacceptable.
 <br>
 <br>
 
-# Graphics Packages
+## Graphics Packages
 
 In order to replicate the provided graphics, you may use either the base R 
 `graphics` package or package `ggplot2`. Learners who use `ggplot2` may convert 
@@ -90,8 +100,6 @@ their graphic into an interactive visualization using package `plotly` function
 
 <br>
 <br>
-
-# Functions 
 
 ### Package "graphics"
 
@@ -148,7 +156,7 @@ to quickly convert it to an interactive graphic!
 <br>
 <br>
 
-# Data
+## Data
 
 Your data are sourced directly from **[Gapminder](https://www.gapminder.org/)**. 
 While R does have a regularly updated `gapminder` 
@@ -213,7 +221,7 @@ year_avg <- life_exp %>%
 <br>
 <br>
 
-### Preview
+## Preview
 
 The following shows the first 10 observations in the life expectancy data: `life_exp`. 
 
@@ -246,14 +254,14 @@ head(year_avg, 10)
 <br>
 <br>
 
-# Getting Started
+# Instructions
 
 The following code will help you get started in either `graphics` or `ggplot2`.
 
 <br>
 <br>
 
-### Package "ggplot2"
+## Package "ggplot2"
 
 ```{r fig.align = "center"}
 
@@ -268,7 +276,7 @@ ggplot(life_exp, aes(x = Year,
 <br>
 <br>
 
-### Package "graphics"
+## Package "graphics"
 
 ```{r fig.align = "center"}
 
@@ -289,14 +297,14 @@ points(life_exp$Year,
 <br>
 <br>
 
-# Hints
+## Hints
 
 You can often rely on internal documentation as well as the web.
 
 <br>
 <br>
 
-### Internal Documentation
+## Internal Documentation
 
 If you need help looking up arguments remember these two helpful functions:
 
@@ -316,18 +324,6 @@ help(mtext)
 
 <br>
 
-### External Message Boards
-
-This lab assignment will push you to explore the nuances of these 
-functions and their arguments.  Don't hesitate to use the web to overcome 
-challenging function modifications.
-
-1. Include the language, i.e. "r"
-2. Include the function name, e.g. `text()`
-3. Concisely describe your intent, e.g. "allow text overflow" 
-
-<br>
-<br>
 
 # How to Submit
 
@@ -335,13 +331,13 @@ Use the following instructions to submit your assignment, which may vary dependi
 
 <br>
 
-### Knitting to HTML
+## Knitting to HTML
 
 When you have completed your assignment, click the "Knit" button to render your `.RMD` file into a `.HTML` report.
 
 <br>
 
-### Special Instructions
+## Special Instructions
 
 Perform the following depending on your course's platform:
 
@@ -352,7 +348,7 @@ Perform the following depending on your course's platform:
 
 <br>
 
-### Before You Submit
+## Before You Submit
 
 Remember to ensure the following before submitting your assignment.
 
@@ -367,7 +363,7 @@ See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for
 <br>
 <br>
 
-### Common Knitting Issues
+## Common Knitting Issues
 
 `.RMD` files are knit into `.HTML` and other formats procedural, or line-by-line.
 

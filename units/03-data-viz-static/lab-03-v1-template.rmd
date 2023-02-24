@@ -15,24 +15,6 @@ library( dplyr )
 library( pander )
 ```
 
-
-#### [Coding in R for Policy Analytics](https://cssearcy.github.io/AYS-R-Coding-SPR-2020/)
-
-<br>
-
-*This lab introduces core plotting functions in order to create customized graphics in R.*
-
-You can create a new R Markdown file, or download the **LAB-03 RMD template**: 
-
-<center>
-
-[![](images/download.png)](https://github.com/DS4PS/cpp-526-sum-2020/blob/master/labs/cpp-526_reformatted-labs/Lab-03-v2-LastName.zip?raw=true)
-
-</center>
-
---- 
-
-<br>
 <br>
 
 ## Replicating NYT Graphics

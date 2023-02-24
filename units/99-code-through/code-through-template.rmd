@@ -1,0 +1,150 @@
+---
+title: "Your Topic Title"
+author: "Your Name"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    theme: readable
+    df_print: paged
+    highlight: tango
+    toc: yes
+    toc_float: yes
+---
+
+```{r include = FALSE}
+
+# SET GLOBAL KNITR OPTIONS
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE, 
+                      fig.width = 10, 
+                      fig.height = 8)
+```
+
+<br>
+<br>
+
+# Introduction
+
+This code through explores...
+
+<br>
+
+## Content Overview
+
+Specifically, we'll explain and demonstrate...
+
+<br>
+
+## Why You Should Care
+
+This topic is valuable because...
+
+<br>
+
+## Packages
+
+We will use the following packages for the vignette.
+
+```{r}
+library(pander)
+library(kableExtra)
+```
+
+## Learning Objectives
+
+Specifically, you'll learn how to...
+
+<br>
+<br>
+
+# Body Title
+
+Here, we'll show...
+
+<br>
+
+## Further Exposition
+
+This is based/expanded on the theory/work/extension of... 
+
+<br>
+
+## Basic Example
+
+A basic example shows how...
+
+```{r}
+
+# Some code
+
+```
+
+<br>
+
+## Advanced Examples
+
+More specifically, this can be used for...
+
+```{r}
+
+# Some code
+
+```
+
+<br>
+
+What's more, it can also be used for...
+
+```{r}
+
+# Some code
+
+```
+
+<br>
+
+Most notably, it's valuable for...
+
+```{r}
+
+# Some code
+
+```
+
+<br> 
+<br>
+
+
+# Works Cited
+
+This code through references and cites the following sources:
+
+<br>
+
+* Author (Year). Source I. [Hyperlink Text](https://www.google.com)
+
+* Author (Year). Source II. [Hyperlink Text](https://www.google.com)
+
+* Author (Year). Source III. [Hyperlink Text](https://www.google.com)
+
+<br>
+
+## Additional Resources
+
+Learn more about [package, technique, dataset] with the following:
+
+<br>
+
+* Resource I [Hyperlink Text](https://www.google.com)
+
+* Resource II [Hyperlink Text](https://www.google.com)
+
+* Resource III [Hyperlink Text](https://www.google.com)
+
+<br>
+<br>
+
+
+<br>

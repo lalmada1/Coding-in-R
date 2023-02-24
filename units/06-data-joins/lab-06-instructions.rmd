@@ -1,16 +1,19 @@
 ---
 title: "Lab 06: Dataset Joins"
-author: "Instructions v. 3"
 output:
   html_document:
+    theme: readable
     df_print: paged
-    theme: flatly
-    highlight: haddock
-    toc: no
+    highlight: tango
+    toc: yes
     toc_float: no
+    self-contained: true
+    css: '../html/lab-instructions.css'
+    include:
+      after_body: '../html/footer.html'
 ---
 
-```{r include = FALSE, cache = TRUE}
+```{r include=FALSE}
 
 library(readr)
 library(dplyr)
@@ -57,7 +60,7 @@ rm(all)
 
 ```
 
-## Objectives
+# Background
 
 In this hypothetical scenario, pretend that you are a student currently learning
 the R language. Take your time and really get into the role. 
@@ -117,7 +120,7 @@ which contains:
 
 <br>
 
-```{r echo = TRUE, cache = TRUE}
+```{r echo = TRUE}
 
 url <- "https://www.onetcenter.org/dl_files/database/db_26_3_text/Occupation%20Data.txt"
 
@@ -153,7 +156,7 @@ preview shows the first 6 technologies important for occupation SOC code
 
 <br>
 
-```{r echo = TRUE, cache = TRUE}
+```{r echo = TRUE}
 
 url <- "https://www.onetcenter.org/dl_files/database/db_26_3_text/Technology%20Skills.txt"
 
@@ -203,7 +206,7 @@ In fact, if we simply use `left_join()` without identifying a merge column, it
 automatically detects merge keys with common names and notifies us in the 
 console.
 
-```{r cache = TRUE}
+```{r}
 
 occupations %>% 
   left_join(technologies) %>% 
@@ -232,7 +235,7 @@ count will sum up to total unique technologies by occupation.
 
 <br>
 
-```{r cache = TRUE}
+```{r}
 
 occupations %>% 
   left_join(technologies) %>% 
@@ -245,20 +248,23 @@ occupations %>%
 
 <br>
 
-## Assignment
+# Instructions
 
-Follow the instructions below. Click the following icon to download the Lab 06 
-template for your submission.
+## Lab Template
+
+Downlaod the lab **template**: 
+
+<a href='../../templates/' target="_blank">
+<button type="button" class="button"> TEMPLATES </button>
+</a>
+
+*You may have to right-click on the file and “save as” depending upon your browser.*
+
+Remember to name your file: **lab-##-lastname.rmd**
 
 <br>
 
-<center>
-
-[![](https://github.com/cssearcy/AYS-R-Coding-SPR-2020/blob/master/LABS/images/download.png?raw=true)](https://www.google.com)
-
-</center>
-
-<br>
+## Data
 
 The following objects have been created for you from the [O*NET 26.3 Database](https://www.onetcenter.org/database.html). 
 
@@ -280,15 +286,18 @@ The following objects have been created for you from the [O*NET 26.3 Database](h
 <br>
 <br>
 
-### Part 1: Basic Join Challenges
+
+
+# Part 1: Basic Join Challenges
 
 The following challenges require no more then 2-3 tables and use the same column 
 names across all tables. Use basic `dplyr` verbs to answer specific questions.
 
 <br>
 
-**(1) Question:** Which 10 occupation titles (`OccupationData$Title`) have the 
-highest number of "hot technologies" (`TechnologySkills$HotTechnology`)?
+## (1) Question 
+
+Which 10 occupation titles (`OccupationData$Title`) have the highest number of "hot technologies" (`TechnologySkills$HotTechnology`)?
 
 ```{r}
 
@@ -298,11 +307,11 @@ highest number of "hot technologies" (`TechnologySkills$HotTechnology`)?
 
 <br>
 
-**(2) Question:** Which 10 occupation titles (`OccupationData$Title`), with more 
-than 15 unique technologies, have the highest proportion (%) of "hot technologies" 
-(`TechnologySkills$HotTechnology`)?
+## (2) Question: 
 
-```{r cache = TRUE}
+Which 10 occupation titles (`OccupationData$Title`), with morethan 15 unique technologies, have the highest proportion (%) of "hot technologies" (`TechnologySkills$HotTechnology`)?
+
+```{r}
 
 # Code
 
@@ -310,10 +319,12 @@ than 15 unique technologies, have the highest proportion (%) of "hot technologie
 
 <br>
 
-**(3) Question:** Which unique occupation titles (`OccupationData$Title`) have 
+## (3) Question 
+
+Which unique occupation titles (`OccupationData$Title`) have 
 "R" listed as a technology example (`TechnologySkills$Example`)? 
 
-```{r cache = TRUE}
+```{r}
 
 # Code
 
@@ -321,10 +332,12 @@ than 15 unique technologies, have the highest proportion (%) of "hot technologie
 
 <br>
 
-**(4) Question:** Which alternate occupation titles (`AlternateTitles`) have "R" 
+## (4) Question 
+
+Which alternate occupation titles (`AlternateTitles`) have "R" 
 listed as a technology example (`TechnologySkills$Example`)? 
 
-```{r cache = TRUE}
+```{r}
 
 # Code
 
@@ -332,7 +345,9 @@ listed as a technology example (`TechnologySkills$Example`)?
 
 <br>
 
-**(5) Question:** Which top 25 occupation titles (`OccupationData$Title`) have 
+## (5) Question 
+
+Which top 25 occupation titles (`OccupationData$Title`) have 
 the highest level of "Independence" (`Element Name`) according to `WorkValues`?
 
 ```{r}
@@ -343,7 +358,9 @@ the highest level of "Independence" (`Element Name`) according to `WorkValues`?
 
 <br>
 
-**(6) Question:** Which top 25 occupation titles (`OccupationData$Title`) have 
+## (6) Question
+
+Which top 25 occupation titles (`OccupationData$Title`) have 
 the highest level of "Persistence" (`Element Name`) according to `WorkStyles`?
 
 ```{r}
@@ -354,12 +371,14 @@ the highest level of "Persistence" (`Element Name`) according to `WorkStyles`?
 
 <br>
 
-**(7) Question:** According to Holland Codes, "Realistic" describes people who 
+## (7) Question 
+
+According to Holland Codes, "Realistic" describes people who 
 like to work with things, requiring "motor coordination, skill, and strength".
 Which top 20 occupation titles (`OccupationData$Title`) have the highest rating 
 in "Realistic" scores (`Element Name`) according to `Interests`?
 
-```{r cache = T}
+```{r}
 
 # Code
 
@@ -367,12 +386,14 @@ in "Realistic" scores (`Element Name`) according to `Interests`?
 
 <br>
 
-**(8) Question:** Again, per Holland Codes, "Investigative" describes people who 
+## (8) Question
+
+Again, per Holland Codes, "Investigative" describes people who 
 like to work with ideas, preferring observation over action and facts over 
 feelings. Which top 20 occupation titles (`OccupationData$Title`) have the 
 highest rating in "Investigative" scores (`Element Name`) according to `Interests`?
 
-```{r cache = T}
+```{r}
 
 # Code
 
@@ -380,7 +401,9 @@ highest rating in "Investigative" scores (`Element Name`) according to `Interest
 
 <br>
 
-**(9) Question:** Job Zones loosely classify how advanced one typically must be 
+## (9) Question
+
+Job Zones loosely classify how advanced one typically must be 
 as an occupational incumbent. How many unique occupation titles 
 (`OccupationData$Title`) are classified in each `Job Zone` (`JobZones`)? 
 
@@ -392,7 +415,9 @@ as an occupational incumbent. How many unique occupation titles
 
 <br>
 
-**(10) Question:** Of occupation titles (`OccupationData$Title`) that list "R" 
+## (10) Question
+
+Of occupation titles (`OccupationData$Title`) that list "R" 
 as the `Example` in `TechnologySkills`, what proportion is in each Job Zone 
 (`JobZones`)?
 
@@ -406,7 +431,7 @@ as the `Example` in `TechnologySkills`, what proportion is in each Job Zone
 <br>
 <br>
 
-### Part 2: Joins & Salary Predictions
+# Part 2: Joins & Salary Predictions
 
 The following challenges require 3-4 merged tables and incorporate data from the 
 U.S. Bureau of Labor Statistics' 2021
@@ -418,7 +443,7 @@ which, like other federal agencies, uses unique SOC codes for each occupation.
 The following commands will read in BLS data and rename and reformat the columns 
 to match O*NET.
 
-```{r cache = TRUE, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE}
 
 url <- paste0("https://raw.githubusercontent.com/DS4PS/ays-r-cod",
               "ing-sum-2022/main/labs/bls_occupation_salaries.csv")
@@ -446,13 +471,15 @@ occupation profiles will not successfully merge with BLS occupations.
 
 <br>
 
-**(1) Question:** Join the O*NET `OccupationData` and BLS `Salaries` tables. 
+## (1) Question
+
+Join the O*NET `OccupationData` and BLS `Salaries` tables. 
 Then, filter out any occupations with an `NA` value in variable `Median`.
 Store this new table as object `Common`. How many occupations have
 salary data available from BLS?
 
 
-```{r cache = TRUE}
+```{r}
 
 # Code
   
@@ -462,7 +489,9 @@ Use basic `dplyr` verbs to answer each question.
 
 <br>
 
-**(2) Question:** Join new object `Common` with object `Interests`. Note that 
+## (2) Question
+
+Join new object `Common` with object `Interests`. Note that 
 each interest is in `Element Name` and each interest rating (on a 7-point scale) 
 is listed in `Data Value`. In effect, we can now associate each "interest" (e.g. 
 artistic, social, enterprising) with median annual salaries.
@@ -471,7 +500,7 @@ Use the `lm()` function with formula `Median ~ Element Name` to print the
 coefficients of a simple linear model. Which two element names (not "High 
 Points") are most associated with higher salaries?
 
-```{r cache = TRUE}
+```{r}
 
 # Code
 
@@ -479,7 +508,9 @@ Points") are most associated with higher salaries?
 
 <br>
 
-**(3) Question:** Now join `Common` with `TechnologySkills`. Filter occupations 
+## (3) Question
+
+Now join `Common` with `TechnologySkills`. Filter occupations 
 to only include the following technologies in `Example`, which have been 
 provided for you in object `tech`: 
 
@@ -497,7 +528,7 @@ Group by technologies (`Example`) and determine the following summaries:
 * Average value for `Median` (annual salary)
 * Count for total occupations with said `tech` 
 
-```{r cache = TRUE}
+```{r}
 
 tech <- c("R",
           "C++",
@@ -514,7 +545,9 @@ tech <- c("R",
 
 <br>
 
-**(4) Question:** Please rate your own work values by providing a score from 
+## (4) Question 
+
+Please rate your own work values by providing a score from 
 `1` to `7` for the following value categories.
 
 * Achievement
@@ -540,7 +573,9 @@ my_values <- tibble::tibble("Achievement"        = 3.5,
 
 <br>
 
-**(5) Question:** Join objects `Common` and `WorkValues` and filter the 
+## (5) Question
+
+Join objects `Common` and `WorkValues` and filter the 
 following values from variable `Element Name`:
 
 * "First Work Value High-Point"
@@ -589,6 +624,71 @@ predict(object = my_model, newdata = my_values)
 
 <br>
 
+
+
+
+
+# How to Submit
+
+Use the following instructions to submit your assignment, which may vary depending on your course's platform.
+
+<br>
+
+## Knitting to HTML
+
+When you have completed your assignment, click the "Knit" button to render your `.RMD` file into a `.HTML` report.
+
+<br>
+
+## Special Instructions
+
+Perform the following depending on your course's platform:
+
+* **Canvas:** Upload both your `.RMD` and `.HTML` files to the appropriate link
+* **Blackboard or iCollege:** Compress your `.RMD` and `.HTML` files in a `.ZIP` file and upload to the appropriate link
+
+`.HTML` files are preferred but not allowed by all platforms.
+
+<br>
+
+## Before You Submit
+
+Remember to ensure the following before submitting your assignment.
+
+1. Name your files using this format: **lab-##-lastname.rmd** and **lab-##-lastname.html**
+2. Show both the solution for your code and write out your answers in the body text 
+3. Do not show excessive output; truncate your output, e.g. with function `head()`
+4. Follow appropriate styling conventions, e.g. spaces after commas, etc.
+5. Above all, ensure that your conventions are consistent
+
+See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for examples of common conventions.
+
+<br>
+<br>
+
+## Common Knitting Issues
+
+`.RMD` files are knit into `.HTML` and other formats procedural, or line-by-line.
+
+* An error in code when knitting will halt the process; error messages will tell you the specific line with the error
+* Certain functions like `install.packages()` or `setwd()` are bound to cause errors in knitting 
+* Altering a dataset or variable in one chunk will affect their use in all later chunks
+* If an object is "not found", make sure it was created or loaded with `library()` in a previous chunk
+
+**If All Else Fails:** If you cannot determine and fix the errors in a code chunk that's preventing you from knitting your document, add `eval = FALSE` inside the brackets of `{r}` at the beginning of a chunk to ensure that R does not attempt to evaluate it, that is: `{r eval = FALSE}`. This will prevent an erroneous chunk of code from halting the knitting process.  
+
+<br>
+<br>
+
+<style>
+
+blockquote {
+    padding: 11px 22px;
+    margin: 0 0 22px;
+    font-size: 18px;
+    border-left: 5px solid lightgray;
+}
+</style>
 
 
 

@@ -5,8 +5,12 @@ output:
     theme: readable
     df_print: paged
     highlight: tango
+    toc: yes
+    toc_float: no
+    self-contained: true
+    css: '../html/lab-instructions.css'
     include:
-      after_body: footer.html   
+      after_body: '../html/footer.html'   
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +20,7 @@ library( pander )
 ```
 
 
-#### [Coding in R for Policy Analytics](https://ds4ps.org/cpp-526-spr-2020/)
+# Background
 
 <br>
 
@@ -24,11 +28,13 @@ library( pander )
 
 You can create a new R Markdown file, or download the **LAB-03 RMD template**: 
 
-<center>
+<a href='../../templates/' target="_blank">
+<button type="button" class="button"> TEMPLATES </button>
+</a>
 
-[![](images/download.png)](https://github.com/DS4PS/cpp-526-sum-2020/blob/master/labs/cpp-526_reformatted-labs/Lab-03-v2-LastName.zip?raw=true)
+*You may have to right-click on the file and “save as” depending upon your browser.*
 
-</center>
+Remember to name your file: **lab-##-lastname.rmd**
 
 --- 
 
@@ -41,7 +47,7 @@ For this lab you will replicate the following [NYT Graphic](https://archive.nyti
 
 <br>
 
-![](images/strikeouts.png)
+![](img/strikeouts.png)
 
 
 <br>
@@ -66,7 +72,7 @@ abline()
 <br>
 <br>
 
-# Data
+## Data
 
 The data comes from the `Lahman` baseball data package. The **Teams** dataset contains season statistics for each baseball team from the late 1800s onward. The graph reports average strike-outs per game, which is calculated as **ave.so** below:
 
@@ -85,7 +91,7 @@ head( Teams )
 <br>
 <br>
 
-# Preprocessing
+## Preprocessing
 
 You will need only the average strike-outs per game, and the year variables:
 
@@ -135,7 +141,7 @@ summary(ave.so) %>%
 <br>
 <br>
 
-# Lab Instructions
+# Instructions
 
 Your task is to **replicate as closely as possible** the graphic 
 published by the NYT.
@@ -145,7 +151,7 @@ The initial code provided below will help get you started.
 <br>
 <br>
 
-#### 1.	Plot Average Strike-Outs by Year 
+### 1.	Plot Average Strike-Outs by Year 
 
 Since the `Lahman` data is current but the NYT Graphic is from 1900 to 2012, 
 use `xlim = c()` to truncate the years.
@@ -166,7 +172,7 @@ points(x = year,
 <br>
 <br>
 
-#### 2. Modify the Aesthetics of Plotted Points
+### 2. Modify the Aesthetics of Plotted Points
 
 In order to replicate the aesthetics of the NYT graphic, we can modify `points()`.
 
@@ -188,7 +194,7 @@ points(x = year,
 <br>
 <br>
 
-#### 3. Replicate the Axes 
+### 3. Replicate the Axes 
 
 You'll need to modify your axes a bit further, but this should get you started.
 
@@ -221,14 +227,14 @@ axis(side = 4,                      # Add y-axis
      font.axis = 2)                 # Set labels to bold
 ```
 
-#### 4. Continue to Replicate the Graphic
+### 4. Continue to Replicate the Graphic
 
 Use the above recommended functions and modifications to **create as close a replication as possible**. 
 
 <br>
 <br>
 
-## Hints
+### Hints
 
 You can often rely on internal documentation as well as the web.
 
@@ -252,18 +258,7 @@ help(mtext)
 
 <br>
 
-### External Message Boards
 
-This lab assignment will push you to explore the nuances of these 
-functions and their arguments.  Don't hesitate to use the web to overcome 
-challenging function modifications.
-
-1. Include the language, i.e. "r"
-2. Include the function name, e.g. `text()`
-3. Concisely describe your intent, e.g. "allow text overflow" 
-
-<br>
-<br>
 
 # How to Submit
 
@@ -271,13 +266,13 @@ Use the following instructions to submit your assignment, which may vary dependi
 
 <br>
 
-### Knitting to HTML
+## Knitting to HTML
 
 When you have completed your assignment, click the "Knit" button to render your `.RMD` file into a `.HTML` report.
 
 <br>
 
-### Special Instructions
+## Special Instructions
 
 Perform the following depending on your course's platform:
 
@@ -288,11 +283,11 @@ Perform the following depending on your course's platform:
 
 <br>
 
-### Before You Submit
+## Before You Submit
 
 Remember to ensure the following before submitting your assignment.
 
-1. Name your files using this format: **Lab-##-LastName.rmd** and **Lab-##-LastName.html**
+1. Name your files using this format: **lab-##-lastname.rmd** and **lab-##-lastname.html**
 2. Show both the solution for your code and write out your answers in the body text 
 3. Do not show excessive output; truncate your output, e.g. with function `head()`
 4. Follow appropriate styling conventions, e.g. spaces after commas, etc.
@@ -303,7 +298,7 @@ See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for
 <br>
 <br>
 
-### Common Knitting Issues
+## Common Knitting Issues
 
 `.RMD` files are knit into `.HTML` and other formats procedural, or line-by-line.
 
@@ -313,6 +308,11 @@ See [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) for
 * If an object is "not found", make sure it was created or loaded with `library()` in a previous chunk
 
 **If All Else Fails:** If you cannot determine and fix the errors in a code chunk that's preventing you from knitting your document, add `eval = FALSE` inside the brackets of `{r}` at the beginning of a chunk to ensure that R does not attempt to evaluate it, that is: `{r eval = FALSE}`. This will prevent an erroneous chunk of code from halting the knitting process.  
+
+
+
+
+
 
 <br>
 <br>

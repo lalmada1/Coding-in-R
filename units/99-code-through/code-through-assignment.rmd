@@ -1,0 +1,143 @@
+---
+title: "Code-Through Assignment"
+output:
+  html_document:
+    theme: readable
+    df_print: paged
+    highlight: tango
+    toc: yes
+    toc_float: no
+    self-contained: true
+    css: '../html/lab-instructions.css'
+    include:
+      after_body: '../html/footer.html'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set( echo=F, fig.width=9, fig.height=6, warning=F, message=F )
+```
+
+
+-----
+
+# Background
+
+## What is a Code-Through? 
+
+A code-through is a short tutorial where you explain how to do something in R. They are similar to [explainer videos](https://blog.hubspot.com/marketing/explainer-videos) that you often see shared.
+
+In the R world, these often take the format of package "vignettes":
+
+* [httr](https://cran.r-project.org/web/packages/httr/vignettes/quickstart.html)  
+* [docco style](https://cran.r-project.org/web/packages/knitr/vignettes/docco-linear.html) 
+* [dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html)   
+
+
+Code-throughs can come in many styles, sizes, and themes. Here are some examples to get you thinking: 
+
+* [choropleth maps](http://www.rpubs.com/cenuno/choropleth_map)   
+* [making clever graphics](https://davidsmale.netlify.com/portfolio/happy-days/)  
+* [network visualization](https://kateto.net/network-visualization) 
+* [more maps](https://geocompr.robinlovelace.net/adv-map.html)  
+* [analysis of trees](https://mran.microsoft.com/snapshot/2017-03-18/web/packages/ForestTools/vignettes/treetopAnalysis.html) 
+
+<br>
+<hr>
+<br>
+
+**Predicting Child Maltreatment Example**    
+
+
+*There are approximately 40,000 children in Richmond, VA, and between July 2013 and July 2017 there were 6,500 accepted cases of child maltreatment.Not all neighborhoods are affected by maltreatment in the same manner, as neighborhoods in the southwest and northeast of Richmond experience much higher counts of Child Protective Service (CPS) events. Can we do a better job ensuring that our limited child welfare resources are properly deployed to the communities where they are needed most?*
+
+*To understand which communities have the greatest need, we must first determine where child maltreatment is likely to occur. There are a host of individual, family, and household level factors associated with child maltreatment, and research shows that community and social factors play an important role in understanding where maltreatment may occur.*
+
+**~** [BLOG](http://urbanspatialanalysis.com/portfolio/an-open-source-geospatial-risk-predictive-framework-for-child-maltreatment/) **~**  
+
+**~** [VIGNETTE](https://urbanspatial.github.io/PredictingChildMaltreatmentInRichmondVA/) **~** 
+
+<br>
+<br>
+
+![](https://urbanspatialanalysis.com/wp-content/uploads/2019/03/pap2.png)
+<br>
+<br>
+
+![](https://urbanspatialanalysis.com/wp-content/uploads/2019/03/pap5_2.png)
+
+<br> 
+<hr>
+<br>
+
+## Why Do a Code-Through? 
+
+It is very useful to learn how to explain the steps needed to successfully complete a task or replicate results. Within organizations they are very useful for training new hires, collaborating on projects, and creating internal knowledge banks. 
+
+Quickly skimming some examples above, what are the best elements to include in a tutorial to make it clear and accessible? 
+
+<br>
+
+# Instructions
+
+## What Should We Explain? 
+
+For this assignment your code-through should be short and simple. It can be as short as two printed pages, or as long as you like.
+
+You can focus your code-through on:
+
+* A demonstration of a topic from class or a programming trick you have learned this semester. 
+* A tour of a dataset that you have found, and how it might be used. 
+* An introduction to a new package or function. 
+
+<br> 
+
+## What Should I Include? 
+
+Create your code-through tutorial in an RMD document. 
+
+Include anything that you need to get your ideas across. You might consider:
+
+* Images 
+* [Diagramming](https://ds4ps.org/cpp-523-fall-2019/labs/figures/reading-a-regression-table.png) functions, tables or graphs 
+* Print glimpses of datasets before and after manipulations so the user can see what has changed 
+* Toy datasets that can be useful for demonstrating points 
+
+
+## RMD Format
+
+This assignment provides an opportunity to explore some options to customize your R Markdown document. You can see some of the templates available here:
+
+* [RMD Gallery 01](https://bootswatch.com/3/) 
+* [RMD Gallery 02](http://www.datadreaming.org/post/r-markdown-theme-gallery/) 
+* [syntax highlighting options](https://eranraviv.com/syntax-highlighting-style-in-rmarkdown/) 
+
+And some advice on ways to customize appearance:
+
+* [Pimp My RMD](https://holtzy.github.io/Pimp-my-rmd/) 
+
+You can also create a slideshow presentation if you like:
+
+* [RMD Gallery](https://rmarkdown.rstudio.com/gallery.html)
+
+
+<br>
+
+
+# What to Submit? 
+
+Submit your RMD and knitted HTML file on Canvas. 
+
+Also post your tutorial on the course discussion board and explain your concept to your classmates. 
+
+
+<br>
+ 
+-----
+
+<br>
+<br>
+
+
+
+
+

@@ -5,8 +5,12 @@ output:
     theme: readable
     df_print: paged
     highlight: tango
+    toc: yes
+    toc_float: no
+    self-contained: true
+    css: '../html/lab-instructions.css'
     include:
-      after_body: footer.html
+      after_body: '../html/footer.html'  
 ---
 
 
@@ -16,20 +20,18 @@ knitr::opts_chunk$set(echo = TRUE, message=F, warning=F)
 ```
 
 
-
-#### [CPP 526: Foundations of Data Science I](https://watts-college.github.io/cpp-526-fall-2021/)
-
-<br>
+# Background 
 
 *This lab introduces the R Shiny package, which allows you to create dynamic graphics that ask for input from the user and change based upon the selection.*
 
 
 This lab builds on the previous lab, but you will now add the drop-down menu similar to the original [NYT version](https://archive.nytimes.com/www.nytimes.com/interactive/2013/03/29/sports/baseball/Strikeouts-Are-Still-Soaring.html?_r=0&ref=baseball), and highlight season statistics from that team (the yellow line). 
 
-![](images/strikeouts2.png)
+<hr>
+
+![](img/strikeouts2.png) 
 
 
-<br>
 <br>
 
 
@@ -37,16 +39,71 @@ This lab builds on the previous lab, but you will now add the drop-down menu sim
 
 Shiny allows you to build interactive components in graphics or dashboards. The terms "dynamic" or "interactive" mean specifically that a set of widgets are used to gather user input, and that input changes the analysis or visualization accordingly. 
 
-![](images/cpp-526-lab-04-demo.gif)
+<hr>
+
+
+![](img/lab-04-demo.gif)
+
+<hr>
 
 You can try it out using the Shiny Demo file or the example from the [Shiny tutorial](https://rmarkdown.rstudio.com/flexdashboard/shiny.html#loading_data): 
 
 * [Shiny Demo](https://cdn.rawgit.com/DS4PS/Data-Science-Class/53c986f1/TEMPLATES/ShinyWidgetsDemo.Rmd) 
 * [Tutorial App](https://cdn.rawgit.com/DS4PS/Data-Science-Class/b28db4b7/TEMPLATES/ShinyExample-01.Rmd) 
 
-When you include "runtime: shiny" in the header, you do not need to load the shiny package in your document setup steps.
+Some important things to note: 
 
-Note that running shiny creates an object called **input** which stores the values from your input widgets. Whatever you assign for the input widget ID will be the address for the value, which you can then access at **input$your_id**. 
+* When you include "runtime: shiny" in the header, you do not need to load the shiny package in your document setup steps.
+* You do not knit shiny files, you run them (the knit button in R Studio is replaced with a run button once you add the runtime shiny argument). 
+* Running shiny creates an object called **input** which stores the values from your input widgets. Whatever you assign for the input widget ID will be the address for the value, which you can then access at **input$your_id**. 
+
+
+## Templates
+
+R Shiny demo templates and a lab template are available here: 
+
+<br>
+
+<a href='../../templates/' target="_blank">
+<button type="button" class="button"> TEMPLATES </button>
+</a>
+
+<br>
+
+*You may have to right-click on the file and “save as” depending upon your browser.*
+
+Remember to name your file: **lab-##-lastname.rmd**
+
+
+
+
+
+
+# Lab Instructions
+
+## Packages
+
+This lab requires the following packages:
+
+```{r, eval=F}
+install.packages( "shiny" )
+install.packages( "flexdashboard" )
+```
+
+Note that you need to install packages before starting your lab. You cannot include an install commands inside of your RMD file. 
+
+You will likely use these packages as well:
+
+```{r}
+library( dplyr )
+library( pander )
+library( Lahman )
+data( Teams )
+```
+
+
+
+## Getting Started
 
 ```{r, eval=F}
 selectInput( 
@@ -73,7 +130,7 @@ input$my_widget_id
 
 <br>
 
-#### Adding a Team Trend to the Graph
+## Adding a Team Trend to the Graph
 
 The solutions for last week's lab include an example of how you can add a specific team to the graph. It generalizes the team by using a generic **team.name** variable that stores the value. 
 
@@ -117,42 +174,10 @@ team.name <- input$my_widget_id  # input widget value
 
 
 <br>
-<br>
 
 
 
-# Lab Instructions
-
-This lab requires the following packages:
-
-```{r, eval=F}
-install.packages( "shiny" )
-install.packages( "flexdashboard" )
-```
-
-Note that you need to install packages before starting your lab. You cannot include an install commands inside of your RMD file. 
-
-You will likely use these packages as well:
-
-```{r}
-library( dplyr )
-library( pander )
-library( Lahman )
-data( Teams )
-```
-
-
-To get started, download the **Lab-04 RMD template**:
-
-<center>
-
-[![](images/download.png)](https://github.com/DS4PS/cpp-526-sum-2020/blob/master/labs/cpp-526_reformatted-labs/Lab-04-v2-LastName.zip?raw=true)
-
-</center>
-
-<br><br>
-
-### Step (1)	
+## Step (1)	
 
 **In the provided template, place your code from last week into the code chunk with the renderPlot() function:**
 
@@ -164,7 +189,7 @@ renderPlot({
 })
 ```
 
-### Step (2) 
+## Step (2) 
 
 **Create a user-input widget on the left side bar by adding the proper values to these arguments:**
 
@@ -182,7 +207,7 @@ Note that "choices=" will determine the teams visible in the drop-down box. You 
 * Find a reasonable way to select specific teams so that you are only using 10-25 team names in the drop-down menu (see below for hints).  
 * Combine your preferred teams into a character vector: **choices=c("team1","team2",...,"teamN")**.
 
-### Step (3) 
+## Step (3) 
 
 **Similar to the NYT graphic, add the team trend line to the graphic in orange.**
 
@@ -247,15 +272,16 @@ Teams %>%
 
 Use the following instructions to submit your assignment, which may vary depending on your course's platform.
 
-<br>
 
-### Knitting to HTML
+## Special Instructions
 
-When you have completed your assignment, click the "Run App" button to ensure your dashboard functions.
+**No Knitting to HTML this week:**
+ 
+When you have completed your assignment, click the "Run App" button to ensure your dashboard functions. 
 
-<br>
+You **cannot** knit R Shiny apps to an HTML file the same you do for previous assignments. Dynamic graphics require javascript + data. As a result Shiny apps require separate library of code and the input data in order to makes the graphics interactive. These files are generated locally when you run the Shiny app on your computer, but running the app does not generate a self-contained HTML file that can be easily shared.   
 
-### Special Instructions
+**This week, submit your raw RMD file instead of HTML.**
 
 Perform the following depending on your course's platform:
 
