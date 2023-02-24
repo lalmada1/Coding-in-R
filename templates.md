@@ -23,15 +23,36 @@ layout: default
 <button type="button" class="button"> LAB 02 </button>
 </a>
   
-<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/03-data-viz-static/lab-03-template.rmd' target="_blank">
-<button type="button" class="button"> LAB 03 </button>
+<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/03-data-viz-static/lab-03-v1-template.rmd' target="_blank">
+<button type="button" class="button"> LAB 03 v1 </button>
+</a>
+  
+  
+<!--
+<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/03-data-viz-static/lab-03-v2-template.rmd' target="_blank">
+<button type="button" class="button"> LAB 03 v2 </button>
+--> 
+  
+<br>  
+
+*LAB 04 Below*
+  
+<br>
+  
+<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/05-data-wrangling/lab-05-template.rmd' target="_blank">
+<button type="button" class="button"> LAB 05 </button>
+</a>
+  
+<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/06-data-joins/lab-06-template.rmd' target="_blank">
+<button type="button" class="button"> LAB 06 </button>
 </a>
 
 <br>
 <hr>
 <br>
 
-### Dynamic Graphics 
+  
+### Lab 04 Dynamic Graphics 
   
 <a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/04-data-viz-dynamic/demo-shiny-01.rmd' target="_blank">
 <button type="button" class="button"> Shiny Demo 01 </button>
@@ -61,22 +82,11 @@ layout: default
 <button type="button" class="button"> LAB 04b Shiny Plus </button>
 </a> 
 
-<br>  
-<hr>
 <br>
-  
-<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/05-data-wrangling/lab-05-template.rmd' target="_blank">
-<button type="button" class="button"> LAB 05 </button>
-</a>
-  
-<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/06-data-joins/lab-06-template.rmd' target="_blank">
-<button type="button" class="button"> LAB 06 </button>
-</a>
-
-<br>  
 <hr>
-<br>
- 
+<br>  
+  
+  
 ### Final Projects 
   
 <a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/07-dashboards/demo-flexdashboard-column-orientation.rmd' target="_blank">
