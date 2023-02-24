@@ -57,6 +57,8 @@ header:
 #   url: https://ds4ps.org/dp4ss/#dp4ss-data-programming-for-the-social-sciences
 - title: Resources
   url: resources/
+- title: Lab Templates
+  url: templates/
 - title: Get Help
   url: help/
 
