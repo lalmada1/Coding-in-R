@@ -9,6 +9,7 @@ output:
     highlight: haddock
     toc: yes
     toc_float: yes
+    self_contained: true
 ---
 
 <br>
