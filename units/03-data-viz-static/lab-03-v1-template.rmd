@@ -6,6 +6,7 @@ output:
     theme: readable
     df_print: paged
     highlight: tango
+    self_contained: true
 ---
 
 ```{r setup, include=FALSE}
