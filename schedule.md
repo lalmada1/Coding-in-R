@@ -1146,7 +1146,8 @@ Code is provided to get you started, but you will have to use documentation and 
 
 Click to download the lab template. Modify and submit using the instructions.
 
-<a class="uk-button uk-button-default" onclick="window.open('../units/03-data-viz-static/lab-03-v1-template.rmd')">LAB-03 v1 Template</a>
+<a class="uk-button uk-button-default" 
+   onclick="window.open('https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/03-data-viz-static/lab-03-v1-template.rmd')">LAB-03 v1 Template</a>
 <!--
 <a class="uk-button uk-button-default" onclick="window.open('../units/03-data-viz-static/lab-03-v2-template.rmd')">LAB-03 v2 Template</a>
 -->
@@ -1339,7 +1340,11 @@ Click to download the lab template.
 
 **Note:** Rather than submitting a PDF or HTML file, please submit only the R or R Markdown file.  *Please ignore the boilerplate directions in this week's assignment*.
 
-<a class="uk-button uk-button-default" onclick="window.open('../units/04-data-viz-dynamic/lab-04a-template.rmd')">LAB-04 Template</a>
+
+
+<a class="uk-button uk-button-default" 
+   onclick="window.open('https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/04-data-viz-dynamic/lab-04a-template.rmd')">
+  LAB-04 Template</a>
 
 ## Submit Solutions to iCollege
 
