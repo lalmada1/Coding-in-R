@@ -7,6 +7,7 @@ output:
     df_print: paged
     theme: cerulean
     highlight: haddock
+    self_contained: true
 ---
 
 ```{r setup, include = FALSE}
