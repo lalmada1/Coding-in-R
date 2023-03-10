@@ -11,7 +11,7 @@ canvas:
 
 lab-due-dates:
   lab-01: 'MON March 6'
-  lab-02: 'MON March 13'
+  lab-02: 'MON March 20'
   lab-03: 'MON March 27'
   lab-04: 'MON April 3'
   lab-05: 'MON April 10'
