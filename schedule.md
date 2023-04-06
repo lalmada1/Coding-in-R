@@ -14,8 +14,8 @@ lab-due-dates:
   lab-02: 'MON March 20'
   lab-03: 'MON March 27'
   lab-04: 'MON April 3'
-  lab-05: 'MON April 10'
-  lab-06: 'MON April 17'
+  lab-05: 'THUR April 13'
+  lab-06: 'Optional'
 
 discussion-dates:
   topic-00: 'WED March 1'
@@ -1590,9 +1590,7 @@ For reference:
 
 ## Lab
 
-Lab 06 will use Lahman data on baseball for some [moneyball examples](https://towardsdatascience.com/linear-regression-moneyball-part-1-b93b3b9f5b53).
-
-We will join the Salaries table to player bios (People table) and performance data (Batting and Fielding) to assess which characteristics predict salary and which teams have been able to most efficiently convert salary to wins.
+In Lab 06 we’re going to use public data from the U.S. Department of Labor in order to lightly research various R-related occupations, the values and interests of R-using occupational incumbents, the labor market value of the R language, and we conclude by predicting your future salaries based on your work values!
 
 <br>
 
@@ -1689,7 +1687,7 @@ Do you think open source frameworks would help open the black box and make gover
 <br>
 <br>
 
-## Lab-06 - Data Joins
+## Lab-06 - Data Joins (Optional)
 
 This lab is designed to introduce you to primary data join functions in R.
 
