@@ -102,11 +102,11 @@ layout: default
 <button type="button" class="button"> DB Template 01 </button>
 </a>
   
-<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/07-dashboards/lab-07-dashboard-template-v1.rmd' target="_blank">
+<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/07-dashboards/lab-07-dashboard-template-v2.rmd' target="_blank">
 <button type="button" class="button"> DB Template 02 </button>
 </a>
   
-<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/07-dashboards/lab-07-dashboard-template-v1.rmd' target="_blank">
+<a href='https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/07-dashboards/lab-07-dashboard-template-v3.rmd' target="_blank">
 <button type="button" class="button"> DB Template 03 </button>
 </a>
   
