@@ -1759,7 +1759,7 @@ The following link downloads two templates:
 
 We recommended creating new tabs independently, then incorporating them into the final dashboard.
 
-<a class="uk-button uk-button-default" onclick="window.open('../labs/cpp-526_reformatted-projects/cpp-526-DashboardTemplates.zip?raw=true')">Final Project Templates</a>
+<a class="uk-button uk-button-default" onclick="window.open('../templates)">Final Project Templates</a>
 
 ## Submit to iCollege
 
