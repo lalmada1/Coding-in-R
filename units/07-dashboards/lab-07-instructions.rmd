@@ -13,18 +13,6 @@ library( dplyr )
 library( pander )
 ```
 
-#### CPP 526
-
-<br>
-
-A dashboard template has been provided:
-
-[![](images/download.png)](https://www.dropbox.com/s/9l2kdaxk942q6ob/final-project-dashboard-template.rmd?dl=1)
-
-
-
-<br><br>
-
 # Data
 
 You will again use the traffic accidents dataset from the Tempe Open Data Portal. The details of the dataset are reported at the end of these instructions. 
@@ -270,16 +258,16 @@ If you want to practice some more with data wrangling steps, you might find this
 
 There are two steps to submitting your final project:
 
-**1) Upload RMD to Canvas**
+**1) Upload RMD to iCollege**
 
-Login to Canvas at <http://canvas.asu.edu> and navigate to the assignments tab in the course repository. Upload your RMD file to the appropriate lab submission link.
+Login to iCollege and navigate to the assignments tab in the course repository. Upload your RMD file to the appropriate lab submission link.
 
 **2) Deploy your dashboard**
 
 Visit the [Shiny Apps platform](https://www.shinyapps.io/) hosted by R Studio, and create a free own account. 
 Upload your dashboard to your account (after you run your file you should see the option "Publish" at the top right - follow the commands). 
 
-Include the link to your dashboard in your submission comments on Canvas.
+Include the link to your dashboard in your submission comments in iCollege
 
 
 
