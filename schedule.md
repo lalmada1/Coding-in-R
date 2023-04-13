@@ -1752,12 +1752,10 @@ Working with the crash data from Lab-05, you will extend the work you began in L
 
 <a class="uk-button uk-button-default" onclick="window.open('../units/07-dashboards/lab-07-instructions.html')">Final Project Instructions</a>
 
-The following link downloads two templates:
+The following link takes you to the Lab Templates page where you can downlaod the following items:
 
-* The entire dashboard, including all tabs
-* A one-tab dashboard with helpful hints
-
-We recommended creating new tabs independently, then incorporating them into the final dashboard.
+* Two flexdash demos that show how to setup a one-tab dashboard using row and column formatting.
+* The final project dashbaord template with multiple working tabs, an "about" tab, and a data tab.  
 
 <a class="uk-button uk-button-default" onclick="window.open('../templates')">Final Project Templates</a>
 
