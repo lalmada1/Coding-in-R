@@ -12,12 +12,12 @@
 
 github_info:
     username:       lalmada1   # GitHub account name
-    website-repo:   Coding-in-R-SPR-2023
-    course-repo:    Coding-in-R-SPR-2023
+    website-repo:   Coding-in-R
+    course-repo:    Coding-in-R
  
 description:        Coding in R for Policy Analytics 
 
-course_url:         "https://lalmada1.github.io/Coding-in-R-SPR-2023"
+course_url:         "https://lalmada1.github.io/Coding-in-R"
 title:              lalmada1   # GitHub account name
 
 brand:
