@@ -5,29 +5,28 @@ title: Schedule
 base: 'https://github.com/lalmada1/Intro-to-Data-Science-Econ-4970/'
 
 canvas:
-  assignment_url: 'https://gastate.view.usg.edu/d2l/lms/dropbox/admin/folders_manage.d2l?ou=2747023'
-  yellowdig_url: 'https://gastate.view.usg.edu/d2l/le/2747023/discussions/List'
-  templates_url: 'https://gastate.view.usg.edu/d2l/home/2749801'
+  assignment_url: 'https://gastate.view.usg.edu/d2l/lms/dropbox/admin/folders_manage.d2l?ou=2989895'
+  yellowdig_url: 'https://gastate.view.usg.edu/d2l/le/2989895/discussions/List'
 
 lab-due-dates:
-  lab-01: 'MON March 6'
-  lab-02: 'MON March 20'
-  lab-03: 'MON March 27'
-  lab-04: 'MON April 3'
-  lab-05: 'THUR April 13'
+  lab-01: 'MON Jan 15'
+  lab-02: 'MON Jan 22'
+  lab-03: 'MON Jan 29'
+  lab-04: 'MON Feb 5'
+  lab-05: 'MON Feb 12'
   lab-06: 'Optional'
 
 discussion-dates:
-  topic-00: 'WED March 1'
-  topic-01: 'WED March 1'
-  topic-02: 'WED March 8'
-  topic-03: 'WED March 22'
-  topic-04: 'WED March 29'
-  topic-05: 'WED April 5'
-  topic-06: 'WED April 12'
+  topic-00: 'WED Jan 10'
+  topic-01: 'WED Jan 17'
+  topic-02: 'WED Jan 24'
+  topic-03: 'WED Jan 31'
+  topic-04: 'WED Feb 7'
+  topic-05: 'WED Feb 14'
+  topic-06: 'WED Feb 21'
 
 final-project:
-  due-date: 'THUR April 20'
+  due-date: 'THUR Feb 22'
 
 ---
 
