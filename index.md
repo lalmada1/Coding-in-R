@@ -240,11 +240,11 @@ GSU expects the highest standards of academic integrity. Violations of academic 
 
 ## A. Schedule: Overview of Readings and Assignments
 
-This course spans a fourteen week schedule. A schedule for each week of the term is outlined here; the course is divided into seven units with learning objectives for each unit.
+This course spans a seven-week schedule. A schedule for each week of the term is outlined here; the course is divided into seven units with learning objectives for each unit.
 
-Please note: the course instructor may from time to time adjust assigned readings or adjust the due dates for assignment. The basic course content approach and learning objectives will not change, but slight modifications are possible if circumstances warrant an adjustment.
+Please note: the course instructor may from time to time adjust assigned readings or adjust the due dates for assignments. The basic course content approach and learning objectives will not change, but slight modifications are possible if circumstances warrant an adjustment.
 
-Visit the [**Course Schedule**](https://lalmada1.github.io/Coding-in-R-SPR-2023/schedule).
+Visit the [**Course Schedule**](https://lalmada1.github.io/Coding-in-R/schedule).
 
 <br>
 <br>
