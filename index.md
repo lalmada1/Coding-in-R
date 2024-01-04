@@ -170,7 +170,7 @@ The assigned work for the term comes in the form of four elements, described bel
 
 ### Weekly Labs (50%)  
 
-Each week you will receive a short lab that will help you synthesize the lectures from the week through exercises that involve data, analysis, and important formulas from the lectures. **They are graded pass / fail** by the instructors based upon an assessment of whether you have sincerely attempted the lab and answered over half of the questions correctly. This is designed to hold you accountable for the material, but not create anxiety about perfection.
+Each week you will receive a short lab that will help you synthesize the lectures from the week through exercises that involve data, analysis, and important formulas from the lectures. **They are graded pass / fail** based upon an assessment of whether you have sincerely attempted the lab and answered over half of the questions correctly. This is designed to hold you accountable for the material, but not create anxiety about perfection.
 
 ### Final Dashboard Project (40%)  
 
