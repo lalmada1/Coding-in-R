@@ -39,7 +39,6 @@ The following packages are required for this report and loaded with `library()`.
 ```{r}
 
 library(sp)
-library(rgdal)
 library(geojsonio)                            # Load required libraries
 
 ```
