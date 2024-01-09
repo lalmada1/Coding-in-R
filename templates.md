@@ -12,6 +12,7 @@ layout: default
 # Lab Templates
 
 <br>
+To download the lab templates make sure to right-click on the template link and save the .RMD file to your computer using the "save as" or "save link as" option. 
 <hr>
 <br>
   
