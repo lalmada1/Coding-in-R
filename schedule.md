@@ -728,7 +728,7 @@ You can also check out Ben's [Ted Talk](https://www.youtube.com/watch?v=6xsvGYIx
 
 **Note:** You get points on iCollege by interacting with content. That means creating new posts and participating in posts that your classmates create. Your iCollege posts are due on Wednesday, but you gain points throughout the week by participating in discussions.
 
-You can earn up to 20 points per topic. You need to earn 100 points across the 7 topics, which means averaging 15 points per topic.
+You can earn up to 20 points per topic. 
 
 <br>
 <br>
