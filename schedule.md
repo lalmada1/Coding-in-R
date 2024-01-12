@@ -1695,7 +1695,7 @@ This lab is designed to introduce you to primary data join functions in R.
 Click to download the lab template. Modify and submit using the instructions.
 
 <a class="uk-button uk-button-default" 
-   onclick="window.open('https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/06-data-joins/lab-06-template.rmd')"> LAB-06 Template
+   onclick="window.open('https://lalmada1.github.io/Coding-in-R/templates/')"> LAB-06 Template
 </a>
 
 ## Submit Solutions to iCollege
