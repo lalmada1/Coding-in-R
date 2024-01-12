@@ -2,7 +2,7 @@
 layout: schedule
 title: Schedule
 
-base: 'https://github.com/lalmada1/Intro-to-Data-Science-Econ-4970/'
+base: 'https://github.com/lalmada1/Coding-in-R/'
 
 canvas:
   assignment_url: 'https://gastate.view.usg.edu/d2l/lms/dropbox/admin/folders_manage.d2l?ou=2989895'
@@ -324,7 +324,7 @@ We are going to throw a lot at you, but also provide a lot of support. Over thes
 If you find something confusing, let us know (likely others will find it confusing as well).
 
 * Schedule a Zoom call with your instructor and screen share to walk through issues
-* Post a question to the [course discussion board](https://lalmada1.github.io/Intro-to-Data-Science-Econ-4970/help/)
+* Post a question to the [course discussion board](https://lalmada1.github.io/Coding-in-R/help/)
 * Request a walk-through and your instructor will provide examples and steps
 
 As a general rule of thumb, if you are stuck on the math or code for a problem, need clarification about what the question is asking, want to make sure you understand a formula, or are having similar issues then the help discussion page is the easiest and quickest way to get help. If you are confused about concepts or having a hard time even formulating your question, then office hours are your best option.
@@ -375,7 +375,7 @@ b1 = cov(x,y) / var(x)
 
 The following checklist will help you organize and prepare for success in this course.
 
-- [ ] [Read the Syllabus](https://lalmada1.github.io/Intro-to-Data-Science-Econ-4970/)
+- [ ] [Read the Syllabus](https://lalmada1.github.io/Coding-in-R/)
 - [ ] [Install R](https://cran.rstudio.com/) and [R Studio Desktop](https://www.rstudio.com/products/rstudio/download/)
 - [ ] [Sign-Up for a GitHub Account](https://github.com/join)
 - [ ] Introduce Yourself on [iCollege](https://gastate.view.usg.edu/d2l/le/2749801/discussions/topics/3415480/View) (See Below)
