@@ -960,12 +960,6 @@ The rest of the chapter is useful information to come back to, but not needed fo
 
 <a class="uk-button uk-button-default" onclick="window.open('../units/02-operators-and-descriptives/lab-02-instructions.html')">LAB-02 Instructions</a>
 
-Click to download the lab template. Modify and submit using the instructions.
-
-<a class="uk-button uk-button-default" 
-   onclick="window.open('https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/02-operators-and-descriptives/lab-02-template.rmd')">
-   LAB-02 Template
-</a>
 
 ## Submit Solutions to iCollege
 
