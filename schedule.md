@@ -743,13 +743,6 @@ This lab is designed to introduce you to basic functions that explore datasets a
 
 <a class="uk-button uk-button-default" onclick="window.open('../units/01-building-blocks-of-r/lab-01-instructions.html')">LAB-01 Instructions</a>
 
-Click to download the lab template. Modify and submit using the instructions.
-
-<a class="uk-button uk-button-default" 
-   onclick="window.open('https://raw.githubusercontent.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}/main/units/01-building-blocks-of-r/lab-01-template.rmd')">
-   LAB-01 Template
-</a>
-
 
 ## Submit Solutions to iCollege
 
