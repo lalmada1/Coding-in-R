@@ -743,6 +743,12 @@ This lab is designed to introduce you to basic functions that explore datasets a
 
 <a class="uk-button uk-button-default" onclick="window.open('../units/01-building-blocks-of-r/lab-01-instructions.html')">LAB-01 Instructions</a>
 
+Click to access the lab templates. Modify and submit using the instructions.
+
+<a class="uk-button uk-button-default" 
+   onclick="window.open('https://lalmada1.github.io/Coding-in-R/templates/')">
+   LAB Templates
+</a>
 
 ## Submit Solutions to iCollege
 
@@ -953,6 +959,12 @@ The rest of the chapter is useful information to come back to, but not needed fo
 
 <a class="uk-button uk-button-default" onclick="window.open('../units/02-operators-and-descriptives/lab-02-instructions.html')">LAB-02 Instructions</a>
 
+Click to access the lab templates. Modify and submit using the instructions.
+
+<a class="uk-button uk-button-default" 
+   onclick="window.open('https://lalmada1.github.io/Coding-in-R/templates/')">
+   LAB Templates
+</a>
 
 ## Submit Solutions to iCollege
 
@@ -1129,6 +1141,13 @@ Code is provided to get you started, but you will have to use documentation and 
 <!--
 <a class="uk-button uk-button-default" onclick="window.open('../units/03-data-viz-static/lab-03-v2-instructions.html')">LAB-03 v2 Instructions</a>
 -->
+
+Click to access the lab templates. Modify and submit using the instructions.
+
+<a class="uk-button uk-button-default" 
+   onclick="window.open('https://lalmada1.github.io/Coding-in-R/templates/')">
+   LAB Templates
+</a>
 
 
 ## Submit Solutions to iCollege
@@ -1317,6 +1336,12 @@ This lab is designed to introduce you to R Shiny by making last week's graphic i
 
 **Note:** Rather than submitting a PDF or HTML file, please submit only the R or R Markdown file.  *Please ignore the boilerplate directions in this week's assignment*.
 
+Click to access the lab templates. Modify and submit using the instructions.
+
+<a class="uk-button uk-button-default" 
+   onclick="window.open('https://lalmada1.github.io/Coding-in-R/templates/')">
+   LAB Templates
+</a>
 
 ## Submit Solutions to iCollege
 
@@ -1502,6 +1527,12 @@ This lab offers practice analyzing traffic accident patterns using **dplyr** dat
 
 <a class="uk-button uk-button-default" onclick="window.open('../units/05-data-wrangling/lab-05-instructions.html')">LAB-05 Instructions</a>
 
+Click to access the lab templates. Modify and submit using the instructions.
+
+<a class="uk-button uk-button-default" 
+   onclick="window.open('https://lalmada1.github.io/Coding-in-R/templates/')">
+   LAB Templates
+</a>
 
 ## Submit Solutions to iCollege
 
@@ -1660,6 +1691,13 @@ Do you think open source frameworks would help open the black box and make gover
 This lab is designed to introduce you to primary data join functions in R.
 
 <a class="uk-button uk-button-default" onclick="window.open('../units/06-data-joins/lab-06-instructions.html')">LAB-06 Instructions</a>
+
+Click to access the lab templates. Modify and submit using the instructions.
+
+<a class="uk-button uk-button-default" 
+   onclick="window.open('https://lalmada1.github.io/Coding-in-R/templates/')">
+   LAB Templates
+</a>
 
 ## Submit Solutions to iCollege
 
