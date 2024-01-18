@@ -59,8 +59,8 @@ header:
   url: resources/
 - title: Lab Templates
   url: templates/
-- title: Get Help
-  url: help/
+#- title: Get Help
+#  url: help/
 
 
 # set navbar color at assets/css/custom.css under default_nav and footer background-color
