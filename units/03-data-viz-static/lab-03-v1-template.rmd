@@ -23,7 +23,9 @@ For this lab you will replicate the following [NYT Graphic](https://archive.nyti
 
 <br>
 
-![](images/strikeouts.png)
+## Below is the original image for comparison purposes
+
+![](https://raw.githubusercontent.com/DS4PS/cpp-526-fall-2019/master/LABS/images/strikeouts.png)
 
 
 <br>
