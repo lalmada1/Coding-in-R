@@ -19,7 +19,6 @@ library( dplyr )
 library( pander )
 library( geojsonio )
 library( sp )
-library( rgdal )
 ```
 
 
@@ -159,7 +158,6 @@ You will need the following packages for this lab:
 ```{r, eval=F}
 install.packages( "geojsonio" )
 install.packages( "sp" )
-install.packages( "rgdal" )
 ```
 
 
@@ -171,7 +169,6 @@ Do **NOT** include include the install commands in your RMD chunks. Trying to in
 ```{r, eval=F}
 library( geojsonio )
 library( sp )
-library( rgdal )
 ```
 
 Load the map file:
@@ -554,7 +551,7 @@ plot( downtown,  border="gray97", col=group.colors,
 
 When you have completed your assignment, knit your RMD file to generate your rendered HTML file. 
 
-Login to Canvas at <http://canvas.asu.edu> and navigate to the assignments tab in the course repository. Upload your HTML and RMD files to the appropriate lab submission link.
+Login to iCollege and navigate to the assignments tab in the course repository. Upload your HTML and RMD files to the appropriate lab submission link.
 
 Platforms like BlackBoard and Canvas sometimes disallow you from submitting HTML files when there is embedded computer code. If this happens create a zipped folder with both the RMD and HTML files.
 
